@@ -1,5 +1,6 @@
 import express from 'express'
 import { config } from 'dotenv';
+import cookieParser from 'cookie-parser';
 
 //modules
 import offenderRouter from './routes/offenderRouter.js'
@@ -7,18 +8,20 @@ import userRouter from './routes/userRouter.js';
 import { NotFound, errorHandler } from './middleware/errorHandler.js';
 import { connectMongo } from './config/dbconfig.js';
 
+
 config(); //brings .env through process.env variables here
 
-//initializing packages and imported function
+//initializing packages and importe d function
 const app = express();
+app.use(cookieParser());
 connectMongo();
-
 
 //middlewares
 app.use(express.json()); //border-parser
 app.use(express.urlencoded({extended: true})); // Parse URL-encoded data
-app.use('/user/api', userRouter);
-app.use('/offender/api', offenderRouter);
+
+app.use('/api/user', userRouter);
+app.use('/api/offender/', offenderRouter);
 app.use(NotFound); 
 app.use(errorHandler);
 

@@ -3,6 +3,7 @@ import express from 'express';
 
 //Modules
 import { addOffender, updateOffenderInfo, getOffenderinfo } from '../controllers/offenderController.js';
+import { protect } from '../middleware/authTokenMidware.js';
 
 //Mounts
 const offenderRouter = express.Router();
@@ -11,14 +12,14 @@ const offenderRouter = express.Router();
 //route     offender/api/add
 //access    Protected
 offenderRouter.route('/add')
-.post(addOffender)
+.post(protect, addOffender)
 
 //desc      manage offender profile
 //route     offender/api/profile
 //access    Protected
 offenderRouter.route('/profile')
-.get(getOffenderinfo)
-.put(updateOffenderInfo)
+.get(protect, getOffenderinfo)
+.put(protect, updateOffenderInfo)
 
 
 export default offenderRouter;
