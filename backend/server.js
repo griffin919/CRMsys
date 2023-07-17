@@ -3,8 +3,7 @@ import { config } from 'dotenv';
 import cookieParser from 'cookie-parser';
 
 //modules
-import offenderRouter from './routes/offenderRouter.js'
-import userRouter from './routes/userRouter.js';
+import apiRouter from './routes/apiRouter.js';
 import { NotFound, errorHandler } from './middleware/errorHandler.js';
 import { connectMongo } from './config/dbconfig.js';
 
@@ -20,8 +19,7 @@ connectMongo();
 app.use(express.json()); //border-parser
 app.use(express.urlencoded({extended: true})); // Parse URL-encoded data
 
-app.use('/api/user', userRouter);
-app.use('/api/offender/', offenderRouter);
+app.use('/api', apiRouter);
 app.use(NotFound); 
 app.use(errorHandler);
 

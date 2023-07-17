@@ -1,4 +1,4 @@
-import { createTheme } from "@mui/material"
+import { createTheme } from '@mui/material/styles';
 import { light } from "@mui/material/styles/createPalette";
 
 export const DarkShades = {

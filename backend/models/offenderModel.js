@@ -3,32 +3,32 @@ import mongoose from "mongoose";
 // Define the Offender schema
 const offenderSchema = new mongoose.Schema({
   personalInformation: {
-    name: { type: String, required: true },
+    fname: { type: String, required: true },
+    lname: { type: String, required: true },
     dateOfBirth: { type: Date, required: true },
     gender: { type: String, required: true },
     physicalDescription: { type: String },
     contactInformation1: { type: String },
     contactInformation2: { type: String },
-    aliases: [{ type: String }]
+    aliases: [{ type: String }],
+    IDtype: {type: String},
+    IDnumber: {type: String}
+
   },
-  identification: {
-    IDtype: {type: String, required: true},
-    governmentIDs: [{ type: String }],
-    biometricData: { type: String }
-  },
+ 
   arrestRecords: [{
-    date: { type: Date, required: true },
-    time: { type: String },
-    location: { type: String },
+    arrestDateTime: { type: Date },
+    arrestLocation: { type: String },
     arrestingAgency: { type: String },
     arrestingOfficer: { type: String },
+    arrestingOfficerID: { type: String },
     charges: [{ type: String }]
   }],
   chargeAndConvictionHistory: [{
-    charge: { type: String, required: true },
+    charge: { type: String, },
     offenseNature: { type: String },
     courtCaseNumber: { type: String },
-    date: { type: Date },
+    ChargeDate: { type: Date },
     convicted: { type: Boolean },
     sentencingDetails: { type: String }
   }],
@@ -41,7 +41,7 @@ const offenderSchema = new mongoose.Schema({
     sentenceModifications: { type: String }
   }],
   criminalOffenseDetails: [{
-    offenseType: { type: String, required: true },
+    offenseType: { type: String,},
     date: { type: Date },
     location: { type: String },
     victimDetails: { type: String },
@@ -55,7 +55,7 @@ const offenderSchema = new mongoose.Schema({
     legalDocuments: [{ type: String }]
   }],
   warrantsAndAlerts: [{
-    warrantType: { type: String, required: true },
+    warrantType: { type: String, },
     warrantDetails: { type: String }
   }],
   victimInformation: [{
@@ -64,10 +64,10 @@ const offenderSchema = new mongoose.Schema({
     victimSupportServices: [{ type: String }]
   }],
   //anyOther Details
-  documentation: [{ type: String }]
-});
+  otherDocumentation: [{ type: String }]
+}, {timestamps: true});
 
 // Create the Offender model
 const Offender = mongoose.model('Offender', offenderSchema);
 
-module.exports = Offender;
+export default Offender;

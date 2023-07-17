@@ -9,7 +9,9 @@ const Layout = () => {
     <Box width="100%" height="100%">
       <Box>
         <NavBar />
-        <Outlet />
+        <Box display="flex" justifyContent="center">
+          <Outlet />
+        </Box>
       </Box>
     </Box>
   );

@@ -5,6 +5,8 @@ import {
   Search,
   ArrowDropDownCircleOutlined,
   AccountCircleRounded,
+  LogoutOutlined,
+  LogoutSharp,
 } from "@mui/icons-material";
 import {
   useTheme,
@@ -14,16 +16,20 @@ import {
   Toolbar,
   Typography,
   Box,
+  Button,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { setMode } from "../Features/app/darkModeSlice";
 import FlexBetween from "./FlexBetween";
-import { light } from "@mui/material/styles/createPalette";
-import { Link } from "react-router-dom";
+import { logout } from "../Features/user/authSlice";
+import { useLogoutMutation } from "../Features/user/userApiSlice";
+import { useNavigate } from "react-router-dom";
 
 const NavBar = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
+  const navigate = useNavigate();
+  const [logoutUser] = useLogoutMutation();
 
   const currentMode = useSelector((state) => state.global.mode);
   const { userInfo } = useSelector((state) => state.auth);
@@ -33,6 +39,16 @@ const NavBar = () => {
       dispatch(setMode());
     } else {
       dispatch(setMode());
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logoutUser().unwrap();
+      dispatch(logout());
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -47,24 +63,12 @@ const NavBar = () => {
       <Toolbar sx={{ justifyContent: "space-between" }}>
         {/* LEFT SIDE */}
         <FlexBetween>
-          <Box>
-            <Typography variant="h6" fontWeight="bold">
-              ONRECORD
-            </Typography>
+          <Box onClick={() => navigate("/")}>
+            <Typography variant="h6">ONRECORD</Typography>
           </Box>
         </FlexBetween>
         {/* MIDDLE */}
-        <FlexBetween
-          backgroundColor={theme.palette.background.alt}
-          borderRadius="20px"
-          p="0.1rem 1rem"
-          gap="3rem"
-        >
-          <InputBase placeholder="Search..." />
-          <IconButton>
-            <Search />
-          </IconButton>
-        </FlexBetween>
+        <></>
         {/* RIGHT SIDE */}
         <FlexBetween>
           <IconButton onClick={changeMode}>
@@ -77,14 +81,18 @@ const NavBar = () => {
           <IconButton>
             <AccountCircleRounded />
           </IconButton>
-          <Box>
-            <Typography fontSize="0.6rem">Hi, {userInfo.user.fname}</Typography>
+          <Box display="flex">
+            <Typography>Hi, {userInfo.user.fname}</Typography>
             {userInfo.user.role === "admin" ? (
-              <Typography fontSize="0.5rem">{userInfo.user.role}</Typography>
+              <Typography m="0 1em">{userInfo.user.role}</Typography>
             ) : (
               ""
             )}
           </Box>
+          <IconButton onClick={handleLogout}>
+            <LogoutSharp />
+            <Typography>Logout</Typography>
+          </IconButton>
         </FlexBetween>
       </Toolbar>
     </AppBar>

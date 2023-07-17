@@ -8,6 +8,7 @@ import { ThemeProvider } from "@emotion/react";
 import DashScreen from "./Screens/Dashboard/DashScreen";
 import Layout from "./Screens/Layout/Layout";
 import { useSelector } from "react-redux";
+import AddRecord from "./Features/AddRecordForm/AddRecord";
 
 const App = () => {
   const mode = useSelector((state) => state.global.mode);
@@ -18,10 +19,11 @@ const App = () => {
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <Routes>
-            <Route path="/" element={<LoginScreen />} />
+            <Route index="true" path="/login" element={<LoginScreen />} />
             <Route element={<Layout />}>
               {/* Remember to change path to /dashboard */}
-              <Route path="/dashboard" element={<DashScreen />} />
+              <Route path="/" element={<DashScreen />} />
+              <Route path="/add" element={<AddRecord />} />
             </Route>
           </Routes>
         </ThemeProvider>

@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useLoginMutation } from "../../Features/user/userApiSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, useNavigate } from "react-router-dom";
 import {
@@ -17,6 +16,7 @@ import { themeSettings } from "../../theme";
 import FlexBetween from "../../components/FlexBetween";
 import { setCredentials } from "../../Features/user/authSlice";
 import ToastNotification from "../../components/Alerts";
+import { useLoginMutation } from "../../Features/user/userApiSlice";
 
 const LoginScreen = () => {
   const [username, setUsername] = useState("");
@@ -32,7 +32,7 @@ const LoginScreen = () => {
 
   useEffect(() => {
     if (userInfo) {
-      navigate("/dashboard");
+      navigate("/");
     }
   }, [navigate, userInfo]);
 
@@ -40,11 +40,12 @@ const LoginScreen = () => {
     e.preventDefault();
     try {
       const res = await login({ username, password }).unwrap();
+      // console.log(res.data);
       dispatch(setCredentials({ ...res }));
       navigate("/dashboard");
     } catch (error) {
       // ToastNotification(error);
-      console.log(error.data.message);
+      console.log(error);
     }
   };
 
@@ -57,10 +58,14 @@ const LoginScreen = () => {
         minHeight="100vh"
       >
         <Box width="300px">
+          <Typography
+            sx={{ textAlign: "center", fontSize: "2rem", mb: "50px" }}
+          >
+            OnRecord
+          </Typography>
           <form onSubmit={handleSubmit}>
             <FormControl fullWidth>
               <TextField
-                id="standard-basic"
                 label="Username"
                 variant="standard"
                 value={username}
@@ -71,7 +76,6 @@ const LoginScreen = () => {
 
             <FormControl fullWidth sx={{ marginTop: "20px" }}>
               <TextField
-                id="standard-basic"
                 label="Password"
                 variant="standard"
                 value={password}
@@ -91,7 +95,7 @@ const LoginScreen = () => {
               </Button>
             </div>
             <Typography sx={{ marginTop: "30px" }}>
-              forgotten username or password? contact an admin.
+              forgotten username or password? Contact admin.
             </Typography>
           </form>
         </Box>
