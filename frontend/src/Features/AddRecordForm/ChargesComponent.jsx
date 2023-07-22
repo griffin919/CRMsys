@@ -1,8 +1,5 @@
 import { Box, FormControl, TextField, Typography, Button } from "@mui/material";
 import React, { useContext } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { saveChargesAndConvictionHistory } from "../offender/OffenderSlice";
-import { useAddRecordMutation } from "../user/userApiSlice";
 import { DatePicker } from "@mui/x-date-pickers";
 import { LocalizationProvider, DateTimePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -26,7 +23,7 @@ const ChargesComponent = () => {
               name="ChargeDate"
               value={FormData.chargeAndConvictionHistory.ChargeDate}
               onChange={dateInputChange}
-              renderInput={(params) => <TextField {...params} />}
+              slotProps={{ TextField: { variant: "outlined" } }}
             />
           </FormControl>
           <FormControl fullWidth sx={{ m: "10px" }}>
@@ -84,16 +81,6 @@ const ChargesComponent = () => {
           onChange={inputChange}
         />
       </FormControl>
-      <div style={{ textAlign: "right", marginRight: "20px" }}>
-        <Button
-          sx={{ marginTop: "10px" }}
-          type="submit"
-          variant="outlined"
-          size="large"
-        >
-          Submit
-        </Button>
-      </div>
     </LocalizationProvider>
   );
 };

@@ -10,10 +10,11 @@ import ArrestsComponent from "./ArrestsComponent";
 import ChargesComponent from "./ChargesComponent";
 import CourtRecords from "./CourtRecords";
 import CriminalOffenseDetails from "./CriminalOffenseDetails";
-import OtherDocumentation from "./OtherDocumentation";
+import ConfirmInput from "./ConfirmInput";
 import SentencingAndCorrectionalRecords from "./sentencingAndCorrectionalRecords";
 import VictimInformation from "./VictimInformation";
 import WarrantsAndAlerts from "./WarrantsAndAlerts";
+import { useAddRecordMutation } from "../user/userApiSlice";
 
 export default function AddRecord() {
   const [step, setStep] = useState(0);
@@ -22,7 +23,7 @@ export default function AddRecord() {
       fname: "",
       lname: "",
       gender: "",
-      dateOfBirth: null,
+      dateOfBirth: "",
       IDtype: "",
       IDnumber: "",
       physicalDescription: "",
@@ -46,7 +47,50 @@ export default function AddRecord() {
       convicted: "",
       sentencingDetails: "",
     },
+    sentencingAndCorrectionalRecords: {
+      sentenceType: "",
+      duration: "",
+      releaseDate: "",
+      paroleOrProbationConditions: "",
+      CorrectionFacility: "",
+      sentenceModifications: "",
+    },
+    criminalOffenseDetails: {
+      offenseType: "",
+      date: null,
+      location: "",
+      victimDetails: "",
+      additionalDetails: "",
+    },
+    courtRecords: {
+      courtAppearance: null,
+      hearingDate: null,
+      courtOrder: "",
+      caseSummary: "",
+      legalDocuments: "",
+    },
+    warrantsAndAlerts: {
+      warrantType: "",
+      warrantDetails: "",
+    },
+    victimInformation: {
+      name: "",
+      contactDetails: "",
+      victimSupportServices: "",
+    },
   });
+
+  const [addRecord, { isLoading }] = useAddRecordMutation();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const Record = await addRecord(RecordFormData);
+      console.log("Record added successfully", Record);
+    } catch (error) {
+      console.log(error.data?.message || error);
+    }
+  };
 
   const handleNextStep = () => {
     setStep((prevStep) => prevStep + 1);
@@ -110,7 +154,7 @@ export default function AddRecord() {
       case 7:
         return <VictimInformation />;
       case 8:
-        return <OtherDocumentation />;
+        return <ConfirmInput />;
       default:
         return null;
     }
@@ -126,7 +170,7 @@ export default function AddRecord() {
     >
       <Box>
         <Box>
-          <form>
+          <form onSubmit={handleSubmit}>
             <Box
               sx={{
                 flexGrow: 1,
@@ -154,7 +198,7 @@ export default function AddRecord() {
                 <Tab label="Court Records" />
                 <Tab label="Warrants" />
                 <Tab label="Victims" />
-                <Tab label="Others" />
+                <Tab label="Confirm" />
               </Tabs>
 
               {/* Render selected tab section */}

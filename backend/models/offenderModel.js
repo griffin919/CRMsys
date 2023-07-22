@@ -29,7 +29,7 @@ const offenderSchema = new mongoose.Schema({
     offenseNature: { type: String },
     courtCaseNumber: { type: String },
     ChargeDate: { type: Date },
-    convicted: { type: Boolean },
+    convicted: { type: String },
     sentencingDetails: { type: String }
   }],
   sentencingAndCorrectionalRecords: [{
@@ -63,8 +63,6 @@ const offenderSchema = new mongoose.Schema({
     contactDetails: { type: String },
     victimSupportServices: [{ type: String }]
   }],
-  //anyOther Details
-  otherDocumentation: [{ type: String }]
 }, {timestamps: true});
 
 // Create the Offender model
