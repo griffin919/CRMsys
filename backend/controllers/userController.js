@@ -34,7 +34,6 @@ const registerUser = expressAsyncHandler( async (req, res, next) => {
 
 const loginUser = expressAsyncHandler( async (req, res, next) => {
     const {username, password} = req.body;
-    const kofi = "Hello";
 
     const user = await User.findOne({username});
 

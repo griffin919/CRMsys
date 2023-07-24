@@ -95,7 +95,7 @@ const LoginScreen = () => {
               </Button>
             </div>
             <Typography sx={{ marginTop: "30px" }}>
-              forgotten username or password? Contact admin.
+              Forgotten username or password? Contact admin.
             </Typography>
           </form>
         </Box>

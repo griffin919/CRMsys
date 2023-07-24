@@ -7,13 +7,13 @@ const offenderSchema = new mongoose.Schema({
     lname: { type: String, required: true },
     dateOfBirth: { type: Date, required: true },
     gender: { type: String, required: true },
+    photo: {type: String},
     physicalDescription: { type: String },
     contactInformation1: { type: String },
     contactInformation2: { type: String },
     aliases: [{ type: String }],
     IDtype: {type: String},
     IDnumber: {type: String}
-
   },
  
   arrestRecords: [{

@@ -9,13 +9,14 @@ import {
   Radio,
   Select,
   MenuItem,
+  Input,
 } from "@mui/material";
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { AddRecordFormContext } from "./formContextApi";
 
 const PersonalInfoComponent = () => {
-  const { inputChange, dateInputChange, FormData } =
+  const { inputChange, dateInputChange, FormData, handlePhoto } =
     useContext(AddRecordFormContext);
 
   return (
@@ -145,6 +146,14 @@ const PersonalInfoComponent = () => {
                 type="text"
                 value={FormData.personalInformation.aliases}
                 onChange={inputChange}
+              />
+            </FormControl>
+            <FormControl fullWidth sx={{ mt: "20px" }}>
+              <Input
+                type="file"
+                accept=".png, .jpg, .jpeg"
+                name="photo"
+                onChange={handlePhoto}
               />
             </FormControl>
           </Box>

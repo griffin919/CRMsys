@@ -9,7 +9,7 @@ import OffenderSlice from "./src/Features/offender/OffenderSlice";
 const rootReducer = combineReducers({
     auth: authSlice,
     global:  globalSlice,
-    offenderInfo: OffenderSlice,
+    offenderRecords: OffenderSlice,
     [userApiSlice.reducerPath]: userApiSlice.reducer,
     // [offenderRecordApiSlice.reducerPath]: offenderRecordApiSlice.reducer,
 })

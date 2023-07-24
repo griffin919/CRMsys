@@ -14,7 +14,7 @@ import { AddRecordFormContext } from "./formContextApi";
 import { useContext } from "react";
 
 const ConfirmInput = () => {
-  const { FormData } = useContext(AddRecordFormContext);
+  const { FormData, photo } = useContext(AddRecordFormContext);
   const personalInformation = FormData.personalInformation;
   const arrestRecords = FormData.arrestRecords;
   const chargeAndConvictionHistory = FormData.chargeAndConvictionHistory;
@@ -34,6 +34,10 @@ const ConfirmInput = () => {
     },
   };
 
+  console.log("Some Photo", photo);
+
+  // <img src=`${photo.path}`/>
+
   return (
     <Grid container spacing={6} mt="20px">
       <Grid item md={12}>
@@ -45,6 +49,25 @@ const ConfirmInput = () => {
                   {" Personal Information"}
                 </Typography>
                 <TableBody key={personalInformation.IDnumber}>
+                  <TableRow>
+                    <Grid container spacing={6}>
+                      {/* <Grid item md={12}>
+                        <TableCell style={styles.tableCell}>Photo:</TableCell>
+                      </Grid> */}
+                      <Grid item md={12}>
+                        <TableCell style={styles.tableCell}>
+                          {photo && (
+                            <img
+                              src={URL.createObjectURL(photo)}
+                              alt="Uploaded Image"
+                              // width="200px"
+                              height="200px"
+                            />
+                          )}
+                        </TableCell>
+                      </Grid>
+                    </Grid>
+                  </TableRow>
                   <TableRow>
                     <TableCell style={styles.tableCell}>First Name:</TableCell>
                     <TableCell style={styles.tableCell}>

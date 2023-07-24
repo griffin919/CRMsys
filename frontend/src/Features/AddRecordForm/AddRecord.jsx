@@ -18,12 +18,14 @@ import { useAddRecordMutation } from "../user/userApiSlice";
 
 export default function AddRecord() {
   const [step, setStep] = useState(0);
+  const [uploadedPhoto, setuploadedPhoto] = useState(null);
   const [RecordFormData, setRecordFormData] = useState({
     personalInformation: {
       fname: "",
       lname: "",
       gender: "",
       dateOfBirth: "",
+      photo: "",
       IDtype: "",
       IDnumber: "",
       physicalDescription: "",
@@ -85,10 +87,21 @@ export default function AddRecord() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      // const combinedFormData = {
+      //   ...RecordFormData,
+      // };
+
+      if (uploadedPhoto) {
+        RecordFormData.photo = uploadedPhoto;
+      }
+      console.log("AddRecord", RecordFormData);
       const Record = await addRecord(RecordFormData);
-      console.log("Record added successfully", Record);
+
+      if (!Record.error) {
+        console.log("Record added successfully", Record);
+      }
     } catch (error) {
-      console.log(error.data?.message || error);
+      console.log(error);
     }
   };
 
@@ -135,6 +148,11 @@ export default function AddRecord() {
     }));
   };
 
+  const handlePhotoInput = (e) => {
+    const file = e.target.files[0];
+    setuploadedPhoto(file);
+  };
+
   const renderTabSection = () => {
     switch (step) {
       case 0:
@@ -165,12 +183,14 @@ export default function AddRecord() {
       value={{
         inputChange: handleInputChange,
         dateInputChange: handleDateChange,
+        handlePhoto: handlePhotoInput,
         FormData: RecordFormData,
+        photo: uploadedPhoto,
       }}
     >
       <Box>
         <Box>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} encType="multipart/form-data">
             <Box
               sx={{
                 flexGrow: 1,

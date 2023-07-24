@@ -11,6 +11,7 @@ import AddIcon from "@mui/icons-material/Add";
 import FlexBetween from "../../components/FlexBetween";
 import RecordsScreen from "../../Features/AddRecordForm/AddRecord";
 import { useNavigate } from "react-router-dom";
+import OffenderQueryScreen from "../../Features/offender/OffenderQueryScreen";
 
 const DashScreen = () => {
   const navigate = useNavigate();
@@ -38,6 +39,9 @@ const DashScreen = () => {
             <AddIcon />
           </IconButton>
         </FlexBetween>
+      </Box>
+      <Box>
+        <OffenderQueryScreen />
       </Box>
     </Box>
   );

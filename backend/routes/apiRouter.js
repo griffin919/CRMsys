@@ -1,10 +1,11 @@
 //packages
 import express from 'express';
+import upload from '../utils/multer.js';
 
 //modules
 import { registerUser, getUser, getAllUser, loginUser, updateUserByAdmin, updateUserByUser,deleteUser, logoutUser } from '../controllers/userController.js';
 import { protect, adminAuth} from '../middleware/authTokenMidware.js';
-import { addOffender, updateOffenderInfo, getOffenderinfo } from '../controllers/offenderController.js';
+import { addOffender, getOffenderProfile, updateOffenderInfo, getOffenderinfo } from '../controllers/offenderController.js';
 
 //mounts
 const apiRouter = express.Router();
@@ -55,13 +56,20 @@ apiRouter.route('/user/users')
 //route     offender/api/add
 //access    Protected
 apiRouter.route('/offender/add')
-.post(protect, addOffender)
+.post(protect, upload.single('photo'), addOffender)
 
 //desc      manage offender profile
 //route     offender/api/profile
 //access    Protected
-apiRouter.route('/offender/profile/:id')
+apiRouter.route('/offender/records/:id')
+.get(protect, getOffenderProfile)
+.put(protect, getOffenderProfile)
+
+//desc      manage offender profile
+//route     offender/api/profile
+//access    Protected
+apiRouter.route('/offender/records')
 .get(protect, getOffenderinfo)
-.put(protect, updateOffenderInfo)
+
 
 export default apiRouter;
