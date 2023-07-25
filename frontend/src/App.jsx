@@ -9,6 +9,8 @@ import DashScreen from "./Screens/Dashboard/DashScreen";
 import Layout from "./Screens/Layout/Layout";
 import { useSelector } from "react-redux";
 import AddRecord from "./Features/AddRecordForm/AddRecord";
+import OffenderProfile from "./Features/offender/OffenderProfile";
+import UpdateRecord from "./Features/UpdateRecordForm/UpdateRecord";
 
 const App = () => {
   const mode = useSelector((state) => state.global.mode);
@@ -23,7 +25,9 @@ const App = () => {
             <Route element={<Layout />}>
               {/* Remember to change path to /dashboard */}
               <Route path="/" element={<DashScreen />} />
-              <Route path="/add" element={<AddRecord />} />
+              <Route path="/records/add" element={<AddRecord />} />
+              <Route path="/records/record" element={<OffenderProfile />} />
+              <Route path="/record/update" element={<UpdateRecord />} />
             </Route>
           </Routes>
         </ThemeProvider>

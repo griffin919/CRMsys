@@ -61,9 +61,8 @@ apiRouter.route('/offender/add')
 //desc      manage offender profile
 //route     offender/api/profile
 //access    Protected
-apiRouter.route('/offender/records/:id')
-.get(protect, getOffenderProfile)
-.put(protect, getOffenderProfile)
+apiRouter.route('/offender/record/:id')
+.put(protect,upload.single('photo'), updateOffenderInfo)
 
 //desc      manage offender profile
 //route     offender/api/profile

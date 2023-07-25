@@ -10,8 +10,6 @@ const addOffender = expressAsyncHandler( async (req, res, next) => {
     const formTextData = req.body ;
     const formFileData = req.file;
     
-
-
     const parsedData = {};
     for (const key in formTextData) {
         parsedData[key] = JSON.parse(formTextData[key]);
@@ -28,9 +26,6 @@ const addOffender = expressAsyncHandler( async (req, res, next) => {
         },
       }
     : formTextData
-
-
-    // console.log('fullOffenderData', fullOffenderData);
     
         try {
             const offenderData = await Offender.create(fullOffenderData)
@@ -44,7 +39,36 @@ const addOffender = expressAsyncHandler( async (req, res, next) => {
 });
 
 const updateOffenderInfo = expressAsyncHandler( async (req, res, next) => {
-    res.send("update offender info")
+       
+
+       const formTextData = req.body ;
+       const formFileData = req.file;
+       
+       const parsedData = {};
+       for (const key in formTextData) {
+           parsedData[key] = JSON.parse(formTextData[key]);
+       }
+   
+       // console.log('parsed data', parsedData);
+   
+       const fullOffenderData =  parsedData
+       ? {
+           ...parsedData,
+           personalInformation: {
+               ...parsedData.personalInformation,
+             photo: formFileData.filename,
+           },
+         }
+       : formTextData
+       
+           try {
+               const offenderData = await Offender.save(fullOffenderData)
+               res.status(201).json(offenderData);
+               console.log("Record updated successfully");
+           } catch (error) {
+               res.status(400);
+               throw new Error(error);
+           }
 });
 
 const getOffenderinfo = expressAsyncHandler( async (req, res, next) => {
@@ -58,7 +82,14 @@ const getOffenderinfo = expressAsyncHandler( async (req, res, next) => {
 });
 
 const getOffenderProfile = expressAsyncHandler( async (req, res, next) => {
-    res.send("get offender profile")
+    // try {
+    //     const record = await Offender.findById(req.params.id)
+    //     res.status(201).json(record);
+    //     console.log("Record fetched");
+    // } catch (error) {
+    //     res.status(400);
+    //     throw new Error(error);
+    // }
 });
 
 export {

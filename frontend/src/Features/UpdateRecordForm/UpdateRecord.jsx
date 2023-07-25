@@ -16,7 +16,11 @@ import VictimInformation from "./VictimInformation";
 import WarrantsAndAlerts from "./WarrantsAndAlerts";
 import { useAddRecordMutation } from "../user/userApiSlice";
 
-export default function AddRecord() {
+export default function UpdateRecord() {
+  const { recordID, records } = useSelector((state) => state.offenderRecords);
+
+  const ClickedRecord = records.filter((record) => record._id === recordID);
+
   const [step, setStep] = useState(0);
   const [uploadedPhoto, setuploadedPhoto] = useState(null);
   const [RecordFormData, setRecordFormData] = useState({
@@ -81,6 +85,7 @@ export default function AddRecord() {
       victimSupportServices: "",
     },
   });
+  RecordFormData = ClickedRecord[0];
 
   const [addRecord, { isLoading }] = useAddRecordMutation();
 

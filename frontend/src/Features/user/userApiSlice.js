@@ -62,8 +62,20 @@ const OFFENDER_URL = '/api/offender';
               method: "GET", 
             }),
           }),
+          getSingleRecord: builder.query({
+            query: (data) => ({
+              url: `${OFFENDER_URL}/record/:id`,
+              method: "GET", 
+            }),
+          }),
     })
 })
 
-export const {useLoginMutation, useGetRecordsQuery, useLogoutMutation,useAddRecordMutation}= userApiSlice;
+export const {
+    useLoginMutation, 
+    useGetSingleRecordQuery, 
+    useGetRecordsQuery, 
+    useLogoutMutation,
+    useAddRecordMutation
+}= userApiSlice;
 export default userApiSlice ;

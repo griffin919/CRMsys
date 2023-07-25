@@ -35,7 +35,7 @@ const DashScreen = () => {
           <Link href="#" underline="none">
             Add Record
           </Link>
-          <IconButton onClick={() => navigate("/add")}>
+          <IconButton onClick={() => navigate("/records/add")}>
             <AddIcon />
           </IconButton>
         </FlexBetween>

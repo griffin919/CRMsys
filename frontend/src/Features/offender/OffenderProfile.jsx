@@ -1,4 +1,6 @@
-import React from "react";
+import { useEffect } from "react";
+import { useGetSingleRecordQuery } from "../user/userApiSlice";
+import { useSelector } from "react-redux";
 import {
   Box,
   Button,
@@ -10,20 +12,28 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { AddRecordFormContext } from "./formContextApi";
-import { useContext } from "react";
+import { useNavigate } from "react-router-dom/dist/umd/react-router-dom.development";
 
-const ConfirmInput = () => {
-  const { FormData, photo } = useContext(AddRecordFormContext);
-  const personalInformation = FormData.personalInformation;
-  const arrestRecords = FormData.arrestRecords;
-  const chargeAndConvictionHistory = FormData.chargeAndConvictionHistory;
+const OffenderProfile = () => {
+  //   const { getSingleRecord, isSuccess, isLoading, error } =
+  //     useGetSingleRecordQuery();
+  const navigate = useNavigate();
+  const { recordID, records } = useSelector((state) => state.offenderRecords);
+
+  const ClickedRecord = records.filter((record) => record._id === recordID);
+  console.log("ClickedRecord[0]", ClickedRecord[0]);
+
+  const personalInformation = ClickedRecord[0].personalInformation;
+  console.log("personalInformation", personalInformation);
+  const arrestRecords = ClickedRecord[0].arrestRecords;
+  const chargeAndConvictionHistory =
+    ClickedRecord[0].chargeAndConvictionHistory;
   const sentencingAndCorrectionalRecords =
-    FormData.sentencingAndCorrectionalRecords;
-  const courtRecords = FormData.courtRecords;
-  const warrantsAndAlerts = FormData.warrantsAndAlerts;
-  const victimInformation = FormData.victimInformation;
-  const criminalOffenseDetails = FormData.criminalOffenseDetails;
+    ClickedRecord[0].sentencingAndCorrectionalRecords;
+  const courtRecords = ClickedRecord[0].courtRecords;
+  const warrantsAndAlerts = ClickedRecord[0].warrantsAndAlerts;
+  const victimInformation = ClickedRecord[0].victimInformation;
+  const criminalOffenseDetails = ClickedRecord[0].criminalOffenseDetails;
 
   const styles = {
     table: {
@@ -51,16 +61,7 @@ const ConfirmInput = () => {
                         <TableCell style={styles.tableCell}>Photo:</TableCell>
                       </Grid> */}
                       <Grid item md={12}>
-                        <TableCell style={styles.tableCell}>
-                          {photo && (
-                            <img
-                              src={URL.createObjectURL(photo)}
-                              alt="Uploaded Image"
-                              // width="200px"
-                              height="200px"
-                            />
-                          )}
-                        </TableCell>
+                        <TableCell style={styles.tableCell}>photo</TableCell>
                       </Grid>
                     </Grid>
                   </TableRow>
@@ -467,10 +468,12 @@ const ConfirmInput = () => {
       </Grid>
 
       <Box>
-        <Button type="submit">Submit</Button>
+        <Button type="button" onClick={navigate("/records/update")}>
+          Update Record
+        </Button>
       </Box>
     </Grid>
   );
 };
 
-export default ConfirmInput;
+export default OffenderProfile;
