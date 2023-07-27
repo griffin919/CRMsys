@@ -10,7 +10,7 @@ import ArrestsComponent from "./ArrestsComponent";
 import ChargesComponent from "./ChargesComponent";
 import CourtRecords from "./CourtRecords";
 import CriminalOffenseDetails from "./CriminalOffenseDetails";
-import ConfirmInput from "./ConfirmInput";
+import ConfirmInput from "./ConfirmInputComp";
 import SentencingAndCorrectionalRecords from "./sentencingAndCorrectionalRecords";
 import VictimInformation from "./VictimInformation";
 import WarrantsAndAlerts from "./WarrantsAndAlerts";
@@ -33,53 +33,67 @@ export default function AddRecord() {
       contactInformation2: "",
       aliases: "",
     },
-    arrestRecords: {
-      arrestDateTime: null,
-      arrestLocation: "",
-      arrestingAgency: "",
-      arrestingOfficer: "",
-      arrestingOfficerID: "",
-      charges: "",
-    },
-    chargeAndConvictionHistory: {
-      charge: "",
-      offenseNature: "",
-      courtCaseNumber: "",
-      date: "",
-      convicted: "",
-      sentencingDetails: "",
-    },
-    sentencingAndCorrectionalRecords: {
-      sentenceType: "",
-      duration: "",
-      releaseDate: "",
-      paroleOrProbationConditions: "",
-      CorrectionFacility: "",
-      sentenceModifications: "",
-    },
-    criminalOffenseDetails: {
-      offenseType: "",
-      date: null,
-      location: "",
-      victimDetails: "",
-      additionalDetails: "",
-    },
-    courtRecords: {
-      courtAppearance: null,
-      hearingDate: null,
-      courtOrder: "",
-      caseSummary: "",
-      legalDocuments: "",
-    },
-    warrantsAndAlerts: {
-      warrantType: "",
-      warrantDetails: "",
-    },
-    victimInformation: {
-      name: "",
-      contactDetails: "",
-      victimSupportServices: "",
-    },
+    arrestRecords: [
+      {
+        arrestDateTime: "",
+        arrestLocation: "",
+        arrestingAgency: "",
+        arrestingOfficer: "",
+        arrestingOfficerID: "",
+        charges: "",
+      },
+    ],
+    chargeAndConvictionHistory: [
+      {
+        charge: "",
+        offenseNature: "",
+        courtCaseNumber: "",
+        date: "",
+        convicted: "",
+        sentencingDetails: "",
+      },
+    ],
+    sentencingAndCorrectionalRecords: [
+      {
+        sentenceType: "",
+        duration: "",
+        releaseDate: "",
+        paroleOrProbationConditions: "",
+        CorrectionFacility: "",
+        sentenceModifications: "",
+      },
+    ],
+    criminalOffenseDetails: [
+      {
+        offenseType: "",
+        date: "",
+        location: "",
+        victimDetails: "",
+        additionalDetails: "",
+      },
+    ],
+    courtRecords: [
+      {
+        courtAppearance: "",
+        hearingDate: "",
+        courtOrder: "",
+        caseSummary: "",
+        legalDocuments: "",
+      },
+    ],
+    warrantsAndAlerts: [
+      {
+        warrantType: "",
+        warrantDetails: "",
+      },
+    ],
+    victimInformation: [
+      {
+        name: "",
+        contactDetails: "",
+        victimSupportServices: "",
+      },
+    ],
   });
 
   const [addRecord, { isLoading }] = useAddRecordMutation();
@@ -92,7 +106,7 @@ export default function AddRecord() {
       }
       // console.log("AddRecord", RecordFormData);
       const Record = await addRecord(RecordFormData);
-      RecordFormData = {};
+
       if (!Record.error) {
         console.log("Record added successfully", Record);
       }
@@ -121,12 +135,10 @@ export default function AddRecord() {
         ...prevState.personalInformation,
         [name]: value,
       },
-      arrestRecords: [
-        {
-          ...prevState.arrestRecords,
-          [name]: value,
-        },
-      ],
+      arrestRecords: {
+        ...prevState.arrestRecords,
+        [name]: value,
+      },
     }));
   };
 
@@ -152,9 +164,20 @@ export default function AddRecord() {
   const renderTabSection = () => {
     switch (step) {
       case 0:
-        return <PersonalInfoComponent />;
+        return (
+          <PersonalInfoComponent
+            formData={RecordFormData}
+            setForm={setRecordFormData}
+            setUploadedPic={setuploadedPhoto}
+          />
+        );
       case 1:
-        return <ArrestsComponent />;
+        return (
+          <ArrestsComponent
+            formData={RecordFormData}
+            setForm={setRecordFormData}
+          />
+        );
       case 2:
         return <ChargesComponent />;
       case 3:
@@ -168,7 +191,7 @@ export default function AddRecord() {
       case 7:
         return <VictimInformation />;
       case 8:
-        return <ConfirmInput />;
+        return <ConfirmInput formData={RecordFormData} photo={uploadedPhoto} />;
       default:
         return null;
     }
@@ -177,11 +200,10 @@ export default function AddRecord() {
   return (
     <AddRecordFormContext.Provider
       value={{
-        inputChange: handleInputChange,
-        dateInputChange: handleDateChange,
-        handlePhoto: handlePhotoInput,
-        FormData: RecordFormData,
-        photo: uploadedPhoto,
+        RecordFormData,
+        setRecordFormData,
+        uploadedPhoto,
+        setuploadedPhoto,
       }}
     >
       <Box>

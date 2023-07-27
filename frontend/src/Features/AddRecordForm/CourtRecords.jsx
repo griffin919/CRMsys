@@ -6,8 +6,29 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { AddRecordFormContext } from "./formContextApi";
 
 const CourtRecords = () => {
-  const { inputChange, dateInputChange, FormData } =
+  const { RecordFormData, setRecordFormData } =
     useContext(AddRecordFormContext);
+
+  const handleInputChange = (e) => {
+    const { value, name } = e.target;
+    setRecordFormData((prevState) => ({
+      ...prevState, // Shallow copy of the previous state
+      courtRecords: {
+        ...prevState.courtRecords, // Shallow copy of the previous courtRecords
+        [name]: value, // Update the specific property of courtRecords
+      },
+    }));
+  };
+
+  const handleDateChange = (date) => {
+    setRecordFormData((prevState) => ({
+      ...prevState,
+      courtRecords: {
+        ...prevState.courtRecords,
+        arrestDateTimedate: date,
+      },
+    }));
+  };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -21,8 +42,8 @@ const CourtRecords = () => {
             <DatePicker
               label="Court Appearance Date"
               name="courtAppearance"
-              value={FormData.courtRecords.courtAppearance}
-              onChange={dateInputChange}
+              value={RecordFormData.courtRecords.courtAppearance}
+              onChange={handleDateChange}
               slotProps={TextField}
             />
           </FormControl>
@@ -30,8 +51,8 @@ const CourtRecords = () => {
             <DatePicker
               label="Hearing Date"
               name="hearingDate"
-              value={FormData.courtRecords.hearingDate}
-              onChange={dateInputChange}
+              value={RecordFormData.courtRecords.hearingDate}
+              onChange={handleDateChange}
               slotProps={TextField}
             />
           </FormControl>
@@ -44,8 +65,8 @@ const CourtRecords = () => {
           variant="standard"
           label="Court Order"
           name="courtOrder"
-          value={FormData.courtRecords.courtOrder}
-          onChange={inputChange}
+          value={RecordFormData.courtRecords.courtOrder}
+          onChange={handleInputChange}
         />
       </FormControl>
 
@@ -55,8 +76,8 @@ const CourtRecords = () => {
           variant="standard"
           label="Case Summary"
           name="caseSummary"
-          value={FormData.courtRecords.caseSummary}
-          onChange={inputChange}
+          value={RecordFormData.courtRecords.caseSummary}
+          onChange={handleInputChange}
         />
       </FormControl>
       <FormControl fullWidth sx={{ m: "10px" }}>
@@ -65,8 +86,8 @@ const CourtRecords = () => {
           variant="standard"
           label="Legal Documents"
           name="legalDocuments"
-          value={FormData.courtRecords.legalDocuments}
-          onChange={inputChange}
+          value={RecordFormData.courtRecords.legalDocuments}
+          onChange={handleInputChange}
         />
       </FormControl>
     </LocalizationProvider>

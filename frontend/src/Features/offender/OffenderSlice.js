@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     records: localStorage.getItem('records') ? JSON.parse(localStorage.getItem('records')) :null,
     recordID: "",
+
 };
   
 const OffenderSlice = createSlice({
@@ -16,6 +17,7 @@ const OffenderSlice = createSlice({
         saveClickedRecordID: (state, action)=>{
             state.recordID = action.payload
         },
+     
     }
 })
 

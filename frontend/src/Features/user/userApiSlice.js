@@ -62,10 +62,10 @@ const OFFENDER_URL = '/api/offender';
               method: "GET", 
             }),
           }),
-          getSingleRecord: builder.query({
+          updateRecord: builder.query({
             query: (data) => ({
-              url: `${OFFENDER_URL}/record/:id`,
-              method: "GET", 
+              url: `${OFFENDER_URL}/update/:id`,
+              method: "PUT", 
             }),
           }),
     })
@@ -73,7 +73,7 @@ const OFFENDER_URL = '/api/offender';
 
 export const {
     useLoginMutation, 
-    useGetSingleRecordQuery, 
+    useUpateRecordMutation, 
     useGetRecordsQuery, 
     useLogoutMutation,
     useAddRecordMutation

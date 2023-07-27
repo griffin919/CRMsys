@@ -6,8 +6,29 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { AddRecordFormContext } from "./formContextApi";
 
 const ChargesComponent = () => {
-  const { inputChange, dateInputChange, FormData } =
+  const { RecordFormData, setRecordFormData } =
     useContext(AddRecordFormContext);
+
+  const handleInputChange = (e) => {
+    const { value, name } = e.target;
+    setRecordFormData((prevState) => ({
+      ...prevState, // Shallow copy of the previous state
+      chargeAndConvictionHistory: {
+        ...prevState.chargeAndConvictionHistory, // Shallow copy of the previous chargeAndConvictionHistory
+        [name]: value, // Update the specific property of chargeAndConvictionHistory
+      },
+    }));
+  };
+
+  const handleDateChange = (date) => {
+    setRecordFormData((prevState) => ({
+      ...prevState,
+      chargeAndConvictionHistory: {
+        ...prevState.chargeAndConvictionHistory,
+        arrestDateTimedate: date,
+      },
+    }));
+  };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -21,8 +42,8 @@ const ChargesComponent = () => {
             <DatePicker
               label="Date of charge/conviction"
               name="ChargeDate"
-              value={FormData.chargeAndConvictionHistory.ChargeDate}
-              onChange={dateInputChange}
+              value={RecordFormData.chargeAndConvictionHistory.ChargeDate}
+              onChange={handleDateChange}
               slotProps={{ TextField: { variant: "outlined" } }}
             />
           </FormControl>
@@ -32,8 +53,8 @@ const ChargesComponent = () => {
               variant="standard"
               label="Charge/Conviction"
               name="charge"
-              value={FormData.chargeAndConvictionHistory.charge}
-              onChange={inputChange}
+              value={RecordFormData.chargeAndConvictionHistory.charge}
+              onChange={handleInputChange}
             />
           </FormControl>
         </Box>
@@ -44,8 +65,8 @@ const ChargesComponent = () => {
               variant="standard"
               label="Nature of offense"
               name="offenseNature"
-              value={FormData.chargeAndConvictionHistory.offenseNature}
-              onChange={inputChange}
+              value={RecordFormData.chargeAndConvictionHistory.offenseNature}
+              onChange={handleInputChange}
             />
           </FormControl>
           <FormControl fullWidth sx={{ m: "10px" }}>
@@ -55,8 +76,8 @@ const ChargesComponent = () => {
               type="number"
               label="Court Case Number"
               name="courtCaseNumber"
-              value={FormData.chargeAndConvictionHistory.courtCaseNumber}
-              onChange={inputChange}
+              value={RecordFormData.chargeAndConvictionHistory.courtCaseNumber}
+              onChange={handleInputChange}
             />
           </FormControl>
         </Box>
@@ -67,8 +88,8 @@ const ChargesComponent = () => {
           variant="standard"
           label="Convicted?"
           name="convicted"
-          value={FormData.chargeAndConvictionHistory.convicted}
-          onChange={inputChange}
+          value={RecordFormData.chargeAndConvictionHistory.convicted}
+          onChange={handleInputChange}
         />
       </FormControl>
       <FormControl fullWidth sx={{ m: "10px" }}>
@@ -77,8 +98,8 @@ const ChargesComponent = () => {
           variant="standard"
           name="sentencingDetails"
           label="Sentencing Details"
-          value={FormData.chargeAndConvictionHistory.sentencingDetails}
-          onChange={inputChange}
+          value={RecordFormData.chargeAndConvictionHistory.sentencingDetails}
+          onChange={handleInputChange}
         />
       </FormControl>
     </LocalizationProvider>

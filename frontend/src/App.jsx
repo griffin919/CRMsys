@@ -10,7 +10,7 @@ import Layout from "./Screens/Layout/Layout";
 import { useSelector } from "react-redux";
 import AddRecord from "./Features/AddRecordForm/AddRecord";
 import OffenderProfile from "./Features/offender/OffenderProfile";
-import UpdateRecord from "./Features/UpdateRecordForm/UpdateRecord";
+import UpdateRecord from "./Features/AddRecordForm/UpdateRecord";
 
 const App = () => {
   const mode = useSelector((state) => state.global.mode);

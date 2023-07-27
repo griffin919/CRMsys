@@ -3,7 +3,19 @@ import React, { useContext } from "react";
 import { AddRecordFormContext } from "./formContextApi";
 
 const warrantsAndAlerts = () => {
-  const { inputChange, FormData } = useContext(AddRecordFormContext);
+  const { RecordFormData, setRecordFormData } =
+    useContext(AddRecordFormContext);
+
+  const handleInputChange = (e) => {
+    const { value, name } = e.target;
+    setRecordFormData((prevState) => ({
+      ...prevState, // Shallow copy of the previous state
+      warrantsAndAlerts: {
+        ...prevState.warrantsAndAlerts, // Shallow copy of the previous warrantsAndAlerts
+        [name]: value, // Update the specific property of warrantsAndAlerts
+      },
+    }));
+  };
 
   return (
     <Box>
@@ -15,10 +27,10 @@ const warrantsAndAlerts = () => {
           <TextField
             id="standard-basic"
             variant="standard"
-            label="warrantType"
-            name="Warrant Type"
-            value={FormData.warrantsAndAlerts.warrantType}
-            onChange={inputChange}
+            name="warrantType"
+            label="Warrant Type"
+            value={RecordFormData.warrantsAndAlerts.warrantType}
+            onChange={handleInputChange}
           />
         </FormControl>
         <FormControl fullWidth sx={{ m: "10px" }}>
@@ -28,8 +40,8 @@ const warrantsAndAlerts = () => {
             type="text"
             label="Warrant Details"
             name="warrantDetails"
-            value={FormData.warrantsAndAlerts.warrantDetails}
-            onChange={inputChange}
+            value={RecordFormData.warrantsAndAlerts.warrantDetails}
+            onChange={handleInputChange}
           />
         </FormControl>
       </Box>

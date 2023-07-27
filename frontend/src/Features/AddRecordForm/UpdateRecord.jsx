@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import Box from "@mui/material/Box";
 import Tabs, { tabsClasses } from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -10,82 +11,40 @@ import ArrestsComponent from "./ArrestsComponent";
 import ChargesComponent from "./ChargesComponent";
 import CourtRecords from "./CourtRecords";
 import CriminalOffenseDetails from "./CriminalOffenseDetails";
-import ConfirmInput from "./ConfirmInput";
+import ConfirmInput from "./ConfirmInputComp";
 import SentencingAndCorrectionalRecords from "./sentencingAndCorrectionalRecords";
 import VictimInformation from "./VictimInformation";
 import WarrantsAndAlerts from "./WarrantsAndAlerts";
 import { useAddRecordMutation } from "../user/userApiSlice";
 
 export default function UpdateRecord() {
-  const { recordID, records } = useSelector((state) => state.offenderRecords);
-
-  const ClickedRecord = records.filter((record) => record._id === recordID);
-
   const [step, setStep] = useState(0);
   const [uploadedPhoto, setuploadedPhoto] = useState(null);
+
+  const { recordID, records } = useSelector((state) => state.offenderRecords);
+  const updateToBeUpdated = records.filter((record) => record._id === recordID);
+
+  console.log("updateToBeUpdated", updateToBeUpdated);
+
   const [RecordFormData, setRecordFormData] = useState({
-    personalInformation: {
-      fname: "",
-      lname: "",
-      gender: "",
-      dateOfBirth: "",
-      photo: "",
-      IDtype: "",
-      IDnumber: "",
-      physicalDescription: "",
-      contactInformation1: "",
-      contactInformation2: "",
-      aliases: "",
-    },
-    arrestRecords: {
-      arrestDateTime: null,
-      arrestLocation: "",
-      arrestingAgency: "",
-      arrestingOfficer: "",
-      arrestingOfficerID: "",
-      charges: "",
-    },
-    chargeAndConvictionHistory: {
-      charge: "",
-      offenseNature: "",
-      courtCaseNumber: "",
-      date: "",
-      convicted: "",
-      sentencingDetails: "",
-    },
-    sentencingAndCorrectionalRecords: {
-      sentenceType: "",
-      duration: "",
-      releaseDate: "",
-      paroleOrProbationConditions: "",
-      CorrectionFacility: "",
-      sentenceModifications: "",
-    },
-    criminalOffenseDetails: {
-      offenseType: "",
-      date: null,
-      location: "",
-      victimDetails: "",
-      additionalDetails: "",
-    },
-    courtRecords: {
-      courtAppearance: null,
-      hearingDate: null,
-      courtOrder: "",
-      caseSummary: "",
-      legalDocuments: "",
-    },
-    warrantsAndAlerts: {
-      warrantType: "",
-      warrantDetails: "",
-    },
-    victimInformation: {
-      name: "",
-      contactDetails: "",
-      victimSupportServices: "",
-    },
+    ...updateToBeUpdated.personalInformation,
+    ...updateToBeUpdated.arrestRecords,
+    ...updateToBeUpdated.chargeAndConvictionHistory,
+    ...updateToBeUpdated.sentencingAndCorrectionalRecords,
+    ...updateToBeUpdated.criminalOffenseDetails,
+    ...updateToBeUpdated.courtRecords,
+    ...updateToBeUpdated.warrantsAndAlerts,
+    ...updateToBeUpdated.victimInformation,
   });
-  RecordFormData = ClickedRecord[0];
+
+  console.log(
+    "updateToBeUpdated.personalInformation",
+    updateToBeUpdated.personalInformation
+  );
+  console.log(
+    "updateToBeUpdated.arrestRecords",
+    updateToBeUpdated.arrestRecords
+  );
 
   const [addRecord, { isLoading }] = useAddRecordMutation();
 
@@ -97,7 +56,7 @@ export default function UpdateRecord() {
       }
       // console.log("AddRecord", RecordFormData);
       const Record = await addRecord(RecordFormData);
-      RecordFormData = {};
+
       if (!Record.error) {
         console.log("Record added successfully", Record);
       }
@@ -126,12 +85,10 @@ export default function UpdateRecord() {
         ...prevState.personalInformation,
         [name]: value,
       },
-      arrestRecords: [
-        {
-          ...prevState.arrestRecords,
-          [name]: value,
-        },
-      ],
+      arrestRecords: {
+        ...prevState.arrestRecords,
+        [name]: value,
+      },
     }));
   };
 
@@ -157,23 +114,34 @@ export default function UpdateRecord() {
   const renderTabSection = () => {
     switch (step) {
       case 0:
-        return <PersonalInfoComponent />;
+        return (
+          <PersonalInfoComponent
+            formData={RecordFormData}
+            setForm={setRecordFormData}
+            setUploadedPic={setuploadedPhoto}
+          />
+        );
       case 1:
-        return <ArrestsComponent />;
+        return (
+          <ArrestsComponent
+            formData={RecordFormData}
+            setForm={setRecordFormData}
+          />
+        );
       case 2:
-        return <ChargesComponent />;
+        return 2;
       case 3:
-        return <SentencingAndCorrectionalRecords />;
+        return 3;
       case 4:
-        return <CriminalOffenseDetails />;
+        return 4;
       case 5:
-        return <CourtRecords />;
+        return 5;
       case 6:
-        return <WarrantsAndAlerts />;
+        return 6;
       case 7:
-        return <VictimInformation />;
+        return 7;
       case 8:
-        return <ConfirmInput />;
+        return 8;
       default:
         return null;
     }
@@ -182,11 +150,10 @@ export default function UpdateRecord() {
   return (
     <AddRecordFormContext.Provider
       value={{
-        inputChange: handleInputChange,
-        dateInputChange: handleDateChange,
-        handlePhoto: handlePhotoInput,
-        FormData: RecordFormData,
-        photo: uploadedPhoto,
+        RecordFormData,
+        setRecordFormData,
+        uploadedPhoto,
+        setuploadedPhoto,
       }}
     >
       <Box>

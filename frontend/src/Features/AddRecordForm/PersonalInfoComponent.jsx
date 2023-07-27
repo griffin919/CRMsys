@@ -7,31 +7,63 @@ import {
   RadioGroup,
   FormControlLabel,
   Radio,
+  Typography,
   Select,
   MenuItem,
   Input,
+  Grid,
 } from "@mui/material";
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { AddRecordFormContext } from "./formContextApi";
 
-const PersonalInfoComponent = () => {
-  const { inputChange, dateInputChange, FormData, handlePhoto } =
-    useContext(AddRecordFormContext);
+const PersonalInfoComponent = ({ formData, setForm, setUploadedPic }) => {
+  // const { formData, setForm, setUploadedPic } =
+  //   useContext(AddRecordFormContext);
+
+  const handleInputChange = (e) => {
+    const { value, name } = e.target;
+    setForm((prevState) => ({
+      ...prevState, // Shallow copy of the previous state
+      personalInformation: {
+        ...prevState.personalInformation, // Shallow copy of the previous personalInformation
+        [name]: value, // Update the specific property of personalInformation
+      },
+    }));
+  };
+
+  const handleDateChange = (date) => {
+    setForm((prevState) => ({
+      ...prevState,
+      personalInformation: {
+        ...prevState.personalInformation,
+        dateOfBirth: date,
+      },
+    }));
+  };
+
+  const handlePhotoInput = (e) => {
+    const file = e.target.files[0];
+    setUploadedPic(file);
+  };
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Box display="flex" mt="50px" justifyContent="center">
-        <Box display="flex" justifyContent="center">
-          <Box padding="20px">
+    <Box>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <Typography sx={{ textAlign: "center", m: "40px", fontSize: "1.5rem" }}>
+          Personal Information
+        </Typography>
+
+        <Grid container spacing={10}>
+          <Grid item md={6}>
             <FormControl fullWidth sx={{ mt: "20px" }}>
               <TextField
                 id="standard-basic"
                 name="fname"
                 label="First Name"
                 variant="standard"
-                value={FormData.personalInformation.fname}
-                onChange={inputChange}
+                value={formData.personalInformation.fname}
+                onChange={handleInputChange}
                 required
               />
             </FormControl>
@@ -41,8 +73,8 @@ const PersonalInfoComponent = () => {
                 name="lname"
                 label="Last Name"
                 variant="standard"
-                value={FormData.personalInformation.lname}
-                onChange={inputChange}
+                value={formData.personalInformation.lname}
+                onChange={handleInputChange}
                 required
               />
             </FormControl>
@@ -51,8 +83,8 @@ const PersonalInfoComponent = () => {
               <DatePicker
                 label="Date of Birth"
                 name="dateOfBirth"
-                value={FormData.personalInformation.dateOfBirth}
-                onChange={dateInputChange}
+                value={formData.personalInformation.dateOfBirth}
+                onChange={handleDateChange}
                 slotProps={{ TextField: { variant: "outlined" } }}
               />
             </FormControl>
@@ -60,8 +92,8 @@ const PersonalInfoComponent = () => {
               <Select
                 name="IDtype"
                 label="ID Type"
-                value={FormData.personalInformation.IDtype}
-                onChange={inputChange}
+                value={formData.personalInformation.IDtype}
+                onChange={handleInputChange}
               >
                 <MenuItem value="Ghana Card">Ghana Card</MenuItem>
                 <MenuItem value="Drivers License">Drivers License</MenuItem>
@@ -74,20 +106,19 @@ const PersonalInfoComponent = () => {
                 name="IDnumber"
                 label="ID Number"
                 variant="standard"
-                value={FormData.personalInformation.IDnumber}
-                onChange={inputChange}
+                value={formData.personalInformation.IDnumber}
+                onChange={handleInputChange}
                 required
               />
             </FormControl>
-          </Box>
-
-          <Box padding="20px">
+          </Grid>
+          <Grid item md={6}>
             <FormControl sx={{ mt: "35px" }}>
               <RadioGroup
                 aria-label="gender"
                 name="gender"
-                value={FormData.personalInformation.gender}
-                onChange={inputChange}
+                value={formData.personalInformation.gender}
+                onChange={handleInputChange}
                 row
               >
                 <FormControlLabel
@@ -108,8 +139,8 @@ const PersonalInfoComponent = () => {
                 name="physicalDescription"
                 label="Physical Description"
                 variant="standard"
-                value={FormData.personalInformation.physicalDescription}
-                onChange={inputChange}
+                value={formData.personalInformation.physicalDescription}
+                onChange={handleInputChange}
                 required
               />
             </FormControl>
@@ -120,8 +151,8 @@ const PersonalInfoComponent = () => {
                 name="contactInformation1"
                 type="number"
                 variant="standard"
-                value={FormData.personalInformation.contactInformation1}
-                onChange={inputChange}
+                value={formData.personalInformation.contactInformation1}
+                onChange={handleInputChange}
                 required
               />
             </FormControl>
@@ -132,8 +163,8 @@ const PersonalInfoComponent = () => {
                 label="Contact Info 2"
                 type="number"
                 variant="standard"
-                value={FormData.personalInformation.contactInformation2}
-                onChange={inputChange}
+                value={formData.personalInformation.contactInformation2}
+                onChange={handleInputChange}
               />
             </FormControl>
 
@@ -144,8 +175,8 @@ const PersonalInfoComponent = () => {
                 name="aliases"
                 variant="standard"
                 type="text"
-                value={FormData.personalInformation.aliases}
-                onChange={inputChange}
+                value={formData.personalInformation.aliases}
+                onChange={handleInputChange}
               />
             </FormControl>
             <FormControl fullWidth sx={{ mt: "20px" }}>
@@ -153,13 +184,13 @@ const PersonalInfoComponent = () => {
                 type="file"
                 accept=".png, .jpg, .jpeg"
                 name="photo"
-                onChange={handlePhoto}
+                onChange={handlePhotoInput}
               />
             </FormControl>
-          </Box>
-        </Box>
-      </Box>
-    </LocalizationProvider>
+          </Grid>
+        </Grid>
+      </LocalizationProvider>
+    </Box>
   );
 };
 

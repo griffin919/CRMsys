@@ -6,8 +6,29 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { AddRecordFormContext } from "./formContextApi";
 
 const criminalOffenseDetails = () => {
-  const { inputChange, dateInputChange, FormData } =
+  const { RecordFormData, setRecordFormData } =
     useContext(AddRecordFormContext);
+
+  const handleInputChange = (e) => {
+    const { value, name } = e.target;
+    setRecordFormData((prevState) => ({
+      ...prevState, // Shallow copy of the previous state
+      criminalOffenseDetails: {
+        ...prevState.criminalOffenseDetails, // Shallow copy of the previous criminalOffenseDetails
+        [name]: value, // Update the specific property of criminalOffenseDetails
+      },
+    }));
+  };
+
+  const handleDateChange = (date) => {
+    setRecordFormData((prevState) => ({
+      ...prevState,
+      criminalOffenseDetails: {
+        ...prevState.criminalOffenseDetails,
+        arrestDateTimedate: date,
+      },
+    }));
+  };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -23,16 +44,16 @@ const criminalOffenseDetails = () => {
               variant="standard"
               label="Offense Type"
               name="offenseType"
-              value={FormData.criminalOffenseDetails.offenseType}
-              onChange={inputChange}
+              value={RecordFormData.criminalOffenseDetails.offenseType}
+              onChange={handleInputChange}
             />
           </FormControl>
           <FormControl fullWidth sx={{ m: "10px 10px 0 10px" }}>
             <DatePicker
               label="Offense Date"
               name="date"
-              value={FormData.criminalOffenseDetails.date}
-              onChange={dateInputChange}
+              value={RecordFormData.criminalOffenseDetails.date}
+              onChange={handleDateChange}
               slotProps={TextField}
             />
           </FormControl>
@@ -45,8 +66,8 @@ const criminalOffenseDetails = () => {
           variant="standard"
           label="Location"
           name="location"
-          value={FormData.criminalOffenseDetails.location}
-          onChange={inputChange}
+          value={RecordFormData.criminalOffenseDetails.location}
+          onChange={handleInputChange}
         />
       </FormControl>
       <FormControl fullWidth sx={{ m: "10px" }}>
@@ -56,8 +77,8 @@ const criminalOffenseDetails = () => {
           type="text"
           label="Victim Details"
           name="victimDetails"
-          value={FormData.criminalOffenseDetails.victimDetails}
-          onChange={inputChange}
+          value={RecordFormData.criminalOffenseDetails.victimDetails}
+          onChange={handleInputChange}
         />
       </FormControl>
       <FormControl fullWidth sx={{ m: "10px" }}>
@@ -66,8 +87,8 @@ const criminalOffenseDetails = () => {
           variant="standard"
           label="Additional Details"
           name="additionalDetails"
-          value={FormData.criminalOffenseDetails.additionalDetails}
-          onChange={inputChange}
+          value={RecordFormData.criminalOffenseDetails.additionalDetails}
+          onChange={handleInputChange}
         />
       </FormControl>
     </LocalizationProvider>

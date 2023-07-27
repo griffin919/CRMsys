@@ -6,8 +6,29 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { AddRecordFormContext } from "./formContextApi";
 
 const sentencingAndCorrectionalRecords = () => {
-  const { inputChange, dateInputChange, FormData } =
+  const { RecordFormData, setRecordFormData } =
     useContext(AddRecordFormContext);
+
+  const handleInputChange = (e) => {
+    const { value, name } = e.target;
+    setRecordFormData((prevState) => ({
+      ...prevState, // Shallow copy of the previous state
+      sentencingAndCorrectionalRecords: {
+        ...prevState.sentencingAndCorrectionalRecords, // Shallow copy of the previous sentencingAndCorrectionalRecords
+        [name]: value, // Update the specific property of sentencingAndCorrectionalRecords
+      },
+    }));
+  };
+
+  const handleDateChange = (date) => {
+    setRecordFormData((prevState) => ({
+      ...prevState,
+      sentencingAndCorrectionalRecords: {
+        ...prevState.sentencingAndCorrectionalRecords,
+        arrestDateTimedate: date,
+      },
+    }));
+  };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -21,8 +42,10 @@ const sentencingAndCorrectionalRecords = () => {
             <DatePicker
               label="Release Date"
               name="releaseDate"
-              value={FormData.sentencingAndCorrectionalRecords.releaseDate}
-              onChange={dateInputChange}
+              value={
+                RecordFormData.sentencingAndCorrectionalRecords.releaseDate
+              }
+              onChange={handleDateChange}
               slotProps={TextField}
             />
           </FormControl>
@@ -33,8 +56,10 @@ const sentencingAndCorrectionalRecords = () => {
               variant="standard"
               label="Sentence Type"
               name="sentenceType"
-              value={FormData.sentencingAndCorrectionalRecords.sentenceType}
-              onChange={inputChange}
+              value={
+                RecordFormData.sentencingAndCorrectionalRecords.sentenceType
+              }
+              onChange={handleInputChange}
             />
           </FormControl>
         </Box>
@@ -45,8 +70,8 @@ const sentencingAndCorrectionalRecords = () => {
               variant="standard"
               label="Duration of Sentence"
               name="duration"
-              value={FormData.sentencingAndCorrectionalRecords.duration}
-              onChange={inputChange}
+              value={RecordFormData.sentencingAndCorrectionalRecords.duration}
+              onChange={handleInputChange}
             />
           </FormControl>
           <FormControl fullWidth sx={{ m: "10px" }}>
@@ -57,10 +82,10 @@ const sentencingAndCorrectionalRecords = () => {
               label="Porole/Probation Conditions"
               name="paroleOrProbationConditions"
               value={
-                FormData.sentencingAndCorrectionalRecords
+                RecordFormData.sentencingAndCorrectionalRecords
                   .paroleOrProbationConditions
               }
-              onChange={inputChange}
+              onChange={handleInputChange}
             />
           </FormControl>
         </Box>
@@ -71,8 +96,10 @@ const sentencingAndCorrectionalRecords = () => {
           variant="standard"
           label="Correction Facility?"
           name="CorrectionFacility"
-          value={FormData.sentencingAndCorrectionalRecords.CorrectionFacility}
-          onChange={inputChange}
+          value={
+            RecordFormData.sentencingAndCorrectionalRecords.CorrectionFacility
+          }
+          onChange={handleInputChange}
         />
       </FormControl>
       <FormControl fullWidth sx={{ m: "10px" }}>
@@ -82,9 +109,10 @@ const sentencingAndCorrectionalRecords = () => {
           name="sentenceModifications"
           label="Sentence Modification"
           value={
-            FormData.sentencingAndCorrectionalRecords.sentenceModifications
+            RecordFormData.sentencingAndCorrectionalRecords
+              .sentenceModifications
           }
-          onChange={inputChange}
+          onChange={handleInputChange}
         />
       </FormControl>
     </LocalizationProvider>

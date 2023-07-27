@@ -1,21 +1,13 @@
-import { useEffect, useState } from "react";
 import { useGetRecordsQuery } from "../user/userApiSlice";
 import { saveAllRecords, saveClickedRecordID } from "./OffenderSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { useGetSingleRecordQuery } from "../user/userApiSlice";
 import { useNavigate } from "react-router-dom/dist/umd/react-router-dom.development";
-
 const OffenderQueryScreen = () => {
   const navigate = useNavigate();
 
-  const {
-    data: ofdrRecords,
-    isSuccess,
-    isLoading,
-    error,
-  } = useGetRecordsQuery(); // Destructure the data from the query hook
+  const { data, isSuccess, isLoading, error } = useGetRecordsQuery(); // Destructure the data from the query hook
 
   const handleCellDoubleClick = (params) => {
     console.log("id", params.row.id);
@@ -23,10 +15,11 @@ const OffenderQueryScreen = () => {
 
     navigate("/records/record");
   };
-
+  console.log("data", data);
   const dispatch = useDispatch();
 
   const records = useSelector((state) => state.offenderRecords.records);
+  console.log("records", records);
 
   if (isLoading && records == null) {
     return (
@@ -35,9 +28,9 @@ const OffenderQueryScreen = () => {
       </div>
     );
   } else if (isSuccess) {
-    if (records == null) {
+    if (records == null || records == []) {
       // Dispatch the saveAllRecords action only if records are not yet saved in Redux
-      dispatch(saveAllRecords(ofdrRecords));
+      dispatch(saveAllRecords(data));
     }
   } else if (error && records == null) {
     return (
@@ -51,6 +44,7 @@ const OffenderQueryScreen = () => {
   const columns = [
     { field: "name", headerName: "Name" },
     { field: "gender", headerName: "Gender" },
+    { field: "contactInformation1", headerName: "Contact" },
     { field: "convicted", headerName: "Convicted" },
   ];
 
@@ -60,6 +54,7 @@ const OffenderQueryScreen = () => {
     id: record._id,
     name: `${record.personalInformation.fname} ${record.personalInformation.lname}`,
     gender: record.personalInformation.gender,
+    contactInformation1: record.personalInformation.contactInformation1,
     convicted: record.chargeAndConvictionHistory.convicted,
   }));
 

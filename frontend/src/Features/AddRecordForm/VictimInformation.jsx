@@ -3,8 +3,19 @@ import React, { useContext } from "react";
 import { AddRecordFormContext } from "./formContextApi";
 
 const victimInformation = () => {
-  const { inputChange, dateInputChange, FormData } =
+  const { RecordFormData, setRecordFormData } =
     useContext(AddRecordFormContext);
+
+  const handleInputChange = (e) => {
+    const { value, name } = e.target;
+    setRecordFormData((prevState) => ({
+      ...prevState, // Shallow copy of the previous state
+      victimInformation: {
+        ...prevState.victimInformation, // Shallow copy of the previous victimInformation
+        [name]: value, // Update the specific property of victimInformation
+      },
+    }));
+  };
 
   return (
     <Box>
@@ -18,8 +29,8 @@ const victimInformation = () => {
             variant="standard"
             label="Victim Name"
             name="name"
-            value={FormData.victimInformation.name}
-            onChange={inputChange}
+            value={RecordFormData.victimInformation.name}
+            onChange={handleInputChange}
           />
         </FormControl>
         <FormControl fullWidth sx={{ m: "10px" }}>
@@ -29,8 +40,8 @@ const victimInformation = () => {
             type="text"
             label="Victim Details"
             name="victimDetails"
-            value={FormData.victimInformation.victimDetails}
-            onChange={inputChange}
+            value={RecordFormData.victimInformation.victimDetails}
+            onChange={handleInputChange}
           />
         </FormControl>
       </Box>
@@ -41,8 +52,8 @@ const victimInformation = () => {
           variant="standard"
           label="Victim Support Services"
           name="victimSupportServices"
-          value={FormData.victimInformation.victimSupportServices}
-          onChange={inputChange}
+          value={RecordFormData.victimInformation.victimSupportServices}
+          onChange={handleInputChange}
         />
       </FormControl>
     </Box>
