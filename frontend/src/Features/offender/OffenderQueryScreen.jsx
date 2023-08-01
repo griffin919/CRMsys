@@ -12,6 +12,10 @@ const OffenderQueryScreen = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(saveClickedRecordID(null));
+  });
+
   // Destructure the data from the query hook
   const { data, isSuccess, isLoading, error } = useGetRecordsQuery(
     {},
@@ -19,6 +23,8 @@ const OffenderQueryScreen = () => {
   );
 
   //save click column/record id
+  //and setProfileActive to true so when can clear recordID -
+  //from global state anytime we return home
   const handleCellDoubleClick = (params) => {
     dispatch(saveClickedRecordID(params.row.id));
     navigate("/record");
@@ -91,19 +97,21 @@ const OffenderQueryScreen = () => {
         width: "100%",
       }}
     >
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        sx={{ border: "none" }}
-        initialState={{
-          pagination: {
-            paginationModel: { page: 0, pageSize: 10 },
-          },
-        }}
-        getRowId={(row) => row.id}
-        pageSizeOptions={[10, 20]}
-        onCellDoubleClick={handleCellDoubleClick}
-      />
+      <div>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          sx={{ border: "none", cursor: "pointer" }}
+          initialState={{
+            pagination: {
+              paginationModel: { page: 0, pageSize: 10 },
+            },
+          }}
+          getRowId={(row) => row.id}
+          pageSizeOptions={[10, 20]}
+          onCellDoubleClick={handleCellDoubleClick}
+        />
+      </div>
     </div>
   );
 };

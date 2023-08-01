@@ -12,7 +12,6 @@ import {
   useTheme,
   AppBar,
   IconButton,
-  InputBase,
   Toolbar,
   Typography,
   Box,
@@ -66,11 +65,16 @@ const NavBar = () => {
         {/* LEFT SIDE */}
         <FlexBetween>
           <Box onClick={() => navigate("/dashboard")}>
-            <IconButton onClick={() => navigate("/dashboard")}>
-              <HomeIcon />
-            </IconButton>
-            <Link variant="h6" sx={{ fontWeight: "bold", cursor: "pointer" }}>
-              ONRECORD
+            <Link
+              variant="h6"
+              sx={{
+                fontWeight: "bold",
+                color: `${theme.palette.background.alt}`,
+                cursor: "pointer",
+                textDecoration: "none",
+              }}
+            >
+              OnRECORD
             </Link>
           </Box>
         </FlexBetween>
@@ -78,6 +82,9 @@ const NavBar = () => {
         <></>
         {/* RIGHT SIDE */}
         <FlexBetween>
+          <IconButton size="medium" onClick={() => navigate("/dashboard")}>
+            <HomeIcon />
+          </IconButton>
           <IconButton onClick={changeMode}>
             {currentMode === "light" ? (
               <DarkModeOutlined />
@@ -96,10 +103,10 @@ const NavBar = () => {
               ""
             )}
           </Box>
-          <IconButton onClick={handleLogout}>
-            <LogoutSharp />
-          </IconButton>
-          <Link onClick={handleLogout} sx={{ cursor: "pointer" }}>
+          <Link
+            onClick={handleLogout}
+            sx={{ cursor: "pointer", textDecoration: "none" }}
+          >
             Logout
           </Link>
         </FlexBetween>

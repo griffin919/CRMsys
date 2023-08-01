@@ -5,7 +5,12 @@ import upload from '../utils/multer.js';
 //modules
 import { registerUser, getUser, getAllUser, loginUser, updateUserByAdmin, updateUserByUser,deleteUser, logoutUser } from '../controllers/userController.js';
 import { protect, adminAuth} from '../middleware/authTokenMidware.js';
-import { addOffender, getOffenderProfile, updateOffenderInfo, getOffenderinfo, deleteOffenderinfo } from '../controllers/offenderController.js';
+import { addOffender, 
+    getOffenderProfile,
+    // getImage,
+    updateOffenderInfo,
+     getOffenderinfo,
+     deleteOffenderinfo } from '../controllers/offenderController.js';
 
 //mounts
 const apiRouter = express.Router();
@@ -49,6 +54,7 @@ apiRouter.route('/user/profile/:id')
 //access    Protected/admin
 apiRouter.route('/user/users')
 .get(protect, adminAuth, getAllUser)
+
 
 // OFFENDER Routes
 //=====================================

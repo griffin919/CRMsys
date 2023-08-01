@@ -3,7 +3,6 @@ import expressAsyncHandler from "express-async-handler";
 import Offender from "../models/offenderModel.js";
 
 const addOffender = expressAsyncHandler( async (req, res, next) => {
-    // console.log('req.body', req.body)
     console.log('req.file', req.file)
 
     const formTextData = req.body ;
@@ -38,11 +37,6 @@ const addOffender = expressAsyncHandler( async (req, res, next) => {
 });
 
 const updateOffenderInfo = expressAsyncHandler( async (req, res, next) => {
-    // console.log('req.body in update', req.body.data)
-    // console.log('req.body.data type: ', typeof(req.body.data));
-    // console.log('req.file in update', req.file)
-    // console.log('req: ', req);
-
        const formTextData = req.body ;
        const formFileData = req.file;
        
@@ -51,7 +45,6 @@ const updateOffenderInfo = expressAsyncHandler( async (req, res, next) => {
            parsedData[key] = JSON.parse(formTextData[key]);
         }
         
-    //     console.log('formFileData: ', formFileData);
        const fullOffenderData =  formFileData
        ? {
            ...parsedData,
@@ -103,6 +96,11 @@ const deleteOffenderinfo = expressAsyncHandler( async (req, res, next) => {
     }
 });
 
+
 export {
-    addOffender,getOffenderinfo,deleteOffenderinfo, getOffenderProfile,updateOffenderInfo
+    addOffender,
+    getOffenderinfo,
+    deleteOffenderinfo, 
+    getOffenderProfile,
+    updateOffenderInfo,
 }

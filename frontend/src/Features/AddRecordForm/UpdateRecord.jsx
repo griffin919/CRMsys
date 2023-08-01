@@ -64,12 +64,11 @@ export default function UpdateRecord() {
     //     recordToUpdate
     //   );
 
-    console.log("recordToUpdate", recordToUpdate);
+    // console.log("recordToUpdate", recordToUpdate);
 
-    //   console.log("updatedRecord", updatedRecord);
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    if (uploadedPhoto) {
+      recordToUpdate.photo = uploadedPhoto;
+    }
     e.preventDefault();
     updateRecord({ id: recordID, data: recordToUpdate })
       .then(() => console.log("Update sent"))
@@ -195,7 +194,7 @@ export default function UpdateRecord() {
         {step > 0 && (
           <Button
             type="button"
-            variant="outlined"
+            variant="contained"
             size="large"
             onClick={handlePreviousStep}
           >
@@ -205,7 +204,7 @@ export default function UpdateRecord() {
         {step < 8 && (
           <Button
             type="button"
-            variant="outlined"
+            variant="contained"
             size="large"
             onClick={handleNextStep}
           >
@@ -215,7 +214,7 @@ export default function UpdateRecord() {
       </Box>
       <Button
         type="submit"
-        variant="outlined"
+        variant="contained"
         size="large"
         onClick={handleUpdate}
       >

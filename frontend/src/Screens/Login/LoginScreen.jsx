@@ -103,7 +103,7 @@ const LoginScreen = () => {
                   <Button
                     sx={{ marginTop: "10px" }}
                     type="submit"
-                    variant="text"
+                    variant="contained"
                     size="large"
                     color="secondary"
                     endIcon={<SendIcon />}

@@ -40,10 +40,22 @@ const OffenderProfile = () => {
   };
 
   return (
-    <div>
-      <ConfirmInput formData={ClickedRecord[0]} photo={""} />
-      <Button onClick={() => navigate("/record/update")}>Update</Button>
-      <Button onClick={handleDeleteRecord}>Delete</Button>
+    <div
+      style={{
+        width: "100%",
+        display: "flex",
+        justifyContent: "center",
+      }}
+    >
+      <div style={{ width: "70%" }}>
+        <ConfirmInput formData={ClickedRecord[0]} photo={""} />
+        <Button variant="contained" onClick={() => navigate("/record/update")}>
+          Update
+        </Button>
+        <Button variant="contained" onClick={handleDeleteRecord}>
+          Delete
+        </Button>
+      </div>
     </div>
   );
 };

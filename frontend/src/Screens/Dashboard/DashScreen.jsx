@@ -1,22 +1,19 @@
+import React, { useEffect, useState } from "react";
 import {
   InputBase,
   Box,
   useTheme,
   IconButton,
-  Typography,
   Link,
-  TextField,
+  Grid,
 } from "@mui/material";
 import { Search } from "@mui/icons-material";
 import AddIcon from "@mui/icons-material/Add";
 import FlexBetween from "../../components/FlexBetween";
-import RecordsScreen from "../../Features/AddRecordForm/AddRecord";
 import { useNavigate } from "react-router-dom";
 import OffenderQueryScreen from "../../Features/offender/OffenderQueryScreen";
-import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { saveSearchResults } from "../../Features/offender/OffenderSlice";
-import { useGetRecordsQuery } from "../../Features/user/userApiSlice";
 
 const DashScreen = () => {
   const navigate = useNavigate();
@@ -35,7 +32,7 @@ const DashScreen = () => {
           record.personalInformation.lname.toLowerCase() ==
             searchVal.toLowerCase()
       );
-      if (filteredRecords && filteredRecords !== []) {
+      if (filteredRecords && filteredRecords != []) {
         dispatch(saveSearchResults(filteredRecords));
       }
     }
@@ -43,44 +40,54 @@ const DashScreen = () => {
 
   const theme = useTheme();
   return (
-    <Box display="flex" flexDirection="column" alignItems="center">
-      <Box
-        display="flex"
-        alignItems="start"
-        justifyContent="center"
-        sx={{ mb: "30px" }}
-      >
-        <FlexBetween
-          backgroundColor={theme.palette.background.alt}
-          borderRadius="20px"
-          p="0.1rem 1rem"
-          gap="3rem"
-        >
-          <InputBase
-            placeholder="Search record..."
-            sx={{ border: "none" }}
-            onChange={handleSearch}
-          />
-          <IconButton>
-            <Search />
-          </IconButton>
-        </FlexBetween>
-        <FlexBetween m="0px 50px ">
-          <Link
-            href=""
-            onClick={() => navigate("/record/add")}
-            underline="none"
+    <Box>
+      <Grid container>
+        <Grid item md={12} sx={{ mb: "20px" }}>
+          <div
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            flexDirection="column"
+            style={{ mb: "30px", textAlign: "center" }}
           >
-            Add Record
-          </Link>
-          <IconButton onClick={() => navigate("/record/add")}>
-            <AddIcon />
-          </IconButton>
-        </FlexBetween>
-      </Box>
-      <Box>
-        <OffenderQueryScreen />
-      </Box>
+            <div
+              style={{
+                backgroundColor: `${theme.palette.background.paper}`,
+                padding: "7px 20px",
+                marginRight: "30px",
+                borderRadius: "30px",
+                display: "inline",
+              }}
+            >
+              <InputBase
+                placeholder="Search record..."
+                onChange={handleSearch}
+              />
+              <IconButton>
+                <Search />
+              </IconButton>
+              {/* <FlexBetween m="0px 50px "> */}
+            </div>
+            <div style={{ display: "inline" }}>
+              <Link
+                href=""
+                onClick={() => navigate("/record/add")}
+                underline="none"
+                sx={{ color: `${theme.palette.background.alt}` }}
+                gap="20px"
+              >
+                Add Record
+              </Link>
+              <IconButton onClick={() => navigate("/record/add")}>
+                <AddIcon />
+              </IconButton>
+            </div>
+          </div>
+        </Grid>
+        <Grid item md={12}>
+          <OffenderQueryScreen />
+        </Grid>
+      </Grid>
     </Box>
   );
 };

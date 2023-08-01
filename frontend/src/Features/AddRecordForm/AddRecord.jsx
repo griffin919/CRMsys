@@ -17,11 +17,12 @@ import WarrantsAndAlerts from "./WarrantsAndAlerts";
 import { useAddRecordMutation, useGetRecordsQuery } from "../user/userApiSlice";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom/dist/umd/react-router-dom.development";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export default function AddRecord() {
   const [step, setStep] = useState(0);
   const [uploadedPhoto, setuploadedPhoto] = useState(null);
-  const [RecordFormData, setRecordFormData] = useState({
+  const initialOffenderState = {
     personalInformation: {
       fname: "",
       lname: "",
@@ -96,7 +97,10 @@ export default function AddRecord() {
         victimSupportServices: "",
       },
     ],
-  });
+  };
+
+  const [RecordFormData, setRecordFormData] = useState(initialOffenderState);
+
   const { refetch: refetchOnDelete } = useGetRecordsQuery();
   const navigate = useNavigate();
 
@@ -104,21 +108,18 @@ export default function AddRecord() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (uploadedPhoto) {
+      RecordFormData.photo = uploadedPhoto;
+    }
+
     addRecord(RecordFormData)
-      .then(() => refetchOnDelete())
+      .then(() => {
+        refetchOnDelete();
+        setRecordFormData(initialOffenderState);
+        setuploadedPhoto(null);
+      })
       .then(() => navigate("/record/add"))
       .catch((err) => console.log("Something went wrong ", err));
-    // try {
-    //   if (uploadedPhoto) {
-    //     RecordFormData.photo = uploadedPhoto;
-    //   }
-    //   // console.log("AddRecord", RecordFormData);
-    //   const Record = await addRecord(RecordFormData);
-    //   refetchOnDelete();
-    //   navigate("/record/add");
-    // } catch (error) {
-    //   console.log(error);
-    // }
   };
 
   const handleNextStep = () => {
@@ -253,7 +254,7 @@ export default function AddRecord() {
           {step > 0 && (
             <Button
               type="button"
-              variant="outlined"
+              variant="contained"
               size="large"
               onClick={handlePreviousStep}
             >
@@ -263,9 +264,10 @@ export default function AddRecord() {
           {step < 8 && (
             <Button
               type="button"
-              variant="outlined"
+              variant="contained"
               size="large"
-              onClick={handleNextStep}
+              onClick={handleNextStep && <CircularProgress />}
+              sx={{ m: "0 10px" }}
             >
               Next
             </Button>
