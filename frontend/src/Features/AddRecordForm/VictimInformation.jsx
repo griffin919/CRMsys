@@ -1,19 +1,16 @@
 import { Box, FormControl, TextField, Typography, Button } from "@mui/material";
-import React, { useContext } from "react";
-import { AddRecordFormContext } from "./formContextApi";
 
-const victimInformation = () => {
-  const { RecordFormData, setRecordFormData } =
-    useContext(AddRecordFormContext);
+const victimInformation = ({ formData, setForm }) => {
+  const { victimInformation } = formData;
 
-  const handleInputChange = (e) => {
-    const { value, name } = e.target;
-    setRecordFormData((prevState) => ({
-      ...prevState, // Shallow copy of the previous state
-      victimInformation: {
-        ...prevState.victimInformation, // Shallow copy of the previous victimInformation
-        [name]: value, // Update the specific property of victimInformation
-      },
+  let index = 0;
+
+  const handleInputChange = (index, key, value) => {
+    setForm((prevData) => ({
+      ...prevData,
+      victimInformation: prevData.victimInformation.map((record, i) =>
+        i === index ? { ...record, [key]: value } : record
+      ),
     }));
   };
 
@@ -29,8 +26,8 @@ const victimInformation = () => {
             variant="standard"
             label="Victim Name"
             name="name"
-            value={RecordFormData.victimInformation.name}
-            onChange={handleInputChange}
+            value={victimInformation[index].name}
+            onChange={(e) => handleInputChange(index, "name", e.target.value)}
           />
         </FormControl>
         <FormControl fullWidth sx={{ m: "10px" }}>
@@ -40,8 +37,10 @@ const victimInformation = () => {
             type="text"
             label="Victim Details"
             name="victimDetails"
-            value={RecordFormData.victimInformation.victimDetails}
-            onChange={handleInputChange}
+            value={victimInformation[index].victimDetails}
+            onChange={(e) =>
+              handleInputChange(index, "victimDetails", e.target.value)
+            }
           />
         </FormControl>
       </Box>
@@ -52,8 +51,10 @@ const victimInformation = () => {
           variant="standard"
           label="Victim Support Services"
           name="victimSupportServices"
-          value={RecordFormData.victimInformation.victimSupportServices}
-          onChange={handleInputChange}
+          value={victimInformation[index].victimSupportServices}
+          onChange={(e) =>
+            handleInputChange(index, "victimSupportServices", e.target.value)
+          }
         />
       </FormControl>
     </Box>

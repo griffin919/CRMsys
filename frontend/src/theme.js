@@ -2,42 +2,45 @@ import { createTheme } from '@mui/material/styles';
 import { light } from "@mui/material/styles/createPalette";
 
 export const DarkShades = {
+ 
     //darkblue
     darkblue: {
-        100: "#cdd0d6",
-        200: "#9ca1ac",
-        300: "#6a7183",
-        400: "#394259",
-        500: "#071330",
-        600: "#060f26",
-        700: "#040b1d",
-        800: "#030813",
-        900: "#01040a"
+          100: "#cccdcd",
+          200: "#9a9a9a",
+          300: "#676868",
+          400: "#353535",
+          500: "#020303",
+          600: "#020202",
+          700: "#010202",
+          800: "#010101",
+          900: "#000101"
     },
     //midnight blue
+  
     primary: {
-        100: "#ced9df",
-        200: "#9eb3bf",
-        300: "#6d8da0",
-        400: "#3d6780",
-        500: "#0c4160",
-        600: "#0a344d",
-        700: "#07273a",
-        800: "#051a26",
-        900: "#020d13"
+        100: "#cfcfcf",
+        200: "#9fa0a0",
+        300: "#6e7070",
+        400: "#3e4141",
+        500: "#0e1111",
+        600: "#0b0e0e",
+        700: "#080a0a",
+        800: "#060707",
+        900: "#030303"
     },
     //misty blue
     secondary: {
-        100: "#f3f5f8",
-        200: "#e7ebf0",
-        300: "#dbe2e9",
-        400: "#cfd8e1",
-        500: "#c3ceda",
-        600: "#9ca5ae",
-        700: "#757c83",
-        800: "#4e5257",
-        900: "#27292c"
+        100: "#d1d2d2",
+        200: "#a3a5a5",
+        300: "#767979",
+        400: "#484c4c",
+        500: "#1a1f1f",
+        600: "#151919",
+        700: "#101313",
+        800: "#0a0c0c",
+        900: "#050606"
     },
+
 };
 
 
@@ -108,8 +111,8 @@ export const themeSettings = (mode) => {
             
         },
         typography: {
-            fontFamily: ["fauna one", "sans-serif"].join(","),
-            fontSize: 11,
+            fontFamily: ["Rubik", "sans-serif"].join(","),
+            fontSize: 13,
     
             h1: {
                 fontFamily: ["cenzil", "sans-serif"].join(","),

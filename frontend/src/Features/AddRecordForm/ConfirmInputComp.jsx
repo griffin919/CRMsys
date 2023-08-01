@@ -1,7 +1,6 @@
 import React from "react";
 import { Box, Button, Grid, Typography } from "@mui/material";
-import { AddRecordFormContext } from "./formContextApi";
-import { useContext } from "react";
+import dayjs from "dayjs";
 
 const ConfirmInput = ({ formData, photo }) => {
   const {
@@ -25,14 +24,20 @@ const ConfirmInput = ({ formData, photo }) => {
     );
   };
 
+  const formatDate = (date) => {
+    return date ? dayjs(date).format("DD-MM-YYYY") : null;
+  };
+
   const renderArrestRecords = (dataAtIndex) => {
+    const arrestDateTime = formatDate(dataAtIndex.arrestDateTime);
+
     return (
       <div>
         <div>
           <strong>Arrest Date/Time:</strong>{" "}
-          {dataAtIndex.arrestDateTime
-            ? dataAtIndex.arrestDateTime.toString()
-            : ""}
+          {arrestDateTime
+            ? dayjs(arrestDateTime).format("DD-MM-YYYYTHH:mm:ss A")
+            : null}
         </div>
         <div>
           <strong>Arrest Location:</strong> {dataAtIndex.arrestLocation}
@@ -57,21 +62,28 @@ const ConfirmInput = ({ formData, photo }) => {
   const renderChargeAndConvictionHistory = (dataAtIndex) => {
     return (
       <div>
-        {renderCol("Charge", dataAtIndex.charges)}
+        {renderCol("Charge", dataAtIndex.charge)}
         {renderCol("Offense Nature", dataAtIndex.offenseNature)}
         {renderCol("Court Case Number", dataAtIndex.courtCaseNumber)}
-        {renderCol("Date", dataAtIndex.date)}
+        {renderCol("Date", formatDate(dataAtIndex.ChargeDate))}
+        {/* {console.log(
+          "dataAtIndex.date",
+          dataAtIndex.date.toString(),
+          "formatDate(dataAtIndex.date)",
+          formatDate(dataAtIndex.date)
+        )} */}
         {renderCol("Convicted", dataAtIndex.convicted)}
         {renderCol("Sentencing Details", dataAtIndex.sentencingDetails)}
       </div>
     );
   };
+
   const renderSentencingAndCorrectionalRecords = (dataAtIndex) => {
     return (
       <div>
         {renderCol("Sentence Type", dataAtIndex.sentenceType)}
         {renderCol("Duration", dataAtIndex.duration)}
-        {renderCol("Release Date", dataAtIndex.releaseDate)}
+        {renderCol("Release Date", formatDate(dataAtIndex.releaseDate))}
         {renderCol(
           "Parole Or Probation Conditions",
           dataAtIndex.paroleOrProbationConditions
@@ -83,21 +95,24 @@ const ConfirmInput = ({ formData, photo }) => {
   };
 
   const renderCriminalOffenseDetails = (dataAtIndex) => {
+    const date = formatDate(dataAtIndex.date);
+
     return (
       <div>
         {renderCol("Offense Type", dataAtIndex.offenseType)}
-        {renderCol("Date", dataAtIndex.date)}
+        {renderCol("Date", formatDate(dataAtIndex.date))}
         {renderCol("Location", dataAtIndex.location)}
         {renderCol("Victim Details", dataAtIndex.victimDetails)}
         {renderCol("Additional Details", dataAtIndex.additionalDetails)}
       </div>
     );
   };
+
   const renderCourtRecords = (dataAtIndex) => {
     return (
       <div>
-        {renderCol("Court Appearance", dataAtIndex.courtAppearance)}
-        {renderCol("Hearing Date", dataAtIndex.hearingDate)}
+        {renderCol("Court Appearance", formatDate(dataAtIndex.courtAppearance))}
+        {renderCol("Hearing Date", formatDate(dataAtIndex.hearingDate))}
         {renderCol("Court Order", dataAtIndex.courtOrder)}
         {renderCol("Case Summary", dataAtIndex.caseSummary)}
         {renderCol("Legal Documents", dataAtIndex.legalDocuments)}
@@ -116,12 +131,26 @@ const ConfirmInput = ({ formData, photo }) => {
     return (
       <div>
         {renderCol("Victim Name", dataAtIndex.name)}
-        {renderCol("Contact Details", dataAtIndex.contactDetails)}
+        {renderCol("Victim Details", dataAtIndex.victimDetails)}
         {renderCol(
           "Victim Support Services",
           dataAtIndex.victimSupportServices
         )}
       </div>
+    );
+  };
+
+  const renderSection = (title, name, renderFuncRef) => {
+    return (
+      <React.Fragment>
+        <Typography variant="h6">{title}</Typography>
+        {Object.entries(name).map(([index, data]) => (
+          <React.Fragment key={index}>
+            <Typography>Record: {parseInt(index) + 1}</Typography>
+            {renderFuncRef(data)}
+          </React.Fragment>
+        ))}
+      </React.Fragment>
     );
   };
 
@@ -140,7 +169,7 @@ const ConfirmInput = ({ formData, photo }) => {
           </div>
           <div>
             <strong>Date of Birth:</strong>{" "}
-            {personalInformation.dateOfBirth.toString()}
+            {formatDate(personalInformation.dateOfBirth)}
           </div>
           <div>
             <strong>ID Type:</strong> {personalInformation.IDtype}
@@ -165,92 +194,71 @@ const ConfirmInput = ({ formData, photo }) => {
           </div>
         </Grid>
         <Grid item md={6}>
-          {photo && (
-            <img src={URL.createObjectURL(photo)} alt="Offender Photo" />
-          )}
+          <div>
+            {photo && (
+              <img
+                style={{ width: "200px" }}
+                src={URL.createObjectURL(photo)}
+                alt="Offender Photo"
+              />
+            )}
+          </div>
         </Grid>
         <Grid container spacing={2} mt="10px">
           <Grid item md={6}>
-            <Typography variant="h6">Arrest Record</Typography>
-            {Object.entries(arrestRecords).map(([index, data]) => (
-              <React.Fragment key={index}>
-                <Typography>Record: {parseInt(index) + 1}</Typography>
-                {renderArrestRecords(data)}
-              </React.Fragment>
-            ))}
+            {renderSection("Arrest Record", arrestRecords, renderArrestRecords)}
           </Grid>
           <Grid item md={6}>
-            <Typography variant="h6">Charge And Conviction History</Typography>
-            {Object.entries(chargeAndConvictionHistory).map(([index, data]) => (
-              <React.Fragment key={index}>
-                <Typography>Record: {parseInt(index) + 1}</Typography>
-                {renderChargeAndConvictionHistory(data)}
-              </React.Fragment>
-            ))}
+            {renderSection(
+              "Charge And Conviction History",
+              chargeAndConvictionHistory,
+              renderChargeAndConvictionHistory
+            )}
           </Grid>
         </Grid>
         <Grid container spacing={2} mt="10px">
           <Grid item md={6}>
-            <Typography variant="h6">
-              Sentencing And Correctional Records
-            </Typography>
-
-            {Object.entries(sentencingAndCorrectionalRecords).map(
-              ([index, data]) => (
-                <React.Fragment key={index}>
-                  <Typography>Record: {parseInt(index) + 1}</Typography>
-                  {renderSentencingAndCorrectionalRecords(data)}
-                </React.Fragment>
-              )
+            {renderSection(
+              "Sentencing And Correctional Records",
+              sentencingAndCorrectionalRecords,
+              renderSentencingAndCorrectionalRecords
             )}
           </Grid>
           <Grid item md={6}>
-            <Typography variant="h6">Criminal Offense Details</Typography>
-            {Object.entries(criminalOffenseDetails).map(([index, data]) => (
-              <React.Fragment key={index}>
-                <Typography>Record: {parseInt(index) + 1}</Typography>
-                {renderSentencingAndCorrectionalRecords(data)}
-              </React.Fragment>
-            ))}
+            {renderSection(
+              "Criminal Offense Details",
+              criminalOffenseDetails,
+              renderCriminalOffenseDetails
+            )}
           </Grid>
         </Grid>
         <Grid container spacing={2} mt="10px">
           <Grid item md={6}>
-            <Typography variant="h6">Court Records</Typography>
-
-            {Object.entries(courtRecords).map(([index, data]) => (
-              <React.Fragment key={index}>
-                <Typography>Record: {parseInt(index) + 1}</Typography>
-                {renderCourtRecords(data)}
-              </React.Fragment>
-            ))}
+            {renderSection("Court Records", courtRecords, renderCourtRecords)}
           </Grid>
           <Grid item md={6}>
-            <Typography variant="h6">Warrants And Alerts</Typography>
-            {Object.entries(warrantsAndAlerts).map(([index, data]) => (
-              <React.Fragment key={index}>
-                <Typography>Record: {parseInt(index) + 1}</Typography>
-                {renderWarrantsAndAlerts(data)}
-              </React.Fragment>
-            ))}
+            {renderSection(
+              "Warrants And Alerts",
+              warrantsAndAlerts,
+              renderWarrantsAndAlerts
+            )}
           </Grid>
         </Grid>
         <Grid container spacing={2} mt="10px">
           <Grid item md={6}>
-            <Typography variant="h6">Victim Information</Typography>
-            {Object.entries(victimInformation).map(([index, data]) => (
-              <React.Fragment key={index}>
-                <Typography>Record: {parseInt(index) + 1}</Typography>
-                {renderVictimInformation(data)}
-              </React.Fragment>
-            ))}
+            {renderSection(
+              "Victim Information",
+              victimInformation,
+              renderVictimInformation
+            )}
+          </Grid>
+          <Grid item md={6}>
+            <Button type="submit" variant="contained" color="primary">
+              Submit
+            </Button>
           </Grid>
         </Grid>
       </Grid>
-
-      <Button type="submit" variant="contained" color="primary">
-        Submit
-      </Button>
     </Box>
   );
 };

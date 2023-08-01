@@ -3,30 +3,30 @@ import React, { useContext } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
 import { LocalizationProvider, DateTimePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { AddRecordFormContext } from "./formContextApi";
+import dayjs from "dayjs";
 
-const criminalOffenseDetails = () => {
-  const { RecordFormData, setRecordFormData } =
-    useContext(AddRecordFormContext);
+const CriminalOffenseDetails = ({ formData, setForm }) => {
+  const { criminalOffenseDetails } = formData;
 
-  const handleInputChange = (e) => {
-    const { value, name } = e.target;
-    setRecordFormData((prevState) => ({
-      ...prevState, // Shallow copy of the previous state
-      criminalOffenseDetails: {
-        ...prevState.criminalOffenseDetails, // Shallow copy of the previous criminalOffenseDetails
-        [name]: value, // Update the specific property of criminalOffenseDetails
-      },
+  console.log("criminalOffenseDetails", criminalOffenseDetails);
+
+  let index = 0;
+
+  const handleInputChange = (index, key, value) => {
+    setForm((prevData) => ({
+      ...prevData,
+      criminalOffenseDetails: prevData.criminalOffenseDetails.map((record, i) =>
+        i === index ? { ...record, [key]: value } : record
+      ),
     }));
   };
 
-  const handleDateChange = (date) => {
-    setRecordFormData((prevState) => ({
-      ...prevState,
-      criminalOffenseDetails: {
-        ...prevState.criminalOffenseDetails,
-        arrestDateTimedate: date,
-      },
+  const handleDateChange = (index, date) => {
+    setForm((prevData) => ({
+      ...prevData,
+      criminalOffenseDetails: prevData.criminalOffenseDetails.map((record, i) =>
+        i === index ? { ...record, date: date } : record
+      ),
     }));
   };
 
@@ -44,16 +44,18 @@ const criminalOffenseDetails = () => {
               variant="standard"
               label="Offense Type"
               name="offenseType"
-              value={RecordFormData.criminalOffenseDetails.offenseType}
-              onChange={handleInputChange}
+              value={criminalOffenseDetails.offenseType}
+              onChange={(e) =>
+                handleInputChange(index, "offenseType", e.target.value)
+              }
             />
           </FormControl>
           <FormControl fullWidth sx={{ m: "10px 10px 0 10px" }}>
             <DatePicker
               label="Offense Date"
               name="date"
-              value={RecordFormData.criminalOffenseDetails.date}
-              onChange={handleDateChange}
+              value={dayjs(criminalOffenseDetails[index].date)}
+              onChange={(date) => handleDateChange(index, date)}
               slotProps={TextField}
             />
           </FormControl>
@@ -66,8 +68,8 @@ const criminalOffenseDetails = () => {
           variant="standard"
           label="Location"
           name="location"
-          value={RecordFormData.criminalOffenseDetails.location}
-          onChange={handleInputChange}
+          value={criminalOffenseDetails[index].location}
+          onChange={(e) => handleInputChange(index, "location", e.target.value)}
         />
       </FormControl>
       <FormControl fullWidth sx={{ m: "10px" }}>
@@ -77,8 +79,10 @@ const criminalOffenseDetails = () => {
           type="text"
           label="Victim Details"
           name="victimDetails"
-          value={RecordFormData.criminalOffenseDetails.victimDetails}
-          onChange={handleInputChange}
+          value={criminalOffenseDetails[index].victimDetails}
+          onChange={(e) =>
+            handleInputChange(index, "victimDetails", e.target.value)
+          }
         />
       </FormControl>
       <FormControl fullWidth sx={{ m: "10px" }}>
@@ -87,12 +91,14 @@ const criminalOffenseDetails = () => {
           variant="standard"
           label="Additional Details"
           name="additionalDetails"
-          value={RecordFormData.criminalOffenseDetails.additionalDetails}
-          onChange={handleInputChange}
+          value={criminalOffenseDetails[index].additionalDetails}
+          onChange={(e) =>
+            handleInputChange(index, "additionalDetails", e.target.value)
+          }
         />
       </FormControl>
     </LocalizationProvider>
   );
 };
 
-export default criminalOffenseDetails;
+export default CriminalOffenseDetails;

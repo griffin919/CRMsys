@@ -1,37 +1,47 @@
 import { useGetRecordsQuery } from "../user/userApiSlice";
 import { saveAllRecords, saveClickedRecordID } from "./OffenderSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom/dist/umd/react-router-dom.development";
+import CircularProgress from "@mui/material/CircularProgress";
+import { useEffect, useState } from "react";
+import dayjs from "dayjs";
+
 const OffenderQueryScreen = () => {
   const navigate = useNavigate();
-
-  const { data, isSuccess, isLoading, error } = useGetRecordsQuery(); // Destructure the data from the query hook
-
-  const handleCellDoubleClick = (params) => {
-    console.log("id", params.row.id);
-    dispatch(saveClickedRecordID(params.row.id));
-
-    navigate("/records/record");
-  };
-  console.log("data", data);
   const dispatch = useDispatch();
 
+  // Destructure the data from the query hook
+  const { data, isSuccess, isLoading, error } = useGetRecordsQuery(
+    {},
+    { refetchOnMountOrArgChange: true }
+  );
+
+  //save click column/record id
+  const handleCellDoubleClick = (params) => {
+    dispatch(saveClickedRecordID(params.row.id));
+    navigate("/record");
+  };
+
   const records = useSelector((state) => state.offenderRecords.records);
-  console.log("records", records);
+
+  const searchResults = useSelector(
+    (state) => state.offenderRecords.searchResults
+  );
+  const [dataToRender, setDataToRender] = useState({ ...records });
 
   if (isLoading && records == null) {
     return (
       <div>
-        <Typography>Loading records...</Typography>
+        <Typography>
+          Loading records... <CircularProgress />
+        </Typography>
       </div>
     );
   } else if (isSuccess) {
-    if (records == null || records == []) {
-      // Dispatch the saveAllRecords action only if records are not yet saved in Redux
-      dispatch(saveAllRecords(data));
-    }
+    // Dispatch the saveAllRecords action only if records are not yet saved in Redux
+    dispatch(saveAllRecords(data));
   } else if (error && records == null) {
     return (
       <div>
@@ -41,28 +51,50 @@ const OffenderQueryScreen = () => {
     console.log(error);
   }
 
+  const renderedRecordObj =
+    searchResults && Object.values(searchResults).length > 0
+      ? searchResults
+      : records;
+  useEffect(() => {
+    setDataToRender(renderedRecordObj);
+  }, [renderedRecordObj]);
+
+  // console.log("renderedRecordObj: ", renderedRecordObj);
+
   const columns = [
-    { field: "name", headerName: "Name" },
-    { field: "gender", headerName: "Gender" },
-    { field: "contactInformation1", headerName: "Contact" },
-    { field: "convicted", headerName: "Convicted" },
+    { field: "name", headerName: "Name", minWidth: 200 },
+    { field: "gender", headerName: "Gender", minWidth: 100 },
+    { field: "dateOfBirth", headerName: "Date of Birth", minWidth: 150 },
+    { field: "contactInformation1", headerName: "Contact", minWidth: 150 },
+    { field: "offenseType", headerName: "Offense Type", minWidth: 200 },
+    { field: "convicted", headerName: "Convicted", minWidth: 100 },
   ];
 
-  //   const srecords = records;
-
-  const rows = records.map((record) => ({
+  const rows = Object.values(dataToRender).map((record) => ({
     id: record._id,
     name: `${record.personalInformation.fname} ${record.personalInformation.lname}`,
     gender: record.personalInformation.gender,
+    dateOfBirth: dayjs(record.personalInformation.dateOfBirth).format(
+      "YYYY-MM-DD"
+    ),
     contactInformation1: record.personalInformation.contactInformation1,
+    offenseType: record.personalInformation.offenseType,
     convicted: record.chargeAndConvictionHistory.convicted,
   }));
 
   return (
-    <div style={{ width: "100%" }}>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        width: "100%",
+      }}
+    >
       <DataGrid
         rows={rows}
         columns={columns}
+        sx={{ border: "none" }}
         initialState={{
           pagination: {
             paginationModel: { page: 0, pageSize: 10 },

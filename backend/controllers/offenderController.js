@@ -1,7 +1,6 @@
 //Packages
 import expressAsyncHandler from "express-async-handler";
 import Offender from "../models/offenderModel.js";
-import { response } from "express";
 
 const addOffender = expressAsyncHandler( async (req, res, next) => {
     // console.log('req.body', req.body)
@@ -15,9 +14,9 @@ const addOffender = expressAsyncHandler( async (req, res, next) => {
         parsedData[key] = JSON.parse(formTextData[key]);
     }
 
-    // console.log('parsed data', parsedData);
+    console.log('parsed data', parsedData);
 
-    const fullOffenderData =  parsedData
+    const fullOffenderData =  formFileData
     ? {
         ...parsedData,
         personalInformation: {
@@ -25,7 +24,7 @@ const addOffender = expressAsyncHandler( async (req, res, next) => {
           photo: formFileData.filename,
         },
       }
-    : formTextData
+    : parsedData
     
         try {
             const offenderData = await Offender.create(fullOffenderData)
@@ -39,7 +38,10 @@ const addOffender = expressAsyncHandler( async (req, res, next) => {
 });
 
 const updateOffenderInfo = expressAsyncHandler( async (req, res, next) => {
-       
+    // console.log('req.body in update', req.body.data)
+    // console.log('req.body.data type: ', typeof(req.body.data));
+    // console.log('req.file in update', req.file)
+    // console.log('req: ', req);
 
        const formTextData = req.body ;
        const formFileData = req.file;
@@ -47,11 +49,10 @@ const updateOffenderInfo = expressAsyncHandler( async (req, res, next) => {
        const parsedData = {};
        for (const key in formTextData) {
            parsedData[key] = JSON.parse(formTextData[key]);
-       }
-   
-       // console.log('parsed data', parsedData);
-   
-       const fullOffenderData =  parsedData
+        }
+        
+    //     console.log('formFileData: ', formFileData);
+       const fullOffenderData =  formFileData
        ? {
            ...parsedData,
            personalInformation: {
@@ -59,12 +60,13 @@ const updateOffenderInfo = expressAsyncHandler( async (req, res, next) => {
              photo: formFileData.filename,
            },
          }
-       : formTextData
-       
+       : parsedData
+
            try {
-               const offenderData = await Offender.save(fullOffenderData)
+               const offenderData = await Offender.findByIdAndUpdate(req.params.id, fullOffenderData)
                res.status(201).json(offenderData);
-               console.log("Record updated successfully");
+            //    console.log('offenderData update: ', offenderData);
+       
            } catch (error) {
                res.status(400);
                throw new Error(error);
@@ -91,7 +93,16 @@ const getOffenderProfile = expressAsyncHandler( async (req, res, next) => {
     //     throw new Error(error);
     // }
 });
+const deleteOffenderinfo = expressAsyncHandler( async (req, res, next) => {
+    
+    try {
+        const delRes = await Offender.findByIdAndDelete(req.params.id)
+        res.status(200).send(delRes) 
+    } catch (error) {
+        console.log("Something went wrong", error);
+    }
+});
 
 export {
-    addOffender,getOffenderinfo,getOffenderProfile,updateOffenderInfo
+    addOffender,getOffenderinfo,deleteOffenderinfo, getOffenderProfile,updateOffenderInfo
 }

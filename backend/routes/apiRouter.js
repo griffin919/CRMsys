@@ -5,7 +5,7 @@ import upload from '../utils/multer.js';
 //modules
 import { registerUser, getUser, getAllUser, loginUser, updateUserByAdmin, updateUserByUser,deleteUser, logoutUser } from '../controllers/userController.js';
 import { protect, adminAuth} from '../middleware/authTokenMidware.js';
-import { addOffender, getOffenderProfile, updateOffenderInfo, getOffenderinfo } from '../controllers/offenderController.js';
+import { addOffender, getOffenderProfile, updateOffenderInfo, getOffenderinfo, deleteOffenderinfo } from '../controllers/offenderController.js';
 
 //mounts
 const apiRouter = express.Router();
@@ -55,19 +55,20 @@ apiRouter.route('/user/users')
 //desc      add new offender
 //route     offender/api/add
 //access    Protected
-apiRouter.route('/offender/add')
+apiRouter.route('/record/add')
 .post(protect, upload.single('photo'), addOffender)
 
 //desc      manage offender profile
 //route     offender/api/profile
 //access    Protected
-apiRouter.route('/offender/record/:id')
+apiRouter.route('/record/:id')
 .put(protect,upload.single('photo'), updateOffenderInfo)
+.delete(protect, deleteOffenderinfo)
 
 //desc      manage offender profile
 //route     offender/api/profile
 //access    Protected
-apiRouter.route('/offender/records')
+apiRouter.route('/record')
 .get(protect, getOffenderinfo)
 
 

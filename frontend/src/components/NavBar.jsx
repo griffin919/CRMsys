@@ -17,6 +17,7 @@ import {
   Typography,
   Box,
   Button,
+  Link,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { setMode } from "../Features/app/darkModeSlice";
@@ -24,6 +25,7 @@ import FlexBetween from "./FlexBetween";
 import { logout } from "../Features/user/authSlice";
 import { useLogoutMutation } from "../Features/user/userApiSlice";
 import { useNavigate } from "react-router-dom";
+import HomeIcon from "@mui/icons-material/Home";
 
 const NavBar = () => {
   const dispatch = useDispatch();
@@ -46,7 +48,7 @@ const NavBar = () => {
     try {
       await logoutUser().unwrap();
       dispatch(logout());
-      navigate("/login");
+      navigate("/");
     } catch (error) {
       console.log(error);
     }
@@ -63,8 +65,13 @@ const NavBar = () => {
       <Toolbar sx={{ justifyContent: "space-between" }}>
         {/* LEFT SIDE */}
         <FlexBetween>
-          <Box onClick={() => navigate("/")}>
-            <Typography variant="h6">ONRECORD</Typography>
+          <Box onClick={() => navigate("/dashboard")}>
+            <IconButton onClick={() => navigate("/dashboard")}>
+              <HomeIcon />
+            </IconButton>
+            <Link variant="h6" sx={{ fontWeight: "bold", cursor: "pointer" }}>
+              ONRECORD
+            </Link>
           </Box>
         </FlexBetween>
         {/* MIDDLE */}
@@ -91,8 +98,10 @@ const NavBar = () => {
           </Box>
           <IconButton onClick={handleLogout}>
             <LogoutSharp />
-            <Typography>Logout</Typography>
           </IconButton>
+          <Link onClick={handleLogout} sx={{ cursor: "pointer" }}>
+            Logout
+          </Link>
         </FlexBetween>
       </Toolbar>
     </AppBar>

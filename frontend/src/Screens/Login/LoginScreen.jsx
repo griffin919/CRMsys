@@ -10,17 +10,17 @@ import {
   useTheme,
   InputBase,
   Typography,
+  Grid,
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
-import { themeSettings } from "../../theme";
-import FlexBetween from "../../components/FlexBetween";
 import { setCredentials } from "../../Features/user/authSlice";
-import ToastNotification from "../../components/Alerts";
 import { useLoginMutation } from "../../Features/user/userApiSlice";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const LoginScreen = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [renderError, setRenderError] = useState("");
 
   const theme = useTheme();
   const { userInfo } = useSelector((state) => state.auth);
@@ -32,7 +32,7 @@ const LoginScreen = () => {
 
   useEffect(() => {
     if (userInfo) {
-      navigate("/");
+      navigate("/dashboard");
     }
   }, [navigate, userInfo]);
 
@@ -45,62 +45,119 @@ const LoginScreen = () => {
       navigate("/dashboard");
     } catch (error) {
       // ToastNotification(error);
+      console.log("renderError", renderError);
+      setRenderError(error.data.message);
       console.log(error);
     }
   };
 
   return (
-    <Container>
-      <Box
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        minHeight="100vh"
-      >
-        <Box width="300px">
-          <Typography
-            sx={{ textAlign: "center", fontSize: "2rem", mb: "50px" }}
+    <div>
+      <Grid container>
+        <Grid item md={8} xs={12}>
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            minHeight="100vh"
           >
-            OnRecord
-          </Typography>
-          <form onSubmit={handleSubmit}>
-            <FormControl fullWidth>
-              <TextField
-                label="Username"
-                variant="standard"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                required
-              />
-            </FormControl>
-
-            <FormControl fullWidth sx={{ marginTop: "20px" }}>
-              <TextField
-                label="Password"
-                variant="standard"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </FormControl>
-            <div style={{ textAlign: "right" }}>
-              <Button
-                sx={{ marginTop: "10px" }}
-                type="submit"
-                variant="text"
-                size="large"
-                endIcon={<SendIcon />}
+            <Box width="300px">
+              <Typography
+                sx={{
+                  textAlign: "center",
+                  fontSize: "2rem",
+                  mb: "30px",
+                  color: "secondary",
+                  fontWeight: "light",
+                }}
               >
-                Login
-              </Button>
+                OnRecord
+              </Typography>
+              <Typography sx={{ color: "red", textAlign: "center", m: "20px" }}>
+                {renderError ? renderError : ""}
+              </Typography>
+              <form onSubmit={handleSubmit}>
+                <FormControl fullWidth>
+                  <TextField
+                    label="Username"
+                    variant="standard"
+                    value={username}
+                    color="secondary"
+                    onChange={(e) => setUsername(e.target.value)}
+                    required
+                  />
+                </FormControl>
+
+                <FormControl fullWidth sx={{ marginTop: "20px" }}>
+                  <TextField
+                    label="Password"
+                    type="password"
+                    variant="standard"
+                    color="secondary"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                </FormControl>
+                <div style={{ textAlign: "right" }}>
+                  <Button
+                    sx={{ marginTop: "10px" }}
+                    type="submit"
+                    variant="text"
+                    size="large"
+                    color="secondary"
+                    endIcon={<SendIcon />}
+                  >
+                    {isLoading && (
+                      <CircularProgress
+                        size={30}
+                        color="secondary"
+                        sx={{ mr: "10px" }}
+                      />
+                    )}
+                    Login
+                  </Button>
+                </div>
+                <Typography sx={{ marginTop: "30px", opacity: "0.8" }}>
+                  Forgotten username or password? Contact admin.
+                </Typography>
+              </form>
+            </Box>
+          </Box>
+        </Grid>
+        <Grid item md={4} xs={12} sx={{ overflow: "hidden" }}>
+          <div
+            style={{
+              width: "200%",
+              height: "100%",
+              position: "relative",
+              right: "50%",
+            }}
+          >
+            <div>
+              {/* <Typography
+                sx={{
+                  lineHeight: "0.8",
+                  fontSize: "7rem",
+                  fontWeight: "bold",
+                  color: "grey",
+                  // textAlign: "center",
+                }}
+              >
+                One <br />
+                Record <br /> On <br />
+                Record
+              </Typography> */}
+              <img
+                src="/judge-hammer.jpg"
+                alt="Judge Hammer"
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              />
             </div>
-            <Typography sx={{ marginTop: "30px" }}>
-              Forgotten username or password? Contact admin.
-            </Typography>
-          </form>
-        </Box>
-      </Box>
-    </Container>
+          </div>
+        </Grid>
+      </Grid>
+    </div>
   );
 };
 

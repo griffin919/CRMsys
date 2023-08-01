@@ -3,30 +3,35 @@ import React, { useContext } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
 import { LocalizationProvider, DateTimePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { AddRecordFormContext } from "./formContextApi";
+import dayjs from "dayjs";
 
-const sentencingAndCorrectionalRecords = () => {
-  const { RecordFormData, setRecordFormData } =
-    useContext(AddRecordFormContext);
+const SentencingAndCorrectionalRecords = ({ formData, setForm }) => {
+  const { sentencingAndCorrectionalRecords } = formData;
 
-  const handleInputChange = (e) => {
-    const { value, name } = e.target;
-    setRecordFormData((prevState) => ({
-      ...prevState, // Shallow copy of the previous state
-      sentencingAndCorrectionalRecords: {
-        ...prevState.sentencingAndCorrectionalRecords, // Shallow copy of the previous sentencingAndCorrectionalRecords
-        [name]: value, // Update the specific property of sentencingAndCorrectionalRecords
-      },
+  console.log(
+    "sentencingAndCorrectionalRecords",
+    sentencingAndCorrectionalRecords
+  );
+
+  let index = 0;
+
+  const handleInputChange = (index, key, value) => {
+    setForm((prevData) => ({
+      ...prevData,
+      sentencingAndCorrectionalRecords:
+        prevData.sentencingAndCorrectionalRecords.map((record, i) =>
+          i === index ? { ...record, [key]: value } : record
+        ),
     }));
   };
 
-  const handleDateChange = (date) => {
-    setRecordFormData((prevState) => ({
-      ...prevState,
-      sentencingAndCorrectionalRecords: {
-        ...prevState.sentencingAndCorrectionalRecords,
-        arrestDateTimedate: date,
-      },
+  const handleReleaseDateChange = (index, date) => {
+    setForm((prevData) => ({
+      ...prevData,
+      sentencingAndCorrectionalRecords:
+        prevData.sentencingAndCorrectionalRecords.map((record, i) =>
+          i === index ? { ...record, releaseDate: date } : record
+        ),
     }));
   };
 
@@ -42,10 +47,8 @@ const sentencingAndCorrectionalRecords = () => {
             <DatePicker
               label="Release Date"
               name="releaseDate"
-              value={
-                RecordFormData.sentencingAndCorrectionalRecords.releaseDate
-              }
-              onChange={handleDateChange}
+              value={dayjs(sentencingAndCorrectionalRecords[index].releaseDate)}
+              onChange={(date) => handleReleaseDateChange(index, date)}
               slotProps={TextField}
             />
           </FormControl>
@@ -56,10 +59,10 @@ const sentencingAndCorrectionalRecords = () => {
               variant="standard"
               label="Sentence Type"
               name="sentenceType"
-              value={
-                RecordFormData.sentencingAndCorrectionalRecords.sentenceType
+              value={sentencingAndCorrectionalRecords[index].sentenceType}
+              onChange={(e) =>
+                handleInputChange(index, "sentenceType", e.target.value)
               }
-              onChange={handleInputChange}
             />
           </FormControl>
         </Box>
@@ -70,8 +73,10 @@ const sentencingAndCorrectionalRecords = () => {
               variant="standard"
               label="Duration of Sentence"
               name="duration"
-              value={RecordFormData.sentencingAndCorrectionalRecords.duration}
-              onChange={handleInputChange}
+              value={sentencingAndCorrectionalRecords[index].duration}
+              onChange={(e) =>
+                handleInputChange(index, "duration", e.target.value)
+              }
             />
           </FormControl>
           <FormControl fullWidth sx={{ m: "10px" }}>
@@ -82,10 +87,16 @@ const sentencingAndCorrectionalRecords = () => {
               label="Porole/Probation Conditions"
               name="paroleOrProbationConditions"
               value={
-                RecordFormData.sentencingAndCorrectionalRecords
+                sentencingAndCorrectionalRecords[index]
                   .paroleOrProbationConditions
               }
-              onChange={handleInputChange}
+              onChange={(e) =>
+                handleInputChange(
+                  index,
+                  "paroleOrProbationConditions",
+                  e.target.value
+                )
+              }
             />
           </FormControl>
         </Box>
@@ -96,10 +107,10 @@ const sentencingAndCorrectionalRecords = () => {
           variant="standard"
           label="Correction Facility?"
           name="CorrectionFacility"
-          value={
-            RecordFormData.sentencingAndCorrectionalRecords.CorrectionFacility
+          value={sentencingAndCorrectionalRecords[index].CorrectionFacility}
+          onChange={(e) =>
+            handleInputChange(index, "CorrectionFacility", e.target.value)
           }
-          onChange={handleInputChange}
         />
       </FormControl>
       <FormControl fullWidth sx={{ m: "10px" }}>
@@ -108,15 +119,14 @@ const sentencingAndCorrectionalRecords = () => {
           variant="standard"
           name="sentenceModifications"
           label="Sentence Modification"
-          value={
-            RecordFormData.sentencingAndCorrectionalRecords
-              .sentenceModifications
+          value={sentencingAndCorrectionalRecords[index].sentenceModifications}
+          onChange={(e) =>
+            handleInputChange(index, "sentenceModifications", e.target.value)
           }
-          onChange={handleInputChange}
         />
       </FormControl>
     </LocalizationProvider>
   );
 };
 
-export default sentencingAndCorrectionalRecords;
+export default SentencingAndCorrectionalRecords;

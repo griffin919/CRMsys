@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 import Box from "@mui/material/Box";
 import Tabs, { tabsClasses } from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import { AddRecordFormContext } from "./formContextApi";
 import { Button } from "@mui/material";
 import PersonalInfoComponent from "./PersonalInfoComponent";
 import ArrestsComponent from "./ArrestsComponent";
@@ -15,54 +14,66 @@ import ConfirmInput from "./ConfirmInputComp";
 import SentencingAndCorrectionalRecords from "./sentencingAndCorrectionalRecords";
 import VictimInformation from "./VictimInformation";
 import WarrantsAndAlerts from "./WarrantsAndAlerts";
-import { useAddRecordMutation } from "../user/userApiSlice";
+import {
+  useUpdateRecordMutation,
+  useGetRecordsQuery,
+} from "../user/userApiSlice";
+import dayjs from "dayjs";
 
 export default function UpdateRecord() {
   const [step, setStep] = useState(0);
   const [uploadedPhoto, setuploadedPhoto] = useState(null);
+  const { refetch: refetchOnUpdate } = useGetRecordsQuery();
 
   const { recordID, records } = useSelector((state) => state.offenderRecords);
-  const updateToBeUpdated = records.filter((record) => record._id === recordID);
+  const initialState = records.filter((record) => record._id === recordID);
 
-  console.log("updateToBeUpdated", updateToBeUpdated);
+  const {
+    personalInformation,
+    arrestRecords,
+    chargeAndConvictionHistory,
+    sentencingAndCorrectionalRecords,
+    courtRecords,
+    warrantsAndAlerts,
+    victimInformation,
+    criminalOffenseDetails,
+  } = initialState[0];
 
-  const [RecordFormData, setRecordFormData] = useState({
-    ...updateToBeUpdated.personalInformation,
-    ...updateToBeUpdated.arrestRecords,
-    ...updateToBeUpdated.chargeAndConvictionHistory,
-    ...updateToBeUpdated.sentencingAndCorrectionalRecords,
-    ...updateToBeUpdated.criminalOffenseDetails,
-    ...updateToBeUpdated.courtRecords,
-    ...updateToBeUpdated.warrantsAndAlerts,
-    ...updateToBeUpdated.victimInformation,
+  const [recordToUpdate, setRecordToUpdate] = useState({
+    personalInformation,
+    arrestRecords,
+    chargeAndConvictionHistory,
+    sentencingAndCorrectionalRecords,
+    courtRecords,
+    warrantsAndAlerts,
+    victimInformation,
+    criminalOffenseDetails,
   });
 
-  console.log(
-    "updateToBeUpdated.personalInformation",
-    updateToBeUpdated.personalInformation
-  );
-  console.log(
-    "updateToBeUpdated.arrestRecords",
-    updateToBeUpdated.arrestRecords
-  );
+  const [updateRecord, { isLoading }] = useUpdateRecordMutation();
 
-  const [addRecord, { isLoading }] = useAddRecordMutation();
+  const handleUpdate = (e) => {
+    // e.preventDefault();
+    // try {
+    //   if (uploadedPhoto) {
+    //     recordToUpdate.photo = uploadedPhoto;
+    //   }
 
-  const handleSubmit = async (e) => {
+    //   const updatedRecord = await updateRecord(
+    //     { id: recordID },
+    //     recordToUpdate
+    //   );
+
+    console.log("recordToUpdate", recordToUpdate);
+
+    //   console.log("updatedRecord", updatedRecord);
+    // } catch (error) {
+    //   console.log(error);
+    // }
     e.preventDefault();
-    try {
-      if (uploadedPhoto) {
-        RecordFormData.photo = uploadedPhoto;
-      }
-      // console.log("AddRecord", RecordFormData);
-      const Record = await addRecord(RecordFormData);
-
-      if (!Record.error) {
-        console.log("Record added successfully", Record);
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    updateRecord({ id: recordID, data: recordToUpdate })
+      .then(() => console.log("Update sent"))
+      .catch((err) => console.log("Something went wrong", err));
   };
 
   const handleNextStep = () => {
@@ -77,147 +88,139 @@ export default function UpdateRecord() {
     setStep(newVal);
   };
 
-  const handleInputChange = (e) => {
-    const { value, name } = e.target;
-    setRecordFormData((prevState) => ({
-      ...prevState,
-      personalInformation: {
-        ...prevState.personalInformation,
-        [name]: value,
-      },
-      arrestRecords: {
-        ...prevState.arrestRecords,
-        [name]: value,
-      },
-    }));
-  };
-
-  const handleDateChange = (date) => {
-    setRecordFormData((prevState) => ({
-      ...prevState,
-      personalInformation: {
-        ...prevState.personalInformation,
-        dateOfBirth: date,
-      },
-      arrestRecords: {
-        ...prevState.arrestRecords,
-        arrestDateTime: date,
-      },
-    }));
-  };
-
-  const handlePhotoInput = (e) => {
-    const file = e.target.files[0];
-    setuploadedPhoto(file);
-  };
-
   const renderTabSection = () => {
     switch (step) {
       case 0:
         return (
           <PersonalInfoComponent
-            formData={RecordFormData}
-            setForm={setRecordFormData}
+            formData={recordToUpdate}
+            setForm={setRecordToUpdate}
             setUploadedPic={setuploadedPhoto}
           />
         );
       case 1:
         return (
           <ArrestsComponent
-            formData={RecordFormData}
-            setForm={setRecordFormData}
+            formData={recordToUpdate}
+            setForm={setRecordToUpdate}
           />
         );
       case 2:
-        return 2;
+        return (
+          <ChargesComponent
+            formData={recordToUpdate}
+            setForm={setRecordToUpdate}
+          />
+        );
       case 3:
-        return 3;
+        return (
+          <SentencingAndCorrectionalRecords
+            formData={recordToUpdate}
+            setForm={setRecordToUpdate}
+          />
+        );
       case 4:
-        return 4;
+        return (
+          <CriminalOffenseDetails
+            formData={recordToUpdate}
+            setForm={setRecordToUpdate}
+          />
+        );
       case 5:
-        return 5;
+        return (
+          <CourtRecords formData={recordToUpdate} setForm={setRecordToUpdate} />
+        );
       case 6:
-        return 6;
+        return (
+          <WarrantsAndAlerts
+            formData={recordToUpdate}
+            setForm={setRecordToUpdate}
+          />
+        );
       case 7:
-        return 7;
+        return (
+          <VictimInformation
+            formData={recordToUpdate}
+            setForm={setRecordToUpdate}
+          />
+        );
       case 8:
-        return 8;
+        return <ConfirmInput formData={recordToUpdate} photo={uploadedPhoto} />;
       default:
         return null;
     }
   };
 
   return (
-    <AddRecordFormContext.Provider
-      value={{
-        RecordFormData,
-        setRecordFormData,
-        uploadedPhoto,
-        setuploadedPhoto,
-      }}
-    >
+    <Box>
       <Box>
-        <Box>
-          <form onSubmit={handleSubmit} encType="multipart/form-data">
-            <Box
+        <form onSubmit={handleUpdate} encType="multipart/form-data">
+          <Box
+            sx={{
+              flexGrow: 1,
+              maxWidth: { xs: 320, sm: 580, md: 900 },
+              bgcolor: "none",
+            }}
+          >
+            <Tabs
+              value={step}
+              onChange={handleStepChange}
+              variant="scrollable"
+              scrollButtons
+              aria-label="visible arrows tabs example"
               sx={{
-                flexGrow: 1,
-                maxWidth: { xs: 320, sm: 580, md: 900 },
-                bgcolor: "none",
+                [`& .${tabsClasses.scrollButtons}`]: {
+                  "&.Mui-disabled": { opacity: 0.3 },
+                },
               }}
             >
-              <Tabs
-                value={step}
-                onChange={handleStepChange}
-                variant="scrollable"
-                scrollButtons
-                aria-label="visible arrows tabs example"
-                sx={{
-                  [`& .${tabsClasses.scrollButtons}`]: {
-                    "&.Mui-disabled": { opacity: 0.3 },
-                  },
-                }}
-              >
-                <Tab label="Personal Info" />
-                <Tab label="Arrests" />
-                <Tab label="Charges" />
-                <Tab label="Sentences" />
-                <Tab label="Offenses" />
-                <Tab label="Court Records" />
-                <Tab label="Warrants" />
-                <Tab label="Victims" />
-                <Tab label="Confirm" />
-              </Tabs>
+              <Tab label="Personal Info" />
+              <Tab label="Arrests" />
+              <Tab label="Charges" />
+              <Tab label="Sentences" />
+              <Tab label="Offenses" />
+              <Tab label="Court Records" />
+              <Tab label="Warrants" />
+              <Tab label="Victims" />
+              <Tab label="Confirm" />
+            </Tabs>
 
-              {/* Render selected tab section */}
-              {renderTabSection()}
-            </Box>
-          </form>
-        </Box>
-        {/* Step navigation buttons */}
-        <Box mt={2} textAlign="right">
-          {step > 0 && (
-            <Button
-              type="button"
-              variant="outlined"
-              size="large"
-              onClick={handlePreviousStep}
-            >
-              Previous
-            </Button>
-          )}
-          {step < 8 && (
-            <Button
-              type="button"
-              variant="outlined"
-              size="large"
-              onClick={handleNextStep}
-            >
-              Next
-            </Button>
-          )}
-        </Box>
+            {/* Render selected tab section */}
+            {renderTabSection()}
+          </Box>
+        </form>
       </Box>
-    </AddRecordFormContext.Provider>
+      {/* Step navigation buttons */}
+      <Box mt={2} textAlign="right">
+        {step > 0 && (
+          <Button
+            type="button"
+            variant="outlined"
+            size="large"
+            onClick={handlePreviousStep}
+          >
+            Previous
+          </Button>
+        )}
+        {step < 8 && (
+          <Button
+            type="button"
+            variant="outlined"
+            size="large"
+            onClick={handleNextStep}
+          >
+            Next
+          </Button>
+        )}
+      </Box>
+      <Button
+        type="submit"
+        variant="outlined"
+        size="large"
+        onClick={handleUpdate}
+      >
+        Update
+      </Button>
+    </Box>
   );
 }

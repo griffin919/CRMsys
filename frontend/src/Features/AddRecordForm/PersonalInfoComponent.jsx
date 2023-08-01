@@ -15,11 +15,10 @@ import {
 } from "@mui/material";
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { AddRecordFormContext } from "./formContextApi";
+import dayjs from "dayjs";
 
 const PersonalInfoComponent = ({ formData, setForm, setUploadedPic }) => {
-  // const { formData, setForm, setUploadedPic } =
-  //   useContext(AddRecordFormContext);
+  const { personalInformation } = formData;
 
   const handleInputChange = (e) => {
     const { value, name } = e.target;
@@ -37,7 +36,7 @@ const PersonalInfoComponent = ({ formData, setForm, setUploadedPic }) => {
       ...prevState,
       personalInformation: {
         ...prevState.personalInformation,
-        dateOfBirth: date,
+        dateOfBirth: dayjs(date),
       },
     }));
   };
@@ -62,7 +61,7 @@ const PersonalInfoComponent = ({ formData, setForm, setUploadedPic }) => {
                 name="fname"
                 label="First Name"
                 variant="standard"
-                value={formData.personalInformation.fname}
+                value={personalInformation.fname}
                 onChange={handleInputChange}
                 required
               />
@@ -73,7 +72,7 @@ const PersonalInfoComponent = ({ formData, setForm, setUploadedPic }) => {
                 name="lname"
                 label="Last Name"
                 variant="standard"
-                value={formData.personalInformation.lname}
+                value={personalInformation.lname}
                 onChange={handleInputChange}
                 required
               />
@@ -83,7 +82,7 @@ const PersonalInfoComponent = ({ formData, setForm, setUploadedPic }) => {
               <DatePicker
                 label="Date of Birth"
                 name="dateOfBirth"
-                value={formData.personalInformation.dateOfBirth}
+                value={dayjs(personalInformation.dateOfBirth)}
                 onChange={handleDateChange}
                 slotProps={{ TextField: { variant: "outlined" } }}
               />
@@ -92,7 +91,7 @@ const PersonalInfoComponent = ({ formData, setForm, setUploadedPic }) => {
               <Select
                 name="IDtype"
                 label="ID Type"
-                value={formData.personalInformation.IDtype}
+                value={personalInformation.IDtype}
                 onChange={handleInputChange}
               >
                 <MenuItem value="Ghana Card">Ghana Card</MenuItem>
@@ -106,7 +105,7 @@ const PersonalInfoComponent = ({ formData, setForm, setUploadedPic }) => {
                 name="IDnumber"
                 label="ID Number"
                 variant="standard"
-                value={formData.personalInformation.IDnumber}
+                value={personalInformation.IDnumber}
                 onChange={handleInputChange}
                 required
               />
@@ -117,7 +116,7 @@ const PersonalInfoComponent = ({ formData, setForm, setUploadedPic }) => {
               <RadioGroup
                 aria-label="gender"
                 name="gender"
-                value={formData.personalInformation.gender}
+                value={personalInformation.gender}
                 onChange={handleInputChange}
                 row
               >
@@ -139,7 +138,7 @@ const PersonalInfoComponent = ({ formData, setForm, setUploadedPic }) => {
                 name="physicalDescription"
                 label="Physical Description"
                 variant="standard"
-                value={formData.personalInformation.physicalDescription}
+                value={personalInformation.physicalDescription}
                 onChange={handleInputChange}
                 required
               />
@@ -151,7 +150,7 @@ const PersonalInfoComponent = ({ formData, setForm, setUploadedPic }) => {
                 name="contactInformation1"
                 type="number"
                 variant="standard"
-                value={formData.personalInformation.contactInformation1}
+                value={personalInformation.contactInformation1}
                 onChange={handleInputChange}
                 required
               />
@@ -163,7 +162,7 @@ const PersonalInfoComponent = ({ formData, setForm, setUploadedPic }) => {
                 label="Contact Info 2"
                 type="number"
                 variant="standard"
-                value={formData.personalInformation.contactInformation2}
+                value={personalInformation.contactInformation2}
                 onChange={handleInputChange}
               />
             </FormControl>
@@ -175,7 +174,7 @@ const PersonalInfoComponent = ({ formData, setForm, setUploadedPic }) => {
                 name="aliases"
                 variant="standard"
                 type="text"
-                value={formData.personalInformation.aliases}
+                value={personalInformation.aliases}
                 onChange={handleInputChange}
               />
             </FormControl>

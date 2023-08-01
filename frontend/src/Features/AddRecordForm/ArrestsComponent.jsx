@@ -2,27 +2,30 @@ import { Box, FormControl, TextField, Typography, Button } from "@mui/material";
 import React, { useContext, useState } from "react";
 import { LocalizationProvider, DateTimePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { AddRecordFormContext } from "./formContextApi";
+import dayjs from "dayjs";
 
 const ArrestsComponent = ({ formData, setForm }) => {
-  const handleInputChange = (e) => {
-    const { value, name } = e.target;
-    setForm((prevState) => ({
-      ...prevState, // Shallow copy of the previous state
-      arrestRecords: {
-        ...prevState.arrestRecords, // Shallow copy of the previous arrestRecords
-        [name]: value, // Update the specific property of arrestRecords
-      },
+  const { arrestRecords } = formData;
+
+  console.log("arrestRecords", arrestRecords);
+
+  let index = 0;
+
+  const handleInputChange = (index, key, value) => {
+    setForm((prevData) => ({
+      ...prevData,
+      arrestRecords: prevData.arrestRecords.map((record, i) =>
+        i === index ? { ...record, [key]: value } : record
+      ),
     }));
   };
 
-  const handleDateChange = (date) => {
-    setForm((prevState) => ({
-      ...prevState,
-      arrestRecords: {
-        ...prevState.arrestRecords,
-        arrestDateTimedate: date,
-      },
+  const handleDateChange = (index, date) => {
+    setForm((prevData) => ({
+      ...prevData,
+      arrestRecords: prevData.arrestRecords.map((record, i) =>
+        i === index ? { ...record, arrestDateTime: date } : record
+      ),
     }));
   };
 
@@ -38,8 +41,8 @@ const ArrestsComponent = ({ formData, setForm }) => {
             <DateTimePicker
               label="Date and Time of Arrest"
               name="arrestDateTime"
-              value={formData.arrestRecords.arrestDateTimedate}
-              onChange={handleDateChange}
+              value={dayjs(arrestRecords[index].arrestDateTime)}
+              onChange={(date) => handleDateChange(index, date)}
               slotProps={{ TextField: { variant: "outlined" } }}
             />
           </FormControl>
@@ -49,8 +52,10 @@ const ArrestsComponent = ({ formData, setForm }) => {
               variant="standard"
               label="Arresting Agency"
               name="arrestingAgency"
-              value={formData.arrestRecords.arrestingAgency}
-              onChange={handleInputChange}
+              value={arrestRecords[index].arrestingAgency}
+              onChange={(e) =>
+                handleInputChange(index, "arrestingAgency", e.target.value)
+              }
             />
           </FormControl>
         </Box>
@@ -61,8 +66,10 @@ const ArrestsComponent = ({ formData, setForm }) => {
               variant="standard"
               label="Arresting Officer"
               name="arrestingOfficer"
-              value={formData.arrestRecords.arrestingOfficer}
-              onChange={handleInputChange}
+              value={arrestRecords[index].arrestingOfficer}
+              onChange={(e) =>
+                handleInputChange(index, "arrestingOfficer", e.target.value)
+              }
             />
           </FormControl>
           <FormControl fullWidth sx={{ m: "10px" }}>
@@ -71,8 +78,10 @@ const ArrestsComponent = ({ formData, setForm }) => {
               variant="standard"
               label="Officer ID"
               name="arrestingOfficerID"
-              value={formData.arrestRecords.arrestingOfficerID}
-              onChange={handleInputChange}
+              value={arrestRecords[index].arrestingOfficerID}
+              onChange={(e) =>
+                handleInputChange(index, "arrestingOfficerID", e.target.value)
+              }
             />
           </FormControl>
         </Box>
@@ -83,8 +92,10 @@ const ArrestsComponent = ({ formData, setForm }) => {
           variant="standard"
           label="Location of Arrest"
           name="arrestLocation"
-          value={formData.arrestRecords.arrestLocation}
-          onChange={handleInputChange}
+          value={arrestRecords[index].arrestLocation}
+          onChange={(e) =>
+            handleInputChange(index, "arrestLocation", e.target.value)
+          }
         />
       </FormControl>
       <FormControl fullWidth sx={{ m: "10px" }}>
@@ -93,8 +104,8 @@ const ArrestsComponent = ({ formData, setForm }) => {
           variant="standard"
           name="charges"
           label="Charges"
-          value={formData.arrestRecords.charges}
-          onChange={handleInputChange}
+          value={arrestRecords[index].charges}
+          onChange={(e) => handleInputChange(index, "charges", e.target.value)}
         />
       </FormControl>
     </LocalizationProvider>

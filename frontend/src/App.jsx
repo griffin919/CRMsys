@@ -21,12 +21,11 @@ const App = () => {
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <Routes>
-            <Route index="true" path="/login" element={<LoginScreen />} />
+            <Route index="true" path="/" element={<LoginScreen />} />
             <Route element={<Layout />}>
-              {/* Remember to change path to /dashboard */}
-              <Route path="/" element={<DashScreen />} />
-              <Route path="/records/add" element={<AddRecord />} />
-              <Route path="/records/record" element={<OffenderProfile />} />
+              <Route path="/dashboard" element={<DashScreen />} />
+              <Route path="/record/add" element={<AddRecord />} />
+              <Route path="/record" element={<OffenderProfile />} />
               <Route path="/record/update" element={<UpdateRecord />} />
             </Route>
           </Routes>

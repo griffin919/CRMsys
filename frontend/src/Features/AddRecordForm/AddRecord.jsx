@@ -14,7 +14,9 @@ import ConfirmInput from "./ConfirmInputComp";
 import SentencingAndCorrectionalRecords from "./sentencingAndCorrectionalRecords";
 import VictimInformation from "./VictimInformation";
 import WarrantsAndAlerts from "./WarrantsAndAlerts";
-import { useAddRecordMutation } from "../user/userApiSlice";
+import { useAddRecordMutation, useGetRecordsQuery } from "../user/userApiSlice";
+import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom/dist/umd/react-router-dom.development";
 
 export default function AddRecord() {
   const [step, setStep] = useState(0);
@@ -48,7 +50,7 @@ export default function AddRecord() {
         charge: "",
         offenseNature: "",
         courtCaseNumber: "",
-        date: "",
+        ChargeDate: "",
         convicted: "",
         sentencingDetails: "",
       },
@@ -95,24 +97,28 @@ export default function AddRecord() {
       },
     ],
   });
+  const { refetch: refetchOnDelete } = useGetRecordsQuery();
+  const navigate = useNavigate();
 
   const [addRecord, { isLoading }] = useAddRecordMutation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      if (uploadedPhoto) {
-        RecordFormData.photo = uploadedPhoto;
-      }
-      // console.log("AddRecord", RecordFormData);
-      const Record = await addRecord(RecordFormData);
-
-      if (!Record.error) {
-        console.log("Record added successfully", Record);
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    addRecord(RecordFormData)
+      .then(() => refetchOnDelete())
+      .then(() => navigate("/record/add"))
+      .catch((err) => console.log("Something went wrong ", err));
+    // try {
+    //   if (uploadedPhoto) {
+    //     RecordFormData.photo = uploadedPhoto;
+    //   }
+    //   // console.log("AddRecord", RecordFormData);
+    //   const Record = await addRecord(RecordFormData);
+    //   refetchOnDelete();
+    //   navigate("/record/add");
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
 
   const handleNextStep = () => {
@@ -125,35 +131,6 @@ export default function AddRecord() {
 
   const handleStepChange = (event, newVal) => {
     setStep(newVal);
-  };
-
-  const handleInputChange = (e) => {
-    const { value, name } = e.target;
-    setRecordFormData((prevState) => ({
-      ...prevState,
-      personalInformation: {
-        ...prevState.personalInformation,
-        [name]: value,
-      },
-      arrestRecords: {
-        ...prevState.arrestRecords,
-        [name]: value,
-      },
-    }));
-  };
-
-  const handleDateChange = (date) => {
-    setRecordFormData((prevState) => ({
-      ...prevState,
-      personalInformation: {
-        ...prevState.personalInformation,
-        dateOfBirth: date,
-      },
-      arrestRecords: {
-        ...prevState.arrestRecords,
-        arrestDateTime: date,
-      },
-    }));
   };
 
   const handlePhotoInput = (e) => {
@@ -179,17 +156,44 @@ export default function AddRecord() {
           />
         );
       case 2:
-        return <ChargesComponent />;
+        return (
+          <ChargesComponent
+            formData={RecordFormData}
+            setForm={setRecordFormData}
+          />
+        );
       case 3:
-        return <SentencingAndCorrectionalRecords />;
+        return (
+          <SentencingAndCorrectionalRecords
+            formData={RecordFormData}
+            setForm={setRecordFormData}
+          />
+        );
       case 4:
-        return <CriminalOffenseDetails />;
+        return (
+          <CriminalOffenseDetails
+            formData={RecordFormData}
+            setForm={setRecordFormData}
+          />
+        );
       case 5:
-        return <CourtRecords />;
+        return (
+          <CourtRecords formData={RecordFormData} setForm={setRecordFormData} />
+        );
       case 6:
-        return <WarrantsAndAlerts />;
+        return (
+          <WarrantsAndAlerts
+            formData={RecordFormData}
+            setForm={setRecordFormData}
+          />
+        );
       case 7:
-        return <VictimInformation />;
+        return (
+          <VictimInformation
+            formData={RecordFormData}
+            setForm={setRecordFormData}
+          />
+        );
       case 8:
         return <ConfirmInput formData={RecordFormData} photo={uploadedPhoto} />;
       default:

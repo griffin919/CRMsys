@@ -3,30 +3,38 @@ import React, { useContext } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
 import { LocalizationProvider, DateTimePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { AddRecordFormContext } from "./formContextApi";
+import dayjs from "dayjs";
 
-const CourtRecords = () => {
-  const { RecordFormData, setRecordFormData } =
-    useContext(AddRecordFormContext);
+const CourtRecords = ({ formData, setForm }) => {
+  const { courtRecords } = formData;
 
-  const handleInputChange = (e) => {
-    const { value, name } = e.target;
-    setRecordFormData((prevState) => ({
-      ...prevState, // Shallow copy of the previous state
-      courtRecords: {
-        ...prevState.courtRecords, // Shallow copy of the previous courtRecords
-        [name]: value, // Update the specific property of courtRecords
-      },
+  console.log("courtRecords", courtRecords);
+
+  let index = 0;
+
+  const handleInputChange = (index, key, value) => {
+    setForm((prevData) => ({
+      ...prevData,
+      courtRecords: prevData.courtRecords.map((record, i) =>
+        i === index ? { ...record, [key]: value } : record
+      ),
     }));
   };
 
-  const handleDateChange = (date) => {
-    setRecordFormData((prevState) => ({
-      ...prevState,
-      courtRecords: {
-        ...prevState.courtRecords,
-        arrestDateTimedate: date,
-      },
+  const handleHearingDateChange = (index, date) => {
+    setForm((prevData) => ({
+      ...prevData,
+      courtRecords: prevData.courtRecords.map((record, i) =>
+        i === index ? { ...record, hearingDate: date } : record
+      ),
+    }));
+  };
+  const handleCourtAppearanceChange = (index, date) => {
+    setForm((prevData) => ({
+      ...prevData,
+      courtRecords: prevData.courtRecords.map((record, i) =>
+        i === index ? { ...record, courtAppearance: date } : record
+      ),
     }));
   };
 
@@ -42,8 +50,8 @@ const CourtRecords = () => {
             <DatePicker
               label="Court Appearance Date"
               name="courtAppearance"
-              value={RecordFormData.courtRecords.courtAppearance}
-              onChange={handleDateChange}
+              value={dayjs(courtRecords[index].courtAppearance)}
+              onChange={(date) => handleCourtAppearanceChange(index, date)}
               slotProps={TextField}
             />
           </FormControl>
@@ -51,8 +59,8 @@ const CourtRecords = () => {
             <DatePicker
               label="Hearing Date"
               name="hearingDate"
-              value={RecordFormData.courtRecords.hearingDate}
-              onChange={handleDateChange}
+              value={dayjs(courtRecords[index].hearingDate)}
+              onChange={(date) => handleHearingDateChange(index, date)}
               slotProps={TextField}
             />
           </FormControl>
@@ -65,8 +73,10 @@ const CourtRecords = () => {
           variant="standard"
           label="Court Order"
           name="courtOrder"
-          value={RecordFormData.courtRecords.courtOrder}
-          onChange={handleInputChange}
+          value={courtRecords[index].courtOrder}
+          onChange={(e) =>
+            handleInputChange(index, "courtOrder", e.target.value)
+          }
         />
       </FormControl>
 
@@ -76,8 +86,10 @@ const CourtRecords = () => {
           variant="standard"
           label="Case Summary"
           name="caseSummary"
-          value={RecordFormData.courtRecords.caseSummary}
-          onChange={handleInputChange}
+          value={courtRecords[index].caseSummary}
+          onChange={(e) =>
+            handleInputChange(index, "caseSummary", e.target.value)
+          }
         />
       </FormControl>
       <FormControl fullWidth sx={{ m: "10px" }}>
@@ -86,8 +98,10 @@ const CourtRecords = () => {
           variant="standard"
           label="Legal Documents"
           name="legalDocuments"
-          value={RecordFormData.courtRecords.legalDocuments}
-          onChange={handleInputChange}
+          value={courtRecords[index].legalDocuments}
+          onChange={(e) =>
+            handleInputChange(index, "legalDocuments", e.target.value)
+          }
         />
       </FormControl>
     </LocalizationProvider>

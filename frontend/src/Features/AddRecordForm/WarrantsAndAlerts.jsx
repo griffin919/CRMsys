@@ -1,19 +1,17 @@
 import { Box, FormControl, TextField, Typography, Button } from "@mui/material";
 import React, { useContext } from "react";
-import { AddRecordFormContext } from "./formContextApi";
 
-const warrantsAndAlerts = () => {
-  const { RecordFormData, setRecordFormData } =
-    useContext(AddRecordFormContext);
+const warrantsAndAlerts = ({ formData, setForm }) => {
+  const { warrantsAndAlerts } = formData;
 
-  const handleInputChange = (e) => {
-    const { value, name } = e.target;
-    setRecordFormData((prevState) => ({
-      ...prevState, // Shallow copy of the previous state
-      warrantsAndAlerts: {
-        ...prevState.warrantsAndAlerts, // Shallow copy of the previous warrantsAndAlerts
-        [name]: value, // Update the specific property of warrantsAndAlerts
-      },
+  let index = 0;
+
+  const handleInputChange = (index, key, value) => {
+    setForm((prevData) => ({
+      ...prevData,
+      warrantsAndAlerts: prevData.warrantsAndAlerts.map((record, i) =>
+        i === index ? { ...record, [key]: value } : record
+      ),
     }));
   };
 
@@ -29,8 +27,10 @@ const warrantsAndAlerts = () => {
             variant="standard"
             name="warrantType"
             label="Warrant Type"
-            value={RecordFormData.warrantsAndAlerts.warrantType}
-            onChange={handleInputChange}
+            value={warrantsAndAlerts[index].warrantType}
+            onChange={(e) =>
+              handleInputChange(index, "warrantType", e.target.value)
+            }
           />
         </FormControl>
         <FormControl fullWidth sx={{ m: "10px" }}>
@@ -40,8 +40,10 @@ const warrantsAndAlerts = () => {
             type="text"
             label="Warrant Details"
             name="warrantDetails"
-            value={RecordFormData.warrantsAndAlerts.warrantDetails}
-            onChange={handleInputChange}
+            value={warrantsAndAlerts[index].warrantDetails}
+            onChange={(e) =>
+              handleInputChange(index, "warrantDetails", e.target.value)
+            }
           />
         </FormControl>
       </Box>

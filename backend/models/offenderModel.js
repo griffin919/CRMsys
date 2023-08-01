@@ -60,7 +60,7 @@ const offenderSchema = new mongoose.Schema({
   }],
   victimInformation: [{
     name: { type: String },
-    contactDetails: { type: String },
+    victimDetails: { type: String },
     victimSupportServices: [{ type: String }]
   }],
 }, {timestamps: true});
