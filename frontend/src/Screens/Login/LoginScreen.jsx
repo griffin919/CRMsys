@@ -55,12 +55,7 @@ const LoginScreen = () => {
     <div>
       <Grid container>
         <Grid item md={8} xs={12}>
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            minHeight="100vh"
-          >
+          <Box minHeight="100vh">
             <Box width="300px">
               <Typography
                 sx={{
@@ -103,7 +98,7 @@ const LoginScreen = () => {
                   <Button
                     sx={{ marginTop: "10px" }}
                     type="submit"
-                    variant="contained"
+                    variant="text"
                     size="large"
                     color="secondary"
                     endIcon={<SendIcon />}

@@ -1,18 +1,32 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const baseQuery = fetchBaseQuery({ baseUrl: "" });
-const USER_URL = "/api/user";
+const USER_URL = "/api/users";
 const OFFENDER_URL = "/api/record";
 
 const userApiSlice = createApi({
   baseQuery,
   tagTypes: "User",
   endpoints: (builder) => ({
+    registerUser: builder.mutation({
+      query: (data) => ({
+        url: `${USER_URL}/register`,
+        method: "POST",
+        body: data,
+      }),
+    }),
+
     login: builder.mutation({
       query: (data) => ({
         url: `${USER_URL}/login`,
         method: "POST",
         body: data,
+      }),
+    }),
+    getUsers: builder.query({
+      query: () => ({
+        url: `${USER_URL}`,
+        method: "GET",
       }),
     }),
     logout: builder.mutation({
@@ -22,6 +36,10 @@ const userApiSlice = createApi({
         body: data,
       }),
     }),
+
+//--------------------------------------------------------
+    //RECORD API ZONE
+    //----------------------------------------------------------
     addRecord: builder.mutation({
       query: (data) => {
         const formData = new FormData();
@@ -117,6 +135,8 @@ export const {
   useDeleteRecordMutation,
   useGetRecordsQuery,
   useLogoutMutation,
+  useRegisterUserMutation,
+  useGetUsersQuery,
   useAddRecordMutation,
 } = userApiSlice;
 

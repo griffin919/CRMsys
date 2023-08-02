@@ -3,11 +3,10 @@ import express from 'express';
 import upload from '../utils/multer.js';
 
 //modules
-import { registerUser, getUser, getAllUser, loginUser, updateUserByAdmin, updateUserByUser,deleteUser, logoutUser } from '../controllers/userController.js';
+import { registerUser, getUser, getAllUsers, loginUser, updateUserByAdmin, updateUserByUser,deleteUser, logoutUser } from '../controllers/userController.js';
 import { protect, adminAuth} from '../middleware/authTokenMidware.js';
 import { addOffender, 
     getOffenderProfile,
-    // getImage,
     updateOffenderInfo,
      getOffenderinfo,
      deleteOffenderinfo } from '../controllers/offenderController.js';
@@ -16,44 +15,44 @@ import { addOffender,
 const apiRouter = express.Router();
 
 //desc      create new user account
-//route     user/api/register
+//route     api/users/register
 //access    Protected
-apiRouter.route('/user/register')
+apiRouter.route('/users/register')
 .post(protect, registerUser)
 
 //desc      login
-//route     user/api/login
+//route     api/users/login
 //access    Public
-apiRouter.route('/user/login')
+apiRouter.route('users/login')
 .post(loginUser)
 
 
 //desc      logout
-//route     user/api/logout
+//route     api/users/logout
 //access    Public
-apiRouter.route('/user/logout')
+apiRouter.route('/users/logout')
 .post(logoutUser)
 
 //desc      update user account
-//route     user/api/profile
+//route     api/users/profile
 //access    Protected
-apiRouter.route('/user/profile')
-.get(protect, getUser)
-.put(protect, updateUserByUser)
+// apiRouter.route('/users/profile')
+// .get(protect, getUser)
+// .put(protect, updateUserByUser)
 
 //desc      update user account by admin
-//route     user/api/profile/:admin
+//route     api/users/profile/:admin
 //access    Protected
-apiRouter.route('/user/profile/:id')
+apiRouter.route('/users/:id')
 .put(protect,  updateUserByAdmin)
 .get(protect, getUser)
 .delete(protect, deleteUser)
 
 //desc      get all users
-//route     user/api/users
+//route     api/users/users
 //access    Protected/admin
-apiRouter.route('/user/users')
-.get(protect, adminAuth, getAllUser)
+apiRouter.route('/users')
+.get(protect, adminAuth, getAllUsers)
 
 
 // OFFENDER Routes

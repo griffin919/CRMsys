@@ -44,10 +44,10 @@ const DashScreen = () => {
       <Grid container>
         <Grid item md={12} sx={{ mb: "20px" }}>
           <div
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            flexDirection="column"
+            // display="flex"
+            // alignItems="center"
+            // justifyContent="center"
+            // flexDirection="column"
             style={{ mb: "30px", textAlign: "center" }}
           >
             <div

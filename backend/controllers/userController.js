@@ -48,15 +48,24 @@ const loginUser = expressAsyncHandler( async (req, res, next) => {
     }
 })
 
-const getUser = expressAsyncHandler( async (req, res, next) => {
-    res.send(res.user);
+const getUser= expressAsyncHandler( async (req, res, next) => {
+    res.send("get user");
 })
-
-const getAllUser = expressAsyncHandler( async (req, res, next) => {
-    const users = await User.find({})
-
-    res.status(200).json(users)
-})
+const getAllUsers = expressAsyncHandler(async (req, res, next) => {
+    try {
+      const users = await User.find();
+      
+      res.json(users); // Send the fetched users as a JSON response
+    } catch (err) {
+      console.log("Something went wrong", err);
+      res.status(500).json({ message: "Server error" }); // Handle the error and send an error response
+    }
+  });
+// const getAllUsers = expressAsyncHandler( async (req, res, next) => {
+//     User.find()
+//     .then(()=>console.log("Request successfully served"))
+//     .catch((err)=>console.log("Something went wrong", err))
+// })
 
 const updateUserByAdmin = expressAsyncHandler( async (req, res, next) => {
     const {fname, lname, username,gender, email, password, role, jurisdiction, department} = req.body; 
@@ -129,5 +138,5 @@ export {registerUser,
     deleteUser, 
     getUser, 
     logoutUser, 
-    getAllUser
+    getAllUsers,
 }

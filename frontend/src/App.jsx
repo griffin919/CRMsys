@@ -7,10 +7,14 @@ import { themeSettings } from "./theme";
 import { ThemeProvider } from "@emotion/react";
 import DashScreen from "./Screens/Dashboard/DashScreen";
 import Layout from "./Screens/Layout/Layout";
+import UserLayout from "./Screens/Layout/UserLayout";
 import { useSelector } from "react-redux";
 import AddRecord from "./Features/AddRecordForm/AddRecord";
 import OffenderProfile from "./Features/offender/OffenderProfile";
 import UpdateRecord from "./Features/AddRecordForm/UpdateRecord";
+import UsersScreen from "./Features/user/UsersScreen";
+import RegisterUser from "./Features/user/RegisterUser";
+import UpdateUser from "./Features/user/UpdateUser";
 
 const App = () => {
   const mode = useSelector((state) => state.global.mode);
@@ -23,6 +27,9 @@ const App = () => {
           <Routes>
             <Route index="true" path="/" element={<LoginScreen />} />
             <Route element={<Layout />}>
+              <Route path="/users/update" element={<UpdateUser />} />
+              <Route path="/users/register" element={<RegisterUser />} />
+              <Route path="/users" element={<UsersScreen />} />
               <Route path="/dashboard" element={<DashScreen />} />
               <Route path="/record/add" element={<AddRecord />} />
               <Route path="/record" element={<OffenderProfile />} />
