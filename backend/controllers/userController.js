@@ -8,7 +8,7 @@ import bcrypt from "bcrypt";
 import generateToken from "../utils/jwt.js";
 
 const registerUser = expressAsyncHandler( async (req, res, next) => {
-    const {fname, lname, username,gender, email, password, role, jurisdiction, department} = req.body;
+    const {username, email} = req.body;
 
     //checking if an has already been created with the given email
     const emailExits = await User.findOne({email});
@@ -19,9 +19,7 @@ const registerUser = expressAsyncHandler( async (req, res, next) => {
         throw new Error("An account with your username or email already exits");
     } else{
         try {
-            const user = await User.create({
-                fname, lname, username, gender, email, password, role, jurisdiction, department
-            })
+            const user = await User.create(req.body)
             res.status(201).json({
                 user
             })
@@ -68,33 +66,16 @@ const getAllUsers = expressAsyncHandler(async (req, res, next) => {
 // })
 
 const updateUserByAdmin = expressAsyncHandler( async (req, res, next) => {
-    const {fname, lname, username,gender, email, password, role, jurisdiction, department} = req.body; 
-    
-    const user = await User.findById(res.user._id);
-    
-    if(user){
-        user.fname = fname || user.fname;
-        user.lname = lname || user.lname;
-        user.username = username || user.username;
-        user.gender = gender || user.gender;
-        user.email = email || user.email;
-        user.role = role || user.role;
-        user.jurisdiction = jurisdiction || user.jurisdiction;
-        user.department = department || user.department;
-
-        if(password) {
-            user.password = password;
-        }
+    const {fname, lname, contact, username,gender, email, password, role, jurisdiction, department} = req.body; 
+    console.log("req.body",req.body);
+ 
         try {
-            const updateUserProfile = await User.save();
+            const updateUserProfile = await User.findByIdAndUpdate(req.params.id, req.body);
             res.status(200).json({updateUserProfile});
         } catch (error) {
-            throw new Error("User profile update failed");
+            throw new Error("Something went wrong", error);
         }
-    }else{
-        res.status(404).json('User not found!');
-    }
-})
+    })
 
 const updateUserByUser = expressAsyncHandler( async (req, res, next) => {
     
@@ -128,7 +109,9 @@ const logoutUser = expressAsyncHandler( async (req, res, next) => {
 })
 
 const deleteUser = expressAsyncHandler( async (req, res, next) => {
-    res.send("delete user");
+    User.findByIdAndDelete(req.params.id)
+    .then(()=>console.log('Request served'))
+    .catch((err)=>console.log('Something went wrong', err))
 })
 
 export {registerUser, 

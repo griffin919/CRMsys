@@ -106,9 +106,9 @@ const NavBar = () => {
 
   const navLinkObj = [
     { label: "Home", icon: HomeIcon, navLink: "/dashboard" },
-    { label: "Admin", icon: AdminPanelSettingsIcon, navLink: "/users" },
+    { label: "Admin", icon: AdminPanelSettingsIcon, navLink: "/user" },
     { label: "Account", icon: AccountCircleRounded, navLink: "" },
-    { label: "Logout", icon: LogoutRounded, navLink: "" },
+    // { label: "Logout", icon: LogoutRounded, navLink: "" },
   ];
 
   return (
@@ -153,7 +153,7 @@ const NavBar = () => {
 
           {/* RIGHT SIDE */}
           <FlexBetween>
-            <IconButton size="medium" onClick={() => navigate("/users")}>
+            <IconButton size="medium" onClick={() => navigate("/user")}>
               <AdminPanelSettingsIcon />
             </IconButton>
             <IconButton size="medium" onClick={() => navigate("/dashboard")}>
@@ -166,7 +166,7 @@ const NavBar = () => {
                 <LightModeOutlined />
               )}
             </IconButton>
-            <IconButton onClick={() => navigate("/users")}>
+            <IconButton onClick={() => navigate("/user")}>
               <AccountCircleRounded />
             </IconButton>
             <Box display="flex">
@@ -199,14 +199,29 @@ const NavBar = () => {
         anchor="left"
         open={open}
       >
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "ltr" ? (
-              <ChevronLeftIcon />
-            ) : (
-              <ChevronRightIcon />
-            )}
-          </IconButton>
+        <DrawerHeader sx={{ display: "flex", justifyContent: "space-between" }}>
+          <div>
+            <Link
+              variant="h6"
+              sx={{
+                fontWeight: "bold",
+                color: `${theme.palette.background.alt}`,
+                cursor: "pointer",
+                textDecoration: "none",
+              }}
+            >
+              OnRECORD
+            </Link>
+          </div>
+          <div>
+            <IconButton onClick={handleDrawerClose}>
+              {theme.direction === "ltr" ? (
+                <ChevronLeftIcon />
+              ) : (
+                <ChevronRightIcon />
+              )}
+            </IconButton>
+          </div>
         </DrawerHeader>
         <Divider />
         <List>
@@ -226,18 +241,6 @@ const NavBar = () => {
           ))}
         </List>
         <Divider />
-        <List>
-          {["All mail", "Trash", "Spam"].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
       </Drawer>
     </Box>
   );

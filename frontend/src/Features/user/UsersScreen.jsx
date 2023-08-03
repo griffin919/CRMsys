@@ -1,29 +1,52 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { saveClickedUserID } from "./authSlice";
 import { useGetUsersQuery } from "./userApiSlice";
 import { Search } from "@mui/icons-material";
 import AddIcon from "@mui/icons-material/Add";
-import { Box, Grid, Typography, InputBase, IconButton } from "@mui/material";
+import {
+  Box,
+  Grid,
+  Typography,
+  InputBase,
+  IconButton,
+  Link,
+} from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import CircularProgress from "@mui/material/CircularProgress";
-import { saveAllUsers, saveSearchUserResults } from "./authSlice";
+import {
+  saveAllUsers,
+  saveSearchUserResults,
+  saveClickedUserID,
+} from "./authSlice";
 import { useTheme } from "@emotion/react";
+import UserAccount from "./UserAccount";
 
 const UsersScreen = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const theme = useTheme();
 
-  useEffect(() => {
-    dispatch(saveClickedUserID(null));
-  });
-
-  const users = useSelector((state) => state.auth.users);
-
   // Destructure the data from the query hook
-  const { data, isSuccess, isLoading, error } = useGetUsersQuery();
+  const { data, isSuccess, isLoading, error, refetch } = useGetUsersQuery(
+    {},
+    { refetchOnMountOrArgChange: true }
+  );
+
+  // useEffect(() => {
+  //   dispatch(saveClickedUserID(null));
+  // });
+
+  // const users = useSelector((state) => state.auth.users);
+  const { users, userInfo, userSearchResults, userID } = useSelector(
+    (state) => state.auth
+  );
+  // console.log(
+  //   " users, userInfo, userSearchResults: ",
+  //   users,
+  //   userInfo,
+  //   userSearchResults
+  // );
 
   if (isLoading) {
     return (
@@ -47,7 +70,8 @@ const UsersScreen = () => {
 
   const handleCellDoubleClick = (params) => {
     dispatch(saveClickedUserID(params.row.id));
-    // navigate("/profile");
+
+    navigate("/user/update");
   };
 
   const handleSearch = (e) => {
@@ -61,30 +85,18 @@ const UsersScreen = () => {
       );
 
       console.log("filteredUsers: ", filteredUsers);
-      if (filteredUsers && filteredUsers != []) {
+      if (filteredUsers && filteredUsers.length > 0) {
         dispatch(saveSearchUserResults(filteredUsers));
+      } else {
+        dispatch(saveSearchUserResults(null));
       }
     }
   };
 
-  const isAdmin = useSelector((state) => state.auth.userInfo.role);
-  console.log("isAdmin: ", isAdmin);
-
-  const searchResults = useSelector((state) => state.auth.userSearchRecords);
-  const [dataToRender, setDataToRender] = useState({ ...users });
-  // save click column/record id
-  // and setProfileActive to true so when can clear recordID -
-  // from global state anytime we return home
-
-  const renderedUserObj =
-    searchResults && Object.values(searchResults).length > 0
-      ? searchResults
+  let renderedUserObj =
+    userSearchResults && Object.values(userSearchResults).length > 0
+      ? userSearchResults
       : users;
-  useEffect(() => {
-    setDataToRender(renderedUserObj);
-  }, [renderedUserObj]);
-
-  // // console.log("renderedRecordObj: ", renderedRecordObj);
 
   const columns = [
     { field: "name", headerName: "Name", minWidth: 200 },
@@ -95,7 +107,7 @@ const UsersScreen = () => {
     { field: "jurisdiction", headerName: "Jurisdiction", minWidth: 100 },
   ];
 
-  const rows = Object.values(users).map((user) => ({
+  const rows = Object.values(renderedUserObj).map((user) => ({
     id: user._id,
     name: `${user.fname} ${user.lname}`,
     username: user.username,
@@ -125,7 +137,7 @@ const UsersScreen = () => {
               <div
                 style={{
                   backgroundColor: `${theme.palette.background.paper}`,
-                  padding: "7px 20px",
+                  padding: "0px 20px",
                   marginRight: "30px",
                   borderRadius: "30px",
                   display: "inline",
@@ -142,14 +154,14 @@ const UsersScreen = () => {
               <div style={{ display: "inline" }}>
                 <Link
                   href=""
-                  onClick={() => navigate("/users/register")}
+                  onClick={() => navigate("/user/register")}
                   underline="none"
                   sx={{ color: `${theme.palette.background.alt}` }}
                   gap="20px"
                 >
-                  Add Record
+                  Create account
                 </Link>
-                <IconButton onClick={() => navigate("/record/add")}>
+                <IconButton onClick={() => navigate("/user/register")}>
                   <AddIcon />
                 </IconButton>
               </div>

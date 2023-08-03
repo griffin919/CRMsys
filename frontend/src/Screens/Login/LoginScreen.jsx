@@ -5,10 +5,8 @@ import {
   Box,
   TextField,
   FormControl,
-  Container,
   Button,
   useTheme,
-  InputBase,
   Typography,
   Grid,
 } from "@mui/material";
@@ -55,7 +53,14 @@ const LoginScreen = () => {
     <div>
       <Grid container>
         <Grid item md={8} xs={12}>
-          <Box minHeight="100vh">
+          <Box
+            minHeight="100vh"
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
             <Box width="300px">
               <Typography
                 sx={{
@@ -123,32 +128,34 @@ const LoginScreen = () => {
         <Grid item md={4} xs={12} sx={{ overflow: "hidden" }}>
           <div
             style={{
-              width: "200%",
+              width: "100%",
               height: "100%",
-              position: "relative",
-              right: "50%",
+              backgroundColor: `${theme.palette.background.alt}`,
+              display: "flex",
+              alignItems: "center",
             }}
           >
             <div>
-              {/* <Typography
+              <Typography
                 sx={{
                   lineHeight: "0.8",
-                  fontSize: "7rem",
+                  fontSize: "12rem",
                   fontWeight: "bold",
                   color: "grey",
                   // textAlign: "center",
                 }}
               >
-                One <br />
-                Record <br /> On <br />
-                Record
-              </Typography> */}
-              <img
-                src="/judge-hammer.jpg"
-                alt="Judge Hammer"
-                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-              />
+                KTEE <br />
+                WO <br />
+                TW3
+                <br /> OOO
+              </Typography>
             </div>
+            {/* <img
+              src="/judge-hammer.jpg"
+              alt="Judge Hammer"
+              style={{ objectFit: "cover" }}
+            /> */}
           </div>
         </Grid>
       </Grid>

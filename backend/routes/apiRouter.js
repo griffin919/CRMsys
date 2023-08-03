@@ -17,41 +17,41 @@ const apiRouter = express.Router();
 //desc      create new user account
 //route     api/users/register
 //access    Protected
-apiRouter.route('/users/register')
+apiRouter.route('/user/register')
 .post(protect, registerUser)
 
 //desc      login
 //route     api/users/login
 //access    Public
-apiRouter.route('users/login')
+apiRouter.route('/user/login')
 .post(loginUser)
 
 
 //desc      logout
 //route     api/users/logout
 //access    Public
-apiRouter.route('/users/logout')
+apiRouter.route('/user/logout')
 .post(logoutUser)
 
 //desc      update user account
-//route     api/users/profile
+//route     api/user/profile
 //access    Protected
-// apiRouter.route('/users/profile')
+// apiRouter.route('/user/profile')
 // .get(protect, getUser)
 // .put(protect, updateUserByUser)
 
 //desc      update user account by admin
-//route     api/users/profile/:admin
+//route     api/user/profile/:admin
 //access    Protected
-apiRouter.route('/users/:id')
+apiRouter.route('/user/:id')
 .put(protect,  updateUserByAdmin)
 .get(protect, getUser)
 .delete(protect, deleteUser)
 
 //desc      get all users
-//route     api/users/users
+//route     api/user/user
 //access    Protected/admin
-apiRouter.route('/users')
+apiRouter.route('/user')
 .get(protect, adminAuth, getAllUsers)
 
 

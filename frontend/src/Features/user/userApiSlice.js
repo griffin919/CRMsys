@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const baseQuery = fetchBaseQuery({ baseUrl: "" });
-const USER_URL = "/api/users";
+const USER_URL = "/api/user";
 const OFFENDER_URL = "/api/record";
 
 const userApiSlice = createApi({
@@ -15,7 +15,18 @@ const userApiSlice = createApi({
         body: data,
       }),
     }),
+    updateUser: builder.mutation({
+      query: ({ userID, formState  }) => {
+       console.log('userID, formState : ', userID, formState )
+        
+       return{
 
+         url: `${USER_URL}/${userID}`,
+         method: "PUT",
+         body: formState,
+       }
+      },
+    }),
     login: builder.mutation({
       query: (data) => ({
         url: `${USER_URL}/login`,
@@ -27,6 +38,12 @@ const userApiSlice = createApi({
       query: () => ({
         url: `${USER_URL}`,
         method: "GET",
+      }),
+    }),
+    deleteUser: builder.mutation({
+      query: (userID) => ({
+        url: `${USER_URL}/${userID}`,
+        method: "DELETE",
       }),
     }),
     logout: builder.mutation({
@@ -85,8 +102,6 @@ const userApiSlice = createApi({
       query: ({ id, data }) => {
         const formData = new FormData();
 
-        console.log("data from userApiSlice", data, "id", id);
-
         // Helper function to handle appending form fields
         const appendField = (key, value) => {
           // If the value is an object, stringify it and append as a JSON string
@@ -130,14 +145,16 @@ const userApiSlice = createApi({
 });
 
 export const {
-  useLoginMutation,
   useUpdateRecordMutation,
   useDeleteRecordMutation,
   useGetRecordsQuery,
+  useUpdateUserMutation,
+  useLoginMutation,
   useLogoutMutation,
   useRegisterUserMutation,
   useGetUsersQuery,
   useAddRecordMutation,
+  useDeleteUserMutation,
 } = userApiSlice;
 
 export default userApiSlice;

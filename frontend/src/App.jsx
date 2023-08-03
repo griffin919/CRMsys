@@ -27,9 +27,9 @@ const App = () => {
           <Routes>
             <Route index="true" path="/" element={<LoginScreen />} />
             <Route element={<Layout />}>
-              <Route path="/users/update" element={<UpdateUser />} />
-              <Route path="/users/register" element={<RegisterUser />} />
-              <Route path="/users" element={<UsersScreen />} />
+              <Route path="/user/update" element={<UpdateUser />} />
+              <Route path="/user/register" element={<RegisterUser />} />
+              <Route path="/user" element={<UsersScreen />} />
               <Route path="/dashboard" element={<DashScreen />} />
               <Route path="/record/add" element={<AddRecord />} />
               <Route path="/record" element={<OffenderProfile />} />
