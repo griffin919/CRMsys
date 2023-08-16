@@ -139,16 +139,16 @@ const LoginScreen = () => {
               <Typography
                 sx={{
                   lineHeight: "0.8",
-                  fontSize: "12rem",
+                  fontSize: "15rem",
                   fontWeight: "bold",
                   color: "grey",
                   // textAlign: "center",
                 }}
               >
-                KTEE <br />
-                WO <br />
-                TW3
-                <br /> OOO
+                On <br />
+                Rec
+                <br />
+                ord
               </Typography>
             </div>
             {/* <img

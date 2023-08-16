@@ -266,7 +266,7 @@ export default function AddRecord() {
               type="button"
               variant="contained"
               size="large"
-              onClick={handleNextStep && <CircularProgress />}
+              onClick={handleNextStep}
               sx={{ m: "0 10px" }}
             >
               Next

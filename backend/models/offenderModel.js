@@ -5,6 +5,7 @@ const offenderSchema = new mongoose.Schema({
   personalInformation: {
     fname: { type: String, required: true },
     lname: { type: String, required: true },
+    gender: { type: String, required: true },
     dateOfBirth: { type: Date, required: true },
     gender: { type: String, required: true },
     photo: {type: String},

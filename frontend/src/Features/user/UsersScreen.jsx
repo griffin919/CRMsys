@@ -33,20 +33,9 @@ const UsersScreen = () => {
     { refetchOnMountOrArgChange: true }
   );
 
-  // useEffect(() => {
-  //   dispatch(saveClickedUserID(null));
-  // });
-
-  // const users = useSelector((state) => state.auth.users);
   const { users, userInfo, userSearchResults, userID } = useSelector(
     (state) => state.auth
   );
-  // console.log(
-  //   " users, userInfo, userSearchResults: ",
-  //   users,
-  //   userInfo,
-  //   userSearchResults
-  // );
 
   if (isLoading) {
     return (
@@ -119,6 +108,7 @@ const UsersScreen = () => {
 
   return (
     <div
+      id="parentDiv"
       style={{
         display: "flex",
         justifyContent: "center",
@@ -126,7 +116,7 @@ const UsersScreen = () => {
         width: "100%",
       }}
     >
-      <Grid container>
+      <Grid container width="70%">
         <Grid item>
           <div>
             <Grid
@@ -166,19 +156,21 @@ const UsersScreen = () => {
                 </IconButton>
               </div>
             </Grid>
-            <DataGrid
-              rows={rows}
-              columns={columns}
-              sx={{ border: "none", cursor: "pointer" }}
-              initialState={{
-                pagination: {
-                  paginationModel: { page: 0, pageSize: 10 },
-                },
-              }}
-              getRowId={(row) => row.id}
-              pageSizeOptions={[10, 20]}
-              onCellDoubleClick={handleCellDoubleClick}
-            />
+            <Grid item>
+              <DataGrid
+                rows={rows}
+                columns={columns}
+                sx={{ border: "none", cursor: "pointer" }}
+                initialState={{
+                  pagination: {
+                    paginationModel: { page: 0, pageSize: 10 },
+                  },
+                }}
+                getRowId={(row) => row.id}
+                pageSizeOptions={[10, 20]}
+                onCellDoubleClick={handleCellDoubleClick}
+              />
+            </Grid>
           </div>
         </Grid>
       </Grid>

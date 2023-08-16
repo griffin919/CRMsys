@@ -57,13 +57,21 @@ const OffenderQueryScreen = () => {
     console.log(error);
   }
 
+  // const renderedRecordObj =
+  //   searchResults && Object.values(searchResults).length > 0
+  //     ? searchResults
+  //     : records;
+  // useEffect(() => {
+  //   setDataToRender(renderedRecordObj);
+  // }, [renderedRecordObj]);
+
   const renderedRecordObj =
     searchResults && Object.values(searchResults).length > 0
       ? searchResults
       : records;
   useEffect(() => {
     setDataToRender(renderedRecordObj);
-  }, [renderedRecordObj]);
+  });
 
   // console.log("renderedRecordObj: ", renderedRecordObj);
 
