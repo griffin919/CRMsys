@@ -304,9 +304,11 @@ const ConfirmInput = ({ formData, photo }) => {
           )}
         </Grid>
         <Grid item md={6}>
-          <Button type="submit" variant="contained" color="primary">
-            {isOffenderProfile ? "Update" : "Submit"}
-          </Button>
+          {/* {isOffenderProfile ? (
+            <Button type="submit" variant="contained" color="primary">
+              Update
+            </Button>
+          ) : null} */}
         </Grid>
       </Grid>
     </Box>

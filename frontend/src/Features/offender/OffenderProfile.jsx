@@ -47,12 +47,20 @@ const OffenderProfile = () => {
         justifyContent: "center",
       }}
     >
-      <div style={{ width: "70%" }}>
+      <div
+        style={{
+          width: "70%",
+        }}
+      >
         <ConfirmInput formData={ClickedRecord[0]} photo={""} />
         <Button variant="contained" onClick={() => navigate("/record/update")}>
           Update
         </Button>
-        <Button variant="contained" onClick={handleDeleteRecord}>
+        <Button
+          sx={{ margin: "10px" }}
+          variant="contained"
+          onClick={handleDeleteRecord}
+        >
           Delete
         </Button>
       </div>

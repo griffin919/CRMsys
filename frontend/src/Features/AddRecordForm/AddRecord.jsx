@@ -118,7 +118,7 @@ export default function AddRecord() {
         setRecordFormData(initialOffenderState);
         setuploadedPhoto(null);
       })
-      .then(() => navigate("/record/add"))
+      .then(() => navigate("/dashboard"))
       .catch((err) => console.log("Something went wrong ", err));
   };
 
@@ -261,7 +261,7 @@ export default function AddRecord() {
               Previous
             </Button>
           )}
-          {step < 8 && (
+          {step < 8 ? (
             <Button
               type="button"
               variant="contained"
@@ -271,7 +271,17 @@ export default function AddRecord() {
             >
               Next
             </Button>
-          )}
+          ) : step === 8 ? (
+            <Button
+              type="button"
+              variant="contained"
+              size="large"
+              onClick={handleSubmit}
+              sx={{ m: "0 10px" }}
+            >
+              Submit
+            </Button>
+          ) : null}
         </Box>
       </Box>
     </AddRecordFormContext.Provider>
