@@ -52,7 +52,7 @@ const LoginScreen = () => {
   return (
     <div>
       <Grid container>
-        <Grid item md={8} xs={12}>
+        <Grid item md={7} xs={12}>
           <Box
             minHeight="100vh"
             sx={{
@@ -71,7 +71,7 @@ const LoginScreen = () => {
                   fontWeight: "light",
                 }}
               >
-                OnRecord
+                Galloway CRMS
               </Typography>
               <Typography sx={{ color: "red", textAlign: "center", m: "20px" }}>
                 {renderError ? renderError : ""}
@@ -118,14 +118,16 @@ const LoginScreen = () => {
                     Login
                   </Button>
                 </div>
-                <Typography sx={{ marginTop: "30px", opacity: "0.8" }}>
+                <Typography
+                  sx={{ marginTop: "30px", opacity: "0.8", fontSize: "0.8rem" }}
+                >
                   Forgotten username or password? Contact admin.
                 </Typography>
               </form>
             </Box>
           </Box>
         </Grid>
-        <Grid item md={4} xs={12} sx={{ overflow: "hidden" }}>
+        <Grid item md={5} xs={12} sx={{ overflow: "hidden" }}>
           <div
             style={{
               width: "100%",
@@ -135,7 +137,7 @@ const LoginScreen = () => {
               alignItems: "center",
             }}
           >
-            <div>
+            {/* <div>
               <Typography
                 sx={{
                   lineHeight: "0.8",
@@ -150,12 +152,12 @@ const LoginScreen = () => {
                 <br />
                 ord
               </Typography>
-            </div>
-            {/* <img
-              src="/judge-hammer.jpg"
+            </div> */}
+            <img
+              src="/handcuffed.jpg"
               alt="Judge Hammer"
               style={{ objectFit: "cover" }}
-            /> */}
+            />
           </div>
         </Grid>
       </Grid>

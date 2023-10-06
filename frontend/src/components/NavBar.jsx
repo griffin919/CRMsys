@@ -135,7 +135,7 @@ const NavBar = () => {
             </IconButton>
 
             {/* LEFT SIDE */}
-            <Box onClick={() => navigate("/dashboard")}>
+            <Box onClick={() => navigate("/welcome")}>
               <Link
                 variant="h6"
                 sx={{
@@ -156,7 +156,7 @@ const NavBar = () => {
             <IconButton size="medium" onClick={() => navigate("/user")}>
               <AdminPanelSettingsIcon />
             </IconButton>
-            <IconButton size="medium" onClick={() => navigate("/dashboard")}>
+            <IconButton size="medium" onClick={() => navigate("/welcome")}>
               <HomeIcon />
             </IconButton>
             <IconButton onClick={changeMode}>

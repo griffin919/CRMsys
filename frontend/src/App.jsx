@@ -15,6 +15,8 @@ import UpdateRecord from "./Features/AddRecordForm/UpdateRecord";
 import UsersScreen from "./Features/user/UsersScreen";
 import RegisterUser from "./Features/user/RegisterUser";
 import UpdateUser from "./Features/user/UpdateUser";
+import WelcomeScreen from "./Screens/Welcome/WelcomeScreen";
+import SearchRecords from "./Screens/Welcome/SearchRecords";
 
 const App = () => {
   const mode = useSelector((state) => state.global.mode);
@@ -26,6 +28,7 @@ const App = () => {
           <CssBaseline />
           <Routes>
             <Route index="true" path="/" element={<LoginScreen />} />
+            <Route index="true" path="/welcome" element={<WelcomeScreen />} />
             <Route element={<Layout />}>
               <Route path="/user/update" element={<UpdateUser />} />
               <Route path="/user/register" element={<RegisterUser />} />
@@ -34,6 +37,7 @@ const App = () => {
               <Route path="/record/add" element={<AddRecord />} />
               <Route path="/record" element={<OffenderProfile />} />
               <Route path="/record/update" element={<UpdateRecord />} />
+              <Route path="/record/search" element={<SearchRecords />} />
             </Route>
           </Routes>
         </ThemeProvider>

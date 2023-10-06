@@ -66,6 +66,8 @@ const offenderSchema = new mongoose.Schema({
   }],
 }, {timestamps: true});
 
+offenderSchema.index({"personalInformation.fname": "text", "personalInformation.lname": 'text'})
+
 // Create the Offender model
 const Offender = mongoose.model('Offender', offenderSchema);
 

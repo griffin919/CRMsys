@@ -30,7 +30,7 @@ app.get('/api/uploads/:filename', (req, res) => {
     const imagePath = path.join(__dirname, "backend/public", 'uploads', filename);
 
     res.sendFile(imagePath);
-  });
+});
   
 
 app.use('/api', apiRouter);

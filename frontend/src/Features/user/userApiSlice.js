@@ -98,6 +98,12 @@ const userApiSlice = createApi({
         method: "GET",
       }),
     }),
+    searchRecords: builder.query({
+      query: (searchQuery) => ({
+        url: `${OFFENDER_URL}/search/${searchQuery}`,
+        method: "GET",
+      }),
+    }),
     updateRecord: builder.mutation({
       query: ({ id, data }) => {
         const formData = new FormData();
@@ -148,6 +154,7 @@ export const {
   useUpdateRecordMutation,
   useDeleteRecordMutation,
   useGetRecordsQuery,
+  useSearchRecordsQuery,
   useUpdateUserMutation,
   useLoginMutation,
   useLogoutMutation,

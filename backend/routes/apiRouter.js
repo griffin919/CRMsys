@@ -9,7 +9,10 @@ import { addOffender,
     getOffenderProfile,
     updateOffenderInfo,
      getOffenderinfo,
-     deleteOffenderinfo } from '../controllers/offenderController.js';
+     deleteOffenderinfo, 
+     searchRecords, 
+     getImgNamesArr,
+    } from '../controllers/offenderController.js';
 
 //mounts
 const apiRouter = express.Router();
@@ -76,5 +79,16 @@ apiRouter.route('/record/:id')
 apiRouter.route('/record')
 .get(protect, getOffenderinfo)
 
+//desc      search Records
+//route     offender/api/search
+//access    Protected
+apiRouter.route('/record/search/:searchQuery')
+.get(protect, searchRecords)
+
+//desc      get images names in array
+//route     /record/images
+//access    public
+apiRouter.route('/record/imageslist')
+.get(getImgNamesArr)
 
 export default apiRouter;
