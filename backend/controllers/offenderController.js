@@ -90,6 +90,7 @@ const getOffenderProfile = expressAsyncHandler( async (req, res, next) => {
     //     throw new Error(error);
     // }
 });
+
 const deleteOffenderinfo = expressAsyncHandler( async (req, res, next) => {
   
   try {
@@ -121,6 +122,7 @@ const searchRecords = expressAsyncHandler(async (req, res, next) => {
           $or: [
             { "personalInformation.fname": { $regex: new RegExp(searchQuery, "i") } },
             { "personalInformation.lname": { $regex: new RegExp(searchQuery, "i") } },
+            { "personalInformation.photo": { $regex: new RegExp(searchQuery, "i") } },
           ],
         });
       }

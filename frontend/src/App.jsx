@@ -17,6 +17,7 @@ import RegisterUser from "./Features/user/RegisterUser";
 import UpdateUser from "./Features/user/UpdateUser";
 import WelcomeScreen from "./Screens/Welcome/WelcomeScreen";
 import SearchRecords from "./Screens/Welcome/SearchRecords";
+import FaceRecognitionComponent from "./Screens/Welcome/FaceRecognitionComponent";
 
 const App = () => {
   const mode = useSelector((state) => state.global.mode);
@@ -38,6 +39,10 @@ const App = () => {
               <Route path="/record" element={<OffenderProfile />} />
               <Route path="/record/update" element={<UpdateRecord />} />
               <Route path="/record/search" element={<SearchRecords />} />
+              <Route
+                path="/record/photo-search"
+                element={<FaceRecognitionComponent />}
+              />
             </Route>
           </Routes>
         </ThemeProvider>

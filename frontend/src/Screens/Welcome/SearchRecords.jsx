@@ -1,50 +1,38 @@
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { Box, Typography, CircularProgress } from "@mui/material";
+import dayjs from "dayjs";
+import SearchComp from "../../functions/SearchComp";
+import { DataGrid } from "@mui/x-data-grid";
 import { useGetRecordsQuery } from "../../Features/user/userApiSlice";
 import {
   saveAllRecords,
   saveClickedRecordID,
 } from "../../Features/offender/OffenderSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { Box, Typography } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
-import { useNavigate } from "react-router-dom/dist/umd/react-router-dom.development";
-import CircularProgress from "@mui/material/CircularProgress";
-import { useEffect, useState } from "react";
-import dayjs from "dayjs";
-import SearchComp from "../../functions/SearchComp";
 
 const SearchRecords = () => {
-  // const [displayDataGrid, setDisplayDataGrid] = useState("none");
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const records = useSelector((state) => state.offenderRecords.records);
+
+  const searchResults = useSelector(
+    (state) => state.offenderRecords.searchResults
+  );
+
+  // Reset clicked record ID when the component mounts
   useEffect(() => {
     dispatch(saveClickedRecordID(null));
-  });
+  }, [dispatch]);
 
-  // Destructure the data from the query hook
   const { data, isSuccess, isLoading, error } = useGetRecordsQuery(
     {},
     { refetchOnMountOrArgChange: true }
   );
 
-  //save click column/record id
-  //and setProfileActive to true so when can clear recordID -
-  //from global state anytime we return home
-  const handleCellDoubleClick = (params) => {
-    dispatch(saveClickedRecordID(params.row.id));
-    navigate("/record");
-  };
-
-  const records = useSelector((state) => state.offenderRecords.records);
-  const searchResults = useSelector(
-    (state) => state.offenderRecords.searchResults
-  );
-  console.log("searchResults: ", searchResults);
-
-  // const [dataToRender, setDataToRender] = useState({ ...records });
-
-  if (isLoading && records == null) {
+  // If there's an error or loading, display appropriate messages
+  if (isLoading && !data) {
     return (
       <div>
         <Typography>
@@ -52,23 +40,20 @@ const SearchRecords = () => {
         </Typography>
       </div>
     );
-  } else if (isSuccess) {
-    // Dispatch the saveAllRecords action only if records are not yet saved in Redux
-    dispatch(saveAllRecords(data));
-  } else if (error && records == null) {
+  } else if (isSuccess && data) {
+    // Check if the records haven't been saved already
+    if (!records || records.length === 0) {
+      dispatch(saveAllRecords(data));
+    }
+  } else if (error && !data) {
     return (
       <div>
         <Typography>Error loading records!</Typography>
       </div>
     );
-    console.log(error);
   }
 
-  const renderedRecordObj =
-    searchResults && Object.values(searchResults).length > 0
-      ? searchResults
-      : {};
-
+  // Create an array of columns
   const columns = [
     { field: "name", headerName: "Name", minWidth: 200 },
     { field: "gender", headerName: "Gender", minWidth: 100 },
@@ -78,6 +63,11 @@ const SearchRecords = () => {
     { field: "convicted", headerName: "Convicted", minWidth: 100 },
   ];
 
+  // Prepare the rows for the DataGrid
+  const renderedRecordObj =
+    searchResults && Object.values(searchResults).length > 0
+      ? searchResults
+      : {};
   const rows = Object.values(renderedRecordObj).map((record) => ({
     id: record._id,
     name: `${record.personalInformation.fname} ${record.personalInformation.lname}`,
@@ -90,37 +80,28 @@ const SearchRecords = () => {
     convicted: record.chargeAndConvictionHistory.convicted,
   }));
 
+  // Define the double-click action for DataGrid
+  const handleCellDoubleClick = (params) => {
+    dispatch(saveClickedRecordID(params.row.id));
+    navigate("/record");
+  };
+
   return (
-    <>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          width: "100%",
-          flexDirection: "column",
+    <div>
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        sx={{ border: "none", cursor: "pointer" }}
+        initialState={{
+          pagination: {
+            paginationModel: { page: 0, pageSize: 10 },
+          },
         }}
-      >
-        <div>
-          <SearchComp />
-        </div>
-        <div>
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            sx={{ border: "none", cursor: "pointer" }}
-            initialState={{
-              pagination: {
-                paginationModel: { page: 0, pageSize: 10 },
-              },
-            }}
-            getRowId={(row) => row.id}
-            pageSizeOptions={[10, 20]}
-            onCellDoubleClick={handleCellDoubleClick}
-          />
-        </div>
-      </div>
-    </>
+        getRowId={(row) => row.id}
+        pageSizeOptions={[10, 20]}
+        onCellDoubleClick={handleCellDoubleClick}
+      />
+    </div>
   );
 };
 

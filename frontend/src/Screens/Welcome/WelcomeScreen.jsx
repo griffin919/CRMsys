@@ -31,6 +31,11 @@ const WelcomeScreen = () => {
           <Grid item md={6} className="WelcomeDiv">
             <Button>Manage Records</Button>
           </Grid>
+          <Grid item md={6} className="WelcomeDiv">
+            <Button onClick={() => navigate("/record/photo-search")}>
+              Photo Search
+            </Button>
+          </Grid>
         </Grid>
       </Box>
     </div>

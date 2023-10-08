@@ -10,7 +10,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import PhotoRecog from "./PhotoRecog";
 
-const SearchComp = (searchData) => {
+const SearchComp = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchDate, setsearchDate] = useState("");
   const [QueryPic, setQueryPic] = useState("");
