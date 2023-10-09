@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import OffenderQueryScreen from "../../Features/offender/OffenderQueryScreen";
 import { useDispatch, useSelector } from "react-redux";
 import SearchComp from "../../functions/SearchComp";
+import SearchRecords from "../Welcome/SearchRecords";
 
 const DashScreen = () => {
   const navigate = useNavigate();
@@ -40,38 +41,60 @@ const DashScreen = () => {
 
   const theme = useTheme();
   return (
-    <Box>
+    <Box height={"100vh"} width={"100wh"} sx={{ margin: "30px 0 0 0" }}>
       <Grid container>
         <Grid item md={12} xs={12} sx={{ mb: "20px" }}>
           <div
             style={{
               mb: "30px",
               textAlign: "center",
-              // display: "flex",
-              // alignItems: "center",
-              // justifyContent: "center",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "end",
               // flexDirection: "column",
             }}
           >
             {/* <SearchComp searchData={records} /> */}
-            <div style={{ display: "inline", width: "20%" }}>
+            <div
+              style={{
+                display: "inline",
+                width: "20%",
+              }}
+            >
               <Link
                 href=""
                 onClick={() => navigate("/record/add")}
                 underline="none"
-                sx={{ color: `${theme.palette.background.alt}` }}
+                sx={{
+                  color: "white",
+                  border: "1px solid grey",
+                  padding: "10px 40px",
+                  borderRadius: "5px",
+                  backgroundColor: "#C70039",
+                }}
                 gap="20px"
               >
-                Add Record
+                Add Record +
               </Link>
-              <IconButton onClick={() => navigate("/record/add")}>
+              {/* <IconButton onClick={() => navigate("/record/add")}>
                 <AddIcon />
-              </IconButton>
+              </IconButton> */}
             </div>
           </div>
         </Grid>
-        <Grid item md={12}>
-          <OffenderQueryScreen />
+        <Grid
+          item
+          md={12}
+          sx={{
+            // backgroundColor: "#C70039",
+            border: "solid 1px grey",
+            padding: "0 20px",
+            borderRadius: "10px",
+            margin: "20px 0 0 0",
+          }}
+        >
+          <SearchRecords />
+          {/* <OffenderQueryScreen /> */}
         </Grid>
       </Grid>
     </Box>

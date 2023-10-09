@@ -114,8 +114,12 @@ const UsersScreen = () => {
         justifyContent: "center",
         alignItems: "center",
         width: "100%",
+        flexDirection: "column",
       }}
     >
+      <Typography sx={{ textAlign: "center", fontSize: "2rem" }}>
+        Manage User Accounts
+      </Typography>
       <Grid container width="70%">
         <Grid item>
           <div>
@@ -126,11 +130,11 @@ const UsersScreen = () => {
             >
               <div
                 style={{
-                  backgroundColor: `${theme.palette.background.paper}`,
-                  padding: "0px 20px",
+                  padding: "3px 20px",
                   marginRight: "30px",
-                  borderRadius: "30px",
+                  borderRadius: "5px",
                   display: "inline",
+                  border: "1px solid grey",
                 }}
               >
                 <InputBase
@@ -141,19 +145,35 @@ const UsersScreen = () => {
                   <Search />
                 </IconButton>
               </div>
-              <div style={{ display: "inline" }}>
-                <Link
+              <div
+                onClick={() => navigate("/user/register")}
+                style={{
+                  color: "white",
+                  border: "1px solid grey",
+                  padding: "0 15px 25px 15px",
+                  borderRadius: "5px",
+                  backgroundColor: "#C70039",
+                  cursor: "pointer",
+                  // display: "flex",
+                  // alignItems: "center",
+                  // justifyContent: "center",
+                }}
+              >
+                {/* <Link
                   href=""
-                  onClick={() => navigate("/user/register")}
                   underline="none"
-                  sx={{ color: `${theme.palette.background.alt}` }}
+                  onClick={() => navigate("/user/register")}
                   gap="20px"
+                  sx={{ padding: "20px" }}
                 >
                   Create account
-                </Link>
-                <IconButton onClick={() => navigate("/user/register")}>
+                </Link> */}
+                <Typography sx={{ marginTop: "0px" }}>
+                  Create account
+                </Typography>
+                {/* <IconButton onClick={() => navigate("/user/register")}>
                   <AddIcon />
-                </IconButton>
+                </IconButton> */}
               </div>
             </Grid>
             <Grid item>

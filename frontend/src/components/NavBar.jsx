@@ -131,7 +131,11 @@ const NavBar = () => {
               edge="start"
               sx={{ mr: 2, ...(open && { display: "none" }) }}
             >
-              <MenuIcon />
+              <MenuIcon
+                sx={{
+                  color: "#C70039",
+                }}
+              />
             </IconButton>
 
             {/* LEFT SIDE */}
@@ -140,7 +144,7 @@ const NavBar = () => {
                 variant="h6"
                 sx={{
                   fontWeight: "bold",
-                  color: `${theme.palette.background.alt}`,
+                  color: "#C70039",
                   cursor: "pointer",
                   textDecoration: "none",
                 }}
@@ -154,20 +158,32 @@ const NavBar = () => {
           {/* RIGHT SIDE */}
           <FlexBetween>
             <IconButton size="medium" onClick={() => navigate("/user")}>
-              <AdminPanelSettingsIcon />
+              <AdminPanelSettingsIcon
+                sx={{
+                  color: "#C70039",
+                }}
+              />
             </IconButton>
             <IconButton size="medium" onClick={() => navigate("/welcome")}>
-              <HomeIcon />
+              <HomeIcon sx={{ color: "#C70039" }} />
             </IconButton>
             <IconButton onClick={changeMode}>
               {currentMode === "light" ? (
-                <DarkModeOutlined />
+                <DarkModeOutlined
+                  sx={{
+                    color: "#C70039",
+                  }}
+                />
               ) : (
-                <LightModeOutlined />
+                <LightModeOutlined
+                  sx={{
+                    color: "#C70039",
+                  }}
+                />
               )}
             </IconButton>
             <IconButton onClick={() => navigate("/user")}>
-              <AccountCircleRounded />
+              <AccountCircleRounded sx={{ color: "#C70039" }} />
             </IconButton>
             <Box display="flex">
               <Typography>Hi, {userInfo.user.fname}</Typography>
@@ -233,7 +249,11 @@ const NavBar = () => {
             >
               <ListItemButton>
                 <ListItemIcon>
-                  <value.icon />
+                  <value.icon
+                    sx={{
+                      color: "#C70039",
+                    }}
+                  />
                 </ListItemIcon>
                 <ListItemText primary={value.label} />
               </ListItemButton>

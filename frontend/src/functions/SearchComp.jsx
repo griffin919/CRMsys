@@ -9,6 +9,7 @@ import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import PhotoRecog from "./PhotoRecog";
+import SearchRecords from "../Screens/Welcome/SearchRecords";
 
 const SearchComp = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -47,37 +48,70 @@ const SearchComp = () => {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <div
         style={{
-          backgroundColor: `${theme.palette.background.paper}`,
-          padding: "7px 20px",
-          marginRight: "30px",
-          borderRadius: "30px",
-          display: "inline",
+          display: "flex",
+          flexDirection: "column",
+          margin: "30px 0",
         }}
       >
-        <InputBase
-          placeholder="Search record..."
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        <IconButton onClick={handleSearch}>
-          <Search />
-        </IconButton>
-        {/* <FlexBetween m="0px 50px "> */}
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <div
+            style={{
+              // backgroundColor: `${theme.palette.background.paper}`,
+              padding: "7px 20px",
+              marginRight: "30px",
+              borderRadius: "5px",
+              display: "inline",
+              border: "1px solid grey",
+            }}
+          >
+            <InputBase
+              placeholder="Search name..."
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <IconButton
+              sx={{ backgroundColor: "#C70039" }}
+              onClick={handleSearch}
+            >
+              <Search sx={{ color: "#fff" }} />
+            </IconButton>
+            {/* <FlexBetween m="0px 50px "> */}
+          </div>
+          <Box
+            sx={{ display: "inline", display: "flex", alignItems: "center" }}
+          >
+            <DatePicker
+              label="Search Date of Birth"
+              name="searchDate"
+              value={searchDate}
+              onChange={(date) => setsearchDate(date)}
+              slotProps={{ TextField: { variant: "standard" } }}
+            />
+            <IconButton
+              onClick={handleDateSearch}
+              sx={{ backgroundColor: "#C70039", marginLeft: "10px" }}
+            >
+              <Search sx={{ color: "#fff" }} />
+            </IconButton>
+          </Box>
+        </Box>
+
+        <Box
+          sx={{
+            // backgroundColor: "#C70039",
+            border: "1px solid grey",
+            padding: "0 20px",
+            borderRadius: "10px",
+            margin: "20px 0 0 0",
+          }}
+        >
+          <SearchRecords />
+        </Box>
       </div>
-      <Box sx={{ display: "inline" }}>
-        <DatePicker
-          label="Search Date of Birth"
-          name="searchDate"
-          value={searchDate}
-          onChange={(date) => setsearchDate(date)}
-          slotProps={{ TextField: { variant: "standard" } }}
-        />
-        <IconButton onClick={handleDateSearch}>
-          <Search />
-        </IconButton>
-      </Box>
-      <Box>
-        <PhotoRecog />
-      </Box>
     </LocalizationProvider>
   );
 };

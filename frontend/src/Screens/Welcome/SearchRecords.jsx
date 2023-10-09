@@ -67,7 +67,7 @@ const SearchRecords = () => {
   const renderedRecordObj =
     searchResults && Object.values(searchResults).length > 0
       ? searchResults
-      : {};
+      : records;
   const rows = Object.values(renderedRecordObj).map((record) => ({
     id: record._id,
     name: `${record.personalInformation.fname} ${record.personalInformation.lname}`,

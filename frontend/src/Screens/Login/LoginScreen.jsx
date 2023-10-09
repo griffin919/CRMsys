@@ -25,12 +25,11 @@ const LoginScreen = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const [login, { isLoading }] = useLoginMutation();
 
   useEffect(() => {
     if (userInfo) {
-      navigate("/dashboard");
+      navigate("/welcome");
     }
   }, [navigate, userInfo]);
 

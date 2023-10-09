@@ -11,11 +11,20 @@ const WelcomeScreen = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        flexDirection: "column",
         width: "100%",
         height: "100vh",
       }}
     >
-      <Box width="50%" height="50%">
+      <Typography sx={{ fontSize: "2rem" }}>Gallaway CRMS</Typography>
+      <Typography sx={{ fontSize: "1.1rem", margin: "20px" }}>
+        Select a function to perform
+      </Typography>
+      <Box
+        width="50%"
+        height="50%"
+        sx={{ border: "1px grey solid", padding: "25px", borderRadius: "10px" }}
+      >
         <Grid container spacing={2}>
           <Grid item md={6} className="WelcomeDiv">
             <Button onClick={() => navigate("/dashboard")}>View Records</Button>
@@ -26,15 +35,12 @@ const WelcomeScreen = () => {
             </Button>
           </Grid>
           <Grid item md={6} className="WelcomeDiv">
-            <Button>View Users</Button>
-          </Grid>
-          <Grid item md={6} className="WelcomeDiv">
-            <Button>Manage Records</Button>
-          </Grid>
-          <Grid item md={6} className="WelcomeDiv">
             <Button onClick={() => navigate("/record/photo-search")}>
-              Photo Search
+              Image Recognition
             </Button>
+          </Grid>
+          <Grid item md={6} className="WelcomeDiv">
+            <Button onClick={() => navigate("/user")}>Manage Accounts </Button>
           </Grid>
         </Grid>
       </Box>

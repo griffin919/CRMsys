@@ -60,7 +60,10 @@ const FaceRecognitionComponent = () => {
 
     const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.3);
 
-    const displaySize = { width: img.width, height: img.height };
+    const displaySize = {
+      width: img.width,
+      height: img.height,
+    };
     faceapi.matchDimensions(canvas, displaySize);
 
     const ctx = canvas.getContext("2d");
@@ -136,8 +139,21 @@ const FaceRecognitionComponent = () => {
     <div
       style={{ display: "flex", alignItems: "center", flexDirection: "column" }}
     >
+      <label for="fileInput" class="custom-file-input">
+        Image Recognition
+      </label>
       <input
-        style={{ padding: "30px" }}
+        style={{
+          margin: "10px 0 20px 0",
+          width: "200px",
+          fontSize: "16px",
+          border: " 1px solid #ccc",
+          padding: "5px 20px",
+          borderRadius: "10px",
+          backgroundColor: "none",
+          id: "fileInput",
+          class: "hidden-input",
+        }}
         type="file"
         accept=".png, .jpg, .jpeg"
         name="imageUpload"
@@ -149,18 +165,30 @@ const FaceRecognitionComponent = () => {
         <canvas
           ref={canvasRef}
           id="overlayCanvas"
-          style={{ position: "relative", border: "red solid 1px" }}
+          style={{
+            position: "relative",
+            width: "250px",
+            height: "250px",
+            overflow: "hidden",
+          }}
         ></canvas>
       </div>
       <div>
-        <h2>Matching Labels:</h2>
+        <h2 style={{ textAlign: "center" }}>Matching Images:</h2>
         <ul>
           {matchingLabels.map((label, index) => (
             <li key={index}>{label}</li>
           ))}
         </ul>
       </div>
-      <div>
+      <div
+        style={{
+          // backgroundColor: "#C70039",
+          border: "1px solid grey",
+          padding: "10px",
+          borderRadius: "10px",
+        }}
+      >
         <SearchRecords />
       </div>
     </div>
