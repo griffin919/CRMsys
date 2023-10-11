@@ -18,10 +18,14 @@ import { useAddRecordMutation, useGetRecordsQuery } from "../user/userApiSlice";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom/dist/umd/react-router-dom.development";
 import CircularProgress from "@mui/material/CircularProgress";
+import SaveSuccess from "../../components/SaveSuccess";
 
 export default function AddRecord() {
   const [step, setStep] = useState(0);
   const [uploadedPhoto, setuploadedPhoto] = useState(null);
+  const [displayAddRecordSuccess, setDisplayAddRecordSuccess] =
+    useState("none");
+
   const initialOffenderState = {
     personalInformation: {
       fname: "",
@@ -118,7 +122,9 @@ export default function AddRecord() {
         setRecordFormData(initialOffenderState);
         setuploadedPhoto(null);
       })
-      .then(() => navigate("/dashboard"))
+      .then(() => {
+        navigate("/dashboard");
+      })
       .catch((err) => console.log("Something went wrong ", err));
   };
 

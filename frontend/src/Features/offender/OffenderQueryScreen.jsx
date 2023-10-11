@@ -24,11 +24,13 @@ const OffenderQueryScreen = () => {
     { refetchOnMountOrArgChange: true }
   );
 
+  // console.log("data: ", data);
+
   if (isLoading) {
     return (
       <div>
         <Typography>
-          Loading records... <CircularProgress />
+          Loading records... <CircularProgress size={25} />
         </Typography>
       </div>
     );
@@ -42,11 +44,11 @@ const OffenderQueryScreen = () => {
     );
   }
 
-  const records = useSelector((state) => state.offenderRecords.records);
-  const searchResults = useSelector(
-    (state) => state.offenderRecords.searchResults
-  );
-  const [dataToRender, setDataToRender] = useState(records);
+  // const records = useSelector((state) => state.offenderRecords.records);
+  // const searchResults = useSelector(
+  //   (state) => state.offenderRecords.searchResults
+  // );
+  // const [dataToRender, setDataToRender] = useState(records);
 
   const handleCellDoubleClick = (params) => {
     dispatch(saveClickedRecordID(params.row.id));
@@ -62,7 +64,7 @@ const OffenderQueryScreen = () => {
     { field: "convicted", headerName: "Convicted", minWidth: 100 },
   ];
 
-  const rows = Object.values(dataToRender).map((record) => ({
+  const rows = Object.values(data).map((record) => ({
     id: record._id,
     name: `${record.personalInformation.fname} ${record.personalInformation.lname}`,
     gender: record.personalInformation.gender,
@@ -81,14 +83,14 @@ const OffenderQueryScreen = () => {
         justifyContent: "center",
         alignItems: "center",
         width: "100%",
-        color: "#fff",
+        color: "#000",
       }}
     >
       <div>
         <DataGrid
           rows={rows}
           columns={columns}
-          sx={{ border: "none", cursor: "pointer", color: "#fff" }}
+          sx={{ border: "none", cursor: "pointer", color: "#000" }}
           initialState={{
             pagination: {
               paginationModel: { page: 0, pageSize: 10 },

@@ -107,7 +107,7 @@ const NavBar = () => {
   const navLinkObj = [
     { label: "Home", icon: HomeIcon, navLink: "/dashboard" },
     { label: "Admin", icon: AdminPanelSettingsIcon, navLink: "/user" },
-    { label: "Account", icon: AccountCircleRounded, navLink: "" },
+    // { label: "Account", icon: AccountCircleRounded, navLink: "" },
     // { label: "Logout", icon: LogoutRounded, navLink: "" },
   ];
 
@@ -149,7 +149,7 @@ const NavBar = () => {
                   textDecoration: "none",
                 }}
               >
-                OnRECORD
+                CRMSys
               </Link>
             </Box>
           </FlexBetween>
@@ -157,13 +157,13 @@ const NavBar = () => {
 
           {/* RIGHT SIDE */}
           <FlexBetween>
-            <IconButton size="medium" onClick={() => navigate("/user")}>
+            {/* <IconButton size="medium" onClick={() => navigate("/user")}>
               <AdminPanelSettingsIcon
                 sx={{
                   color: "#C70039",
                 }}
               />
-            </IconButton>
+            </IconButton> */}
             <IconButton size="medium" onClick={() => navigate("/welcome")}>
               <HomeIcon sx={{ color: "#C70039" }} />
             </IconButton>
@@ -182,16 +182,16 @@ const NavBar = () => {
                 />
               )}
             </IconButton>
-            <IconButton onClick={() => navigate("/user")}>
+            {/* <IconButton onClick={() => navigate("/user")}>
               <AccountCircleRounded sx={{ color: "#C70039" }} />
-            </IconButton>
+            </IconButton> */}
             <Box display="flex">
               <Typography>Hi, {userInfo.user.fname}</Typography>
-              {userInfo.user.role === "admin" ? (
-                <Typography m="0 1em">{userInfo.user.role}</Typography>
-              ) : (
+              {/* {userInfo.user.role === "admin" ? ( */}
+              <Typography m="0 1em">{userInfo.user.role}</Typography>
+              {/* ) : (
                 ""
-              )}
+              )} */}
             </Box>
             <Link
               onClick={handleLogout}
@@ -202,7 +202,7 @@ const NavBar = () => {
           </FlexBetween>
         </Toolbar>
       </MuiAppBar>
-      <Drawer
+      {/* <Drawer
         sx={{
           width: drawerWidth,
           flexShrink: 0,
@@ -226,7 +226,7 @@ const NavBar = () => {
                 textDecoration: "none",
               }}
             >
-              OnRECORD
+              CRMSys
             </Link>
           </div>
           <div>
@@ -261,7 +261,7 @@ const NavBar = () => {
           ))}
         </List>
         <Divider />
-      </Drawer>
+      </Drawer> */}
     </Box>
   );
 };

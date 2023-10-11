@@ -17,8 +17,17 @@ import SearchComp from "../../functions/SearchComp";
 import SearchRecords from "../Welcome/SearchRecords";
 
 const DashScreen = () => {
+  const [displayElement, setDisplayElement] = useState("");
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const { userInfo } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    userInfo.user.role === "admin" ? "" : setDisplayElement("none");
+    console.log(displayElement);
+  });
 
   const records = useSelector((state) => state.offenderRecords.records);
 
@@ -41,7 +50,31 @@ const DashScreen = () => {
 
   const theme = useTheme();
   return (
-    <Box height={"100vh"} width={"100wh"} sx={{ margin: "30px 0 0 0" }}>
+    <Box
+      sx={{
+        margin: "30px 0 0 0",
+        height: "100vh",
+        width: "80vw",
+        padding: "10px",
+        overflow: "hidden",
+      }}
+    >
+      {/* <Box
+        style={{
+          position: "absolute",
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignContent: "center",
+        }}
+      > */}
+      <img
+        src="/gps_logo.png"
+        alt="gps logo"
+        style={{ width: "8%", position: "absolute", top: "60px" }}
+      />
+      {/* </Box> */}
       <Grid container>
         <Grid item md={12} xs={12} sx={{ mb: "20px" }}>
           <div
@@ -57,8 +90,9 @@ const DashScreen = () => {
             {/* <SearchComp searchData={records} /> */}
             <div
               style={{
-                display: "inline",
-                width: "20%",
+                display: "flex",
+                justifyContent: "end",
+                width: "100%",
               }}
             >
               <Link
@@ -71,6 +105,7 @@ const DashScreen = () => {
                   padding: "10px 40px",
                   borderRadius: "5px",
                   backgroundColor: "#C70039",
+                  display: displayElement,
                 }}
                 gap="20px"
               >
@@ -93,8 +128,8 @@ const DashScreen = () => {
             margin: "20px 0 0 0",
           }}
         >
-          <SearchRecords />
-          {/* <OffenderQueryScreen /> */}
+          {/* <SearchRecords /> */}
+          <OffenderQueryScreen />
         </Grid>
       </Grid>
     </Box>

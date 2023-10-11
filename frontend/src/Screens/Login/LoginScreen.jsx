@@ -60,7 +60,17 @@ const LoginScreen = () => {
               alignItems: "center",
             }}
           >
-            <Box width="300px">
+            <Box width="250px">
+              <Box sx={{ display: "flex", justifyContent: "center" }}>
+                <img
+                  src="./gps_logo.png"
+                  alt="Police logo"
+                  style={{
+                    maxWidth: "65%",
+                    maxHeight: "65%",
+                  }}
+                />
+              </Box>
               <Typography
                 sx={{
                   textAlign: "center",

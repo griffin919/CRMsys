@@ -1,8 +1,18 @@
 import { Box, Button, Grid, Typography } from "@mui/material";
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom/dist/umd/react-router-dom.development";
 
 const WelcomeScreen = () => {
+  const [displayElement, setDisplayElement] = useState("");
+
+  const { userInfo } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    userInfo.user.role === "admin" ? "" : setDisplayElement("none");
+    console.log(displayElement);
+  });
+
   const navigate = useNavigate();
 
   return (
@@ -16,14 +26,14 @@ const WelcomeScreen = () => {
         height: "100vh",
       }}
     >
-      <Typography sx={{ fontSize: "2rem" }}>Gallaway CRMS</Typography>
+      <Typography sx={{ fontSize: "2rem" }}>Galloway CRMS</Typography>
       <Typography sx={{ fontSize: "1.1rem", margin: "20px" }}>
         Select a function to perform
       </Typography>
       <Box
         width="50%"
         height="50%"
-        sx={{ border: "1px grey solid", padding: "25px", borderRadius: "10px" }}
+        sx={{ padding: "25px", borderRadius: "10px" }}
       >
         <Grid container spacing={2}>
           <Grid item md={6} className="WelcomeDiv">
@@ -39,7 +49,12 @@ const WelcomeScreen = () => {
               Image Recognition
             </Button>
           </Grid>
-          <Grid item md={6} className="WelcomeDiv">
+          <Grid
+            item
+            md={6}
+            className="WelcomeDiv"
+            sx={{ display: displayElement }}
+          >
             <Button onClick={() => navigate("/user")}>Manage Accounts </Button>
           </Grid>
         </Grid>

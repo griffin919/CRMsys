@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Input, IconButton, Box } from "@mui/material";
+import { Input, IconButton, Box, CircularProgress } from "@mui/material";
 import { Search } from "@mui/icons-material";
 import axios from "axios";
 import * as faceapi from "face-api.js";
@@ -28,8 +28,6 @@ const FaceRecognitionComponent = () => {
   }, []);
 
   useEffect(() => {
-    console.log("matchingLabels", matchingLabels);
-
     // Check if matchingLabels is not empty and the first element contains a space
     if (matchingLabels.length > 0) {
       const wordsArray = matchingLabels[0].split(" ");
@@ -47,6 +45,8 @@ const FaceRecognitionComponent = () => {
   }, [matchingLabels, dispatch]);
 
   const handleImageUpload = async () => {
+    setMatchingLabels([]);
+
     const image = imageUploadRef.current.files[0];
 
     if (!image) {
@@ -58,7 +58,7 @@ const FaceRecognitionComponent = () => {
 
     const labeledFaceDescriptors = await loadLabeledImages();
 
-    const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.3);
+    const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.5);
 
     const displaySize = {
       width: img.width,
@@ -142,6 +142,7 @@ const FaceRecognitionComponent = () => {
       <label for="fileInput" class="custom-file-input">
         Image Recognition
       </label>
+
       <input
         style={{
           margin: "10px 0 20px 0",
@@ -161,6 +162,12 @@ const FaceRecognitionComponent = () => {
         ref={imageUploadRef}
         onChange={handleImageUpload}
       />
+
+      {/* Conditional rendering of the spinner */}
+      {matchingLabels.length === 0 && imageUploadRef.current != null && (
+        <CircularProgress size={25} />
+      )}
+
       <div>
         <canvas
           ref={canvasRef}
@@ -183,7 +190,7 @@ const FaceRecognitionComponent = () => {
       </div>
       <div
         style={{
-          // backgroundColor: "#C70039",
+          // backgroundColor: "#273576",
           border: "1px solid grey",
           padding: "10px",
           borderRadius: "10px",

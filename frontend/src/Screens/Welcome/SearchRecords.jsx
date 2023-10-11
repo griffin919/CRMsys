@@ -36,7 +36,7 @@ const SearchRecords = () => {
     return (
       <div>
         <Typography>
-          Loading records... <CircularProgress />
+          Loading records... <CircularProgress size={25} />
         </Typography>
       </div>
     );
@@ -67,7 +67,7 @@ const SearchRecords = () => {
   const renderedRecordObj =
     searchResults && Object.values(searchResults).length > 0
       ? searchResults
-      : records;
+      : "";
   const rows = Object.values(renderedRecordObj).map((record) => ({
     id: record._id,
     name: `${record.personalInformation.fname} ${record.personalInformation.lname}`,
@@ -88,6 +88,11 @@ const SearchRecords = () => {
 
   return (
     <div>
+      <img
+        src="/gps_logo.png"
+        alt="gps logo"
+        style={{ width: "8%", position: "absolute", top: "60px" }}
+      />
       <DataGrid
         rows={rows}
         columns={columns}

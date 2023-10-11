@@ -56,7 +56,7 @@ const SearchComp = () => {
         <Box
           sx={{
             display: "flex",
-            justifyContent: "center",
+            justifyContent: "end",
           }}
         >
           <div
