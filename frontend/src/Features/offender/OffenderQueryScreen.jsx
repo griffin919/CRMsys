@@ -34,7 +34,7 @@ const OffenderQueryScreen = () => {
         </Typography>
       </div>
     );
-  } else if (isSuccess && !data) {
+  } else if (isSuccess && data) {
     dispatch(saveAllRecords(data));
   } else if (error) {
     return (

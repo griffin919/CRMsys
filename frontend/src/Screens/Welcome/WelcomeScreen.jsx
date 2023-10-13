@@ -26,8 +26,18 @@ const WelcomeScreen = () => {
         height: "100vh",
       }}
     >
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <img
+          src="./gps_logo.png"
+          alt="Police logo"
+          // style={{
+          //   maxWidth: "65%",
+          //   maxHeight: "65%",
+          // }}
+        />
+      </Box>
       <Typography sx={{ fontSize: "2rem" }}>Galloway CRMS</Typography>
-      <Typography sx={{ fontSize: "1.1rem", margin: "20px" }}>
+      <Typography sx={{ fontSize: "1.1rem" }}>
         Select a function to perform
       </Typography>
       <Box

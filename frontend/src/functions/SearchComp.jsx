@@ -81,9 +81,7 @@ const SearchComp = () => {
             </IconButton>
             {/* <FlexBetween m="0px 50px "> */}
           </div>
-          <Box
-            sx={{ display: "inline", display: "flex", alignItems: "center" }}
-          >
+          <Box sx={{ display: "flex", alignItems: "center" }}>
             <DatePicker
               label="Search Date of Birth"
               name="searchDate"

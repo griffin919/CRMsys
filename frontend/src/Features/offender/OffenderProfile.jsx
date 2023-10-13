@@ -1,42 +1,36 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import {
-  Box,
-  Button,
-  Grid,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableRow,
-  Typography,
-} from "@mui/material";
-import { useNavigate } from "react-router-dom/dist/umd/react-router-dom.development";
+import { Box, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import ConfirmInput from "../AddRecordForm/ConfirmInputComp";
 import {
   useDeleteRecordMutation,
   useGetRecordsQuery,
 } from "../user/userApiSlice";
-import { useDispatch } from "react-redux";
 import { saveAllRecords } from "./OffenderSlice";
 
 const OffenderProfile = () => {
   const navigate = useNavigate();
   const { refetch: refetchOnDelete } = useGetRecordsQuery();
-
   const { recordID, records } = useSelector((state) => state.offenderRecords);
-  const ClickedRecord = records.filter((record) => record._id === recordID);
+  const ClickedRecord = records.find((record) => record._id === recordID);
 
   const [deleteRecord, { isLoading }] = useDeleteRecordMutation();
 
   const handleDeleteRecord = () => {
-    console.log("recordID: ", recordID);
+    if (!ClickedRecord) {
+      console.error("Record not found");
+      return;
+    }
+
+    const { _id: recordID } = ClickedRecord;
+
     deleteRecord(recordID)
       .then(() => {
         refetchOnDelete();
         navigate("/dashboard");
       })
-      .catch((err) => console.log("Something went wrong", err));
+      .catch((err) => console.error("Something went wrong", err));
   };
 
   return (
@@ -52,7 +46,7 @@ const OffenderProfile = () => {
           width: "70%",
         }}
       >
-        <ConfirmInput formData={ClickedRecord[0]} photo={""} />
+        {ClickedRecord && <ConfirmInput formData={ClickedRecord} photo={""} />}
         <Button variant="contained" onClick={() => navigate("/record/update")}>
           Update
         </Button>
