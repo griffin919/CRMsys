@@ -195,7 +195,11 @@ const NavBar = () => {
             </Box>
             <Link
               onClick={handleLogout}
-              sx={{ cursor: "pointer", textDecoration: "none" }}
+              sx={{
+                cursor: "pointer",
+                textDecoration: "none",
+                color: "#C70039",
+              }}
             >
               Logout
             </Link>

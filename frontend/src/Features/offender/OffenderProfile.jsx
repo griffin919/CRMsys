@@ -1,7 +1,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Box, Button } from "@mui/material";
+import { Box, Button, IconButton } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ConfirmInput from "../AddRecordForm/ConfirmInputComp";
 import {
   useDeleteRecordMutation,
@@ -41,17 +42,33 @@ const OffenderProfile = () => {
         justifyContent: "center",
       }}
     >
+      <IconButton
+        sx={{
+          position: "absolute",
+          justifySelf: "start",
+          backgroundColor: "#C70039",
+          color: "#fff",
+          borderRadius: "5px",
+        }}
+        onClick={() => navigate("/dashboard")}
+      >
+        <ArrowBackIcon />
+      </IconButton>
       <div
         style={{
           width: "70%",
         }}
       >
         {ClickedRecord && <ConfirmInput formData={ClickedRecord} photo={""} />}
-        <Button variant="contained" onClick={() => navigate("/record/update")}>
+        <Button
+          sx={{ margin: "10px", backgroundColor: "#C70039", color: "#fff" }}
+          variant="contained"
+          onClick={() => navigate("/record/update")}
+        >
           Update
         </Button>
         <Button
-          sx={{ margin: "10px" }}
+          sx={{ margin: "10px", backgroundColor: "#C70039", color: "#fff" }}
           variant="contained"
           onClick={handleDeleteRecord}
         >

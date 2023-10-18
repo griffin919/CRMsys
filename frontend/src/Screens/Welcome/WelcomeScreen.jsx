@@ -27,14 +27,7 @@ const WelcomeScreen = () => {
       }}
     >
       <Box sx={{ display: "flex", justifyContent: "center" }}>
-        <img
-          src="./gps_logo.png"
-          alt="Police logo"
-          // style={{
-          //   maxWidth: "65%",
-          //   maxHeight: "65%",
-          // }}
-        />
+        <img src="./gps_logo.png" alt="Police logo" />
       </Box>
       <Typography sx={{ fontSize: "2rem" }}>Galloway CRMS</Typography>
       <Typography sx={{ fontSize: "1.1rem" }}>
@@ -45,27 +38,31 @@ const WelcomeScreen = () => {
         height="50%"
         sx={{ padding: "25px", borderRadius: "10px" }}
       >
-        <Grid container spacing={2}>
-          <Grid item md={6} className="WelcomeDiv">
+        <Grid container spacing={1}>
+          <Grid item md={4} className="WelcomeDiv">
             <Button onClick={() => navigate("/dashboard")}>View Records</Button>
           </Grid>
-          <Grid item md={6} className="WelcomeDiv">
+          <Grid item md={4} className="WelcomeDiv">
+            <Button onClick={() => navigate("/record/add")}>Add Record</Button>
+          </Grid>
+          <Grid item md={4} className="WelcomeDiv">
             <Button onClick={() => navigate("/record/search")}>
               Search Records
             </Button>
           </Grid>
-          <Grid item md={6} className="WelcomeDiv">
-            <Button onClick={() => navigate("/record/photo-search")}>
-              Image Recognition
-            </Button>
-          </Grid>
+
           <Grid
             item
-            md={6}
+            md={4}
             className="WelcomeDiv"
             sx={{ display: displayElement }}
           >
             <Button onClick={() => navigate("/user")}>Manage Accounts </Button>
+          </Grid>
+          <Grid item md={8} className="WelcomeDiv">
+            <Button onClick={() => navigate("/record/photo-search")}>
+              Image Recognition
+            </Button>
           </Grid>
         </Grid>
       </Box>

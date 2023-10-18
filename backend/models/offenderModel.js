@@ -1,3 +1,4 @@
+import { string } from "@tensorflow/tfjs";
 import mongoose from "mongoose";
 
 // Define the Offender schema
@@ -67,6 +68,8 @@ const offenderSchema = new mongoose.Schema({
 }, {timestamps: true});
 
 offenderSchema.index({"personalInformation.fname": "text", "personalInformation.lname": 'text'})
+
+
 
 // Create the Offender model
 const Offender = mongoose.model('Offender', offenderSchema);

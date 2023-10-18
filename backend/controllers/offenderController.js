@@ -4,8 +4,7 @@ import dayjs from "dayjs";
 import expressAsyncHandler from "express-async-handler";
 import Offender from "../models/offenderModel.js";
 
-import fs from 'fs';
-
+// import fs from 'fs';
 const addOffender = expressAsyncHandler( async (req, res, next) => {
     console.log('req.file', req.file)
 
@@ -74,6 +73,7 @@ const getOffenderinfo = expressAsyncHandler( async (req, res, next) => {
     try {
         const records = await Offender.find();
         res.status(200).json( records);
+        
     } catch (error) {
         res.status(400);
         throw new Error('Could not fetch records', error);
@@ -109,9 +109,7 @@ const searchRecords = expressAsyncHandler(async (req, res, next) => {
   
       // Attempt to parse searchQuery as a date
     const searchDate = new Date(searchQuery);
-    //   console.log('searchQuery: ', searchQuery);
-    //   console.log('searchDate: ', searchDate);
-      // If the parsed date is valid, search by date
+
       if (!isNaN(searchDate.getTime())) {
         searchResults = await Offender.find({
           "personalInformation.dateOfBirth": searchDate,
@@ -157,6 +155,5 @@ export {
     getOffenderProfile,
     updateOffenderInfo,
     searchRecords,
-    // photoRecognition,
     getImgNamesArr,
 }

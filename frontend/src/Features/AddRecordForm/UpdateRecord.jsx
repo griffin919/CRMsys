@@ -19,11 +19,14 @@ import {
   useGetRecordsQuery,
 } from "../user/userApiSlice";
 import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom";
 
 export default function UpdateRecord() {
   const [step, setStep] = useState(0);
   const [uploadedPhoto, setuploadedPhoto] = useState(null);
   const { refetch: refetchOnUpdate } = useGetRecordsQuery();
+
+  const navigate = useNavigate();
 
   const { recordID, records } = useSelector((state) => state.offenderRecords);
   const initialState = records.filter((record) => record._id === recordID);
@@ -71,7 +74,10 @@ export default function UpdateRecord() {
     }
     e.preventDefault();
     updateRecord({ id: recordID, data: recordToUpdate })
-      .then(() => console.log("Update sent"))
+      .then(() => {
+        console.log("Update sent");
+        navigate("/dashboard");
+      })
       .catch((err) => console.log("Something went wrong", err));
   };
 

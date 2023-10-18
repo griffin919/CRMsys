@@ -76,7 +76,7 @@ const SearchRecords = () => {
       "YYYY-MM-DD"
     ),
     contactInformation1: record.personalInformation.contactInformation1,
-    offenseType: record.personalInformation.offenseType,
+    offenseType: record.criminalOffenseDetails.offenseType,
     convicted: record.chargeAndConvictionHistory.convicted,
   }));
 
