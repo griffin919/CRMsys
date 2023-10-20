@@ -1,13 +1,12 @@
-import { useMemo, useState } from "react";
-
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import { useMemo } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LoginScreen from "./Screens/Login/LoginScreen";
 import { CssBaseline, createTheme } from "@mui/material";
 import { themeSettings } from "./theme";
 import { ThemeProvider } from "@emotion/react";
 import DashScreen from "./Screens/Dashboard/DashScreen";
 import Layout from "./Screens/Layout/Layout";
-import UserLayout from "./Screens/Layout/UserLayout";
+// import UserLayout from "./Screens/Layout/UserLayout";
 import { useSelector } from "react-redux";
 import AddRecord from "./Features/AddRecordForm/AddRecord";
 import OffenderProfile from "./Features/offender/OffenderProfile";
@@ -16,7 +15,7 @@ import UsersScreen from "./Features/user/UsersScreen";
 import RegisterUser from "./Features/user/RegisterUser";
 import UpdateUser from "./Features/user/UpdateUser";
 import WelcomeScreen from "./Screens/Welcome/WelcomeScreen";
-import SearchRecords from "./Screens/Welcome/SearchRecords";
+// import SearchRecords from "./Screens/Welcome/SearchRecords";
 import SearchComp from "./functions/SearchComp";
 import FaceRecognitionComponent from "./Screens/Welcome/FaceRecognitionComponent";
 
@@ -30,8 +29,8 @@ const App = () => {
           <CssBaseline />
           <Routes>
             <Route index="true" path="/" element={<LoginScreen />} />
-            <Route index="true" path="/welcome" element={<WelcomeScreen />} />
             <Route element={<Layout />}>
+              <Route index="true" path="/welcome" element={<WelcomeScreen />} />
               <Route path="/user/update" element={<UpdateUser />} />
               <Route path="/user/register" element={<RegisterUser />} />
               <Route path="/user" element={<UsersScreen />} />
