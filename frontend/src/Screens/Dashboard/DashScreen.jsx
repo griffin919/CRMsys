@@ -104,7 +104,7 @@ const DashScreen = () => {
                   border: "1px solid grey",
                   padding: "10px 40px",
                   borderRadius: "5px",
-                  backgroundColor: "#C70039",
+                  backgroundColor: "#273576",
                   display: displayElement,
                 }}
                 gap="20px"
@@ -121,7 +121,7 @@ const DashScreen = () => {
           item
           md={12}
           sx={{
-            // backgroundColor: "#C70039",
+            // backgroundColor: "#273576",
             border: "solid 1px grey",
             padding: "0 20px",
             borderRadius: "10px",

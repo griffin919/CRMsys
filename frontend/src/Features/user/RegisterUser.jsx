@@ -52,7 +52,7 @@ const RegisterUser = () => {
         justifyContent: "center",
       }}
     >
-      <Box width="80vw" sx={{}}>
+      <Box width="80vw" sx={{ boxShadow: "0px 0px 13px -4px rgba(0,0,0,0.1)" }}>
         <Typography
           variant="h4"
           sx={{ textAlign: "center", margin: "30px", fontWeight: "bold" }}
@@ -68,6 +68,8 @@ const RegisterUser = () => {
             sx={{
               justifySelf: "end",
               margin: "10px",
+              backgroundColor: "#273576",
+              color: "#fff",
             }}
           >
             Submit

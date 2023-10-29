@@ -1,6 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Input, IconButton, Box, CircularProgress } from "@mui/material";
-import { Search } from "@mui/icons-material";
+import { useEffect, useRef, useState } from "react";
+import { CircularProgress } from "@mui/material";
 import axios from "axios";
 import * as faceapi from "face-api.js";
 import SearchRecords from "./SearchRecords";
@@ -139,7 +138,7 @@ const FaceRecognitionComponent = () => {
     <div
       style={{ display: "flex", alignItems: "center", flexDirection: "column" }}
     >
-      <label for="fileInput" class="custom-file-input">
+      <label htmlFor="fileInput" className="custom-file-input">
         Image Recognition
       </label>
 

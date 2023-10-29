@@ -46,7 +46,7 @@ const OffenderProfile = () => {
         sx={{
           position: "absolute",
           justifySelf: "start",
-          backgroundColor: "#C70039",
+          backgroundColor: "#273576",
           color: "#fff",
           borderRadius: "5px",
         }}
@@ -61,14 +61,14 @@ const OffenderProfile = () => {
       >
         {ClickedRecord && <ConfirmInput formData={ClickedRecord} photo={""} />}
         <Button
-          sx={{ margin: "10px", backgroundColor: "#C70039", color: "#fff" }}
+          sx={{ margin: "10px", backgroundColor: "#273576", color: "#fff" }}
           variant="contained"
           onClick={() => navigate("/record/update")}
         >
           Update
         </Button>
         <Button
-          sx={{ margin: "10px", backgroundColor: "#C70039", color: "#fff" }}
+          sx={{ margin: "10px", backgroundColor: "#273576", color: "#fff" }}
           variant="contained"
           onClick={handleDeleteRecord}
         >

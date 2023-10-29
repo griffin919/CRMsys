@@ -135,6 +135,7 @@ const UsersScreen = () => {
                   borderRadius: "5px",
                   display: "inline",
                   border: "1px solid grey",
+                  boxShadow: "0px 0px 13px -4px rgba(0,0,0,0.1)"
                 }}
               >
                 <InputBase

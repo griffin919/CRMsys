@@ -1,6 +1,6 @@
 import { Box, Button, Grid, Typography } from "@mui/material";
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom/dist/umd/react-router-dom.development";
 
 const WelcomeScreen = () => {
@@ -11,7 +11,7 @@ const WelcomeScreen = () => {
   useEffect(() => {
     userInfo.user.role === "admin" ? "" : setDisplayElement("none");
     console.log(displayElement);
-  });
+  }, [userInfo.user.role, displayElement]);
 
   const navigate = useNavigate();
 
@@ -27,7 +27,7 @@ const WelcomeScreen = () => {
       }}
     >
       <Box sx={{ display: "flex", justifyContent: "center" }}>
-        <img src="./gps_logo.png" alt="Police logo" />
+        <img src="./gps_logo.png" alt="Police logo" style={{ width: "70%" }} />
       </Box>
       <Typography sx={{ fontSize: "2rem" }}>Galloway CRMS</Typography>
       <Typography sx={{ fontSize: "1.1rem" }}>
@@ -42,7 +42,12 @@ const WelcomeScreen = () => {
           <Grid item md={4} className="WelcomeDiv">
             <Button onClick={() => navigate("/dashboard")}>View Records</Button>
           </Grid>
-          <Grid item md={4} className="WelcomeDiv">
+          <Grid
+            item
+            md={4}
+            className="WelcomeDiv"
+            sx={{ display: displayElement }}
+          >
             <Button onClick={() => navigate("/record/add")}>Add Record</Button>
           </Grid>
           <Grid item md={4} className="WelcomeDiv">

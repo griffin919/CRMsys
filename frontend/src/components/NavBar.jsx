@@ -124,7 +124,7 @@ const NavBar = () => {
       >
         <Toolbar sx={{ justifyContent: "space-between" }}>
           <FlexBetween>
-            <IconButton
+            {/* <IconButton
               color="inherit"
               aria-label="open drawer"
               onClick={handleDrawerOpen}
@@ -133,10 +133,10 @@ const NavBar = () => {
             >
               <MenuIcon
                 sx={{
-                  color: "#C70039",
+                  color: "#273576",
                 }}
               />
-            </IconButton>
+            </IconButton> */}
 
             {/* LEFT SIDE */}
             <Box onClick={() => navigate("/welcome")}>
@@ -144,7 +144,7 @@ const NavBar = () => {
                 variant="h6"
                 sx={{
                   fontWeight: "bold",
-                  color: "#C70039",
+                  color: "#273576",
                   cursor: "pointer",
                   textDecoration: "none",
                 }}
@@ -160,30 +160,30 @@ const NavBar = () => {
             {/* <IconButton size="medium" onClick={() => navigate("/user")}>
               <AdminPanelSettingsIcon
                 sx={{
-                  color: "#C70039",
+                  color: "#273576",
                 }}
               />
             </IconButton> */}
             <IconButton size="medium" onClick={() => navigate("/welcome")}>
-              <HomeIcon sx={{ color: "#C70039" }} />
+              <HomeIcon sx={{ color: "#273576" }} />
             </IconButton>
             <IconButton onClick={changeMode}>
               {currentMode === "light" ? (
                 <DarkModeOutlined
                   sx={{
-                    color: "#C70039",
+                    color: "#273576",
                   }}
                 />
               ) : (
                 <LightModeOutlined
                   sx={{
-                    color: "#C70039",
+                    color: "#273576",
                   }}
                 />
               )}
             </IconButton>
             {/* <IconButton onClick={() => navigate("/user")}>
-              <AccountCircleRounded sx={{ color: "#C70039" }} />
+              <AccountCircleRounded sx={{ color: "#273576" }} />
             </IconButton> */}
             <Box display="flex">
               <Typography>Hi, {userInfo.user.fname}</Typography>
@@ -198,7 +198,7 @@ const NavBar = () => {
               sx={{
                 cursor: "pointer",
                 textDecoration: "none",
-                color: "#C70039",
+                color: "#273576",
               }}
             >
               Logout
@@ -255,7 +255,7 @@ const NavBar = () => {
                 <ListItemIcon>
                   <value.icon
                     sx={{
-                      color: "#C70039",
+                      color: "#273576",
                     }}
                   />
                 </ListItemIcon>

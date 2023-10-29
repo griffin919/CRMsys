@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import expressAsyncHandler from "express-async-handler";
 import Offender from "../models/offenderModel.js";
 
-// import fs from 'fs';
+import fs from 'fs';
 const addOffender = expressAsyncHandler( async (req, res, next) => {
     console.log('req.file', req.file)
 

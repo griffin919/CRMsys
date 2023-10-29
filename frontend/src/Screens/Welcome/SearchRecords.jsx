@@ -91,7 +91,7 @@ const SearchRecords = () => {
       <img
         src="/gps_logo.png"
         alt="gps logo"
-        style={{ width: "8%", position: "absolute", top: "60px" }}
+        style={{ width: "8%", position: "absolute", top: "40px" }}
       />
       <DataGrid
         rows={rows}
